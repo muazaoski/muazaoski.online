@@ -12,7 +12,7 @@ const apps = [
     name: 'Freepik Dashboard',
     icon: '⚡',
     desc: 'Asset Command Center',
-    url: 'http://dashboard.muazaoski.online', // Assuming this from previous conversations
+    url: 'https://dashboard.muazaoski.online', // Assuming this from previous conversations
     target: '_blank'
   },
   {
