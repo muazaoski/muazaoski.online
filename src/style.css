@@ -1,142 +1,152 @@
 :root {
-  font-family: 'Courier New', Courier, monospace;
-  line-height: 1.5;
-  font-weight: 400;
-  
-  color-scheme: dark;
-  color: #ffffff;
-  background-color: #000000;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --app-size: 100px;
+  --app-radius: 22px;
+  --gap: 30px;
+  --icon-color: #000;
+  --icon-bg: #fff;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
-  background: #000;
-  overflow-x: hidden;
+  background-color: #000;
+  color: #fff;
+  overflow: hidden;
 }
 
 #app {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-header {
-  margin-bottom: 4rem;
-  border-bottom: 2px solid #fff;
-  padding-bottom: 1rem;
-}
-
-h1 {
-  font-size: 3rem;
-  letter-spacing: -2px;
-  text-transform: uppercase;
-  font-weight: 900;
-}
-
-.subtitle {
-  font-size: 1rem;
-  opacity: 0.7;
-  margin-top: 0.5rem;
-  text-transform: lowercase;
-}
-
-.app-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  width: 100%;
-}
-
-.app-card {
-  position: relative;
-  background: #000;
-  border: 4px solid #fff;
-  padding: 2rem;
-  transition: all 0.1s cubic-bezier(0, 0, 0.2, 1);
-  text-decoration: none;
-  color: #fff;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 60px;
+  /* Status bar space */
+  position: relative;
+}
+
+/* Status Bar */
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  z-index: 10;
+}
+
+/* Home Screen Grid */
+.home-screen {
+  display: grid;
+  grid-template-columns: repeat(4, var(--app-size));
+  gap: var(--gap);
+  padding: 20px;
   justify-content: center;
-  aspect-ratio: 1;
+  align-content: start;
+  flex-grow: 1;
 }
 
-.app-card:hover {
-  background: #fff;
-  color: #000;
-  transform: translate(-4px, -4px);
-  box-shadow: 8px 8px 0px #333;
+/* Dock */
+.dock-container {
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 15px;
+  border-radius: 35px;
+  display: flex;
+  gap: var(--gap);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.app-card:active {
-  transform: translate(0px, 0px);
-  box-shadow: 4px 4px 0px #333;
-}
-
-.app-icon {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-}
-
-.app-name {
-  font-size: 1.2rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.app-desc {
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  opacity: 0.8;
-}
-
-footer {
-  margin-top: 4rem;
-  font-size: 0.8rem;
-  opacity: 0.5;
-  border-top: 1px dashed #333;
-  padding-top: 2rem;
-}
-
-/* Glitch effect on hover for title */
-h1:hover {
-  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+/* App Icon Styling */
+.app-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
   color: #fff;
+  transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-@keyframes glitch {
-  0% { transform: translate(0) }
-  20% { transform: translate(-2px, 2px) }
-  40% { transform: translate(-2px, -2px) }
-  60% { transform: translate(2px, 2px) }
-  80% { transform: translate(2px, -2px) }
-  100% { transform: translate(0) }
+.app-item:active {
+  transform: scale(0.9);
+  filter: brightness(0.8);
+}
+
+.icon-box {
+  width: var(--app-size);
+  height: var(--app-size);
+  background: var(--icon-bg);
+  border-radius: var(--app-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--icon-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Punk aesthetic: heavy borders or grit? Let's keep it clean but high contrast as requested "minimalist black and white" */
+.icon-box {
+  border: 2px solid #fff;
+}
+
+.app-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  max-width: var(--app-size);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* Scanline effect for background maybe? */
+body::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
 }
 
 @media (max-width: 600px) {
-  h1 {
-    font-size: 2rem;
+  :root {
+    --app-size: 70px;
+    --gap: 20px;
+    --app-radius: 16px;
   }
-  .app-card {
-    border-width: 3px;
-    padding: 1.5rem;
+
+  .home-screen {
+    grid-template-columns: repeat(4, var(--app-size));
   }
 }

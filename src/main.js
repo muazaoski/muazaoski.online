@@ -1,46 +1,88 @@
 import './style.css'
 
-const apps = [
+const mainApps = [
   {
-    name: 'Frog Multiplayer',
+    name: 'Frog Online',
     icon: '🐸',
-    desc: 'Chaos in the pond',
-    url: 'http://localhost:5173', // Placeholder or local dev port for frog game if known
+    url: 'http://localhost:5173', // Placeholder
     target: '_blank'
   },
   {
-    name: 'Freepik Dashboard',
+    name: 'Dash',
     icon: '⚡',
-    desc: 'Asset Command Center',
-    url: 'https://dashboard.muazaoski.online', // Assuming this from previous conversations
+    url: 'https://dashboard.muazaoski.online',
     target: '_blank'
   },
   {
-    name: 'System Status',
-    icon: '🟢',
-    desc: 'All systems operational',
+    name: 'Files',
+    icon: '📂',
+    url: '#',
+    target: '_self'
+  },
+  {
+    name: 'Terminal',
+    icon: '📟',
     url: '#',
     target: '_self'
   }
 ]
 
-document.querySelector('#app').innerHTML = `
-  <header>
-    <h1>MUAZAOSKI</h1>
-    <div class="subtitle">/// ONLINE ///</div>
-  </header>
+const dockApps = [
+  {
+    name: 'Phone',
+    icon: '📞',
+    url: '#',
+    target: '_self'
+  },
+  {
+    name: 'Mail',
+    icon: '✉️',
+    url: '#',
+    target: '_self'
+  },
+  {
+    name: 'Safari',
+    icon: '🧭',
+    url: '#',  // Perhaps link to Google?
+    target: '_blank'
+  },
+  {
+    name: 'Music',
+    icon: '🎵',
+    url: '#',
+    target: '_self'
+  }
+]
 
-  <div class="app-grid">
-    ${apps.map(app => `
-      <a href="${app.url}" class="app-card" target="${app.target}">
-        <div class="app-icon">${app.icon}</div>
-        <div class="app-name">${app.name}</div>
-        <div class="app-desc">${app.desc}</div>
-      </a>
-    `).join('')}
+const renderApp = (app) => `
+  <a href="${app.url}" class="app-item" target="${app.target}">
+    <div class="icon-box">${app.icon}</div>
+    <span class="app-label">${app.name}</span>
+  </a>
+`
+
+const updateTime = () => {
+  const now = new Date();
+  return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+document.querySelector('#app').innerHTML = `
+  <div class="status-bar">
+    <div class="time" id="clock">--:--</div>
+    <div class="status-icons">5G 📶 🔋 100%</div>
   </div>
 
-  <footer>
-    [ SYSTEM READY ]
-  </footer>
+  <div class="home-screen">
+    ${mainApps.map(renderApp).join('')}
+  </div>
+
+  <div class="dock-container">
+    ${dockApps.map(renderApp).join('')}
+  </div>
 `
+
+// Real-time clock update
+setInterval(() => {
+  document.getElementById('clock').innerText = updateTime();
+}, 1000);
+document.getElementById('clock').innerText = updateTime();
