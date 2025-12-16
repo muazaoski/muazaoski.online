@@ -4,7 +4,7 @@ const mainApps = [
   {
     name: 'Frog Online',
     icon: '🐸',
-    url: 'http://localhost:5173', // Placeholder
+    url: 'https://frogass.muazaoski.online',
     target: '_blank'
   },
   {
@@ -89,30 +89,57 @@ setInterval(() => {
 }, 1000);
 document.getElementById('clock').innerText = updateTime();
 
-// Music Logic
-const musicUrl = 'https://audio1.syok.my/hitz';
-const audio = new Audio(musicUrl);
+// Music Logic - Using a reliable public radio stream
+const musicStreams = [
+  'https://stream.zeno.fm/fyn8eh3h5f8uv', // Lofi Girl
+  'https://usa9.fastcast4u.com/proxy/jamz?mp=/1', // Backup stream
+];
+let currentStreamIndex = 0;
+let audio = new Audio(musicStreams[currentStreamIndex]);
+audio.crossOrigin = 'anonymous';
 let isPlaying = false;
 
 const musicApp = document.getElementById('music-app');
 const musicIcon = musicApp.querySelector('.icon-box');
 
-// Muted icon (disabled state)
-const activeIcon = '🎵';
-const mutedIcon = '🔇';
+// Icons
+const playingIcon = '🎵';
+const pausedIcon = '🔇';
+const loadingIcon = '⏳';
+
+// Try next stream if current fails
+audio.addEventListener('error', () => {
+  console.log('Stream failed, trying backup...');
+  currentStreamIndex = (currentStreamIndex + 1) % musicStreams.length;
+  audio.src = musicStreams[currentStreamIndex];
+  if (isPlaying) {
+    audio.play().catch(() => {
+      musicIcon.innerText = pausedIcon;
+      isPlaying = false;
+    });
+  }
+});
 
 musicApp.addEventListener('click', (e) => {
-  e.preventDefault(); // Prevent default anchor behavior
+  e.preventDefault();
 
   if (isPlaying) {
     audio.pause();
-    musicIcon.innerText = mutedIcon;
+    musicIcon.innerText = pausedIcon;
     musicIcon.classList.add('muted');
     isPlaying = false;
   } else {
-    audio.play().catch(err => console.error("Audio play failed:", err));
-    musicIcon.innerText = activeIcon;
-    musicIcon.classList.remove('muted');
-    isPlaying = true;
+    musicIcon.innerText = loadingIcon;
+    audio.play()
+      .then(() => {
+        musicIcon.innerText = playingIcon;
+        musicIcon.classList.remove('muted');
+        isPlaying = true;
+      })
+      .catch(err => {
+        console.error("Audio play failed:", err);
+        musicIcon.innerText = pausedIcon;
+        isPlaying = false;
+      });
   }
 });
