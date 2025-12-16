@@ -43,19 +43,21 @@ const dockApps = [
   {
     name: 'Safari',
     icon: '🧭',
-    url: '#',  // Perhaps link to Google?
+    url: 'https://google.com',
     target: '_blank'
   },
   {
     name: 'Music',
     icon: '🎵',
     url: '#',
-    target: '_self'
+    target: '_self',
+    id: 'music-app',
+    isMusic: true
   }
 ]
 
 const renderApp = (app) => `
-  <a href="${app.url}" class="app-item" target="${app.target}">
+  <a href="${app.url}" class="app-item ${app.isMusic ? 'music-trigger' : ''}" target="${app.target}" ${app.id ? `id="${app.id}"` : ''}>
     <div class="icon-box">${app.icon}</div>
     <span class="app-label">${app.name}</span>
   </a>
@@ -86,3 +88,31 @@ setInterval(() => {
   document.getElementById('clock').innerText = updateTime();
 }, 1000);
 document.getElementById('clock').innerText = updateTime();
+
+// Music Logic
+const musicUrl = 'https://audio1.syok.my/hitz';
+const audio = new Audio(musicUrl);
+let isPlaying = false;
+
+const musicApp = document.getElementById('music-app');
+const musicIcon = musicApp.querySelector('.icon-box');
+
+// Muted icon (disabled state)
+const activeIcon = '🎵';
+const mutedIcon = '🔇';
+
+musicApp.addEventListener('click', (e) => {
+  e.preventDefault(); // Prevent default anchor behavior
+
+  if (isPlaying) {
+    audio.pause();
+    musicIcon.innerText = mutedIcon;
+    musicIcon.classList.add('muted');
+    isPlaying = false;
+  } else {
+    audio.play().catch(err => console.error("Audio play failed:", err));
+    musicIcon.innerText = activeIcon;
+    musicIcon.classList.remove('muted');
+    isPlaying = true;
+  }
+});
