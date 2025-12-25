@@ -38,16 +38,18 @@ const dockApps = [
     name: 'Phone',
     icon: '📞',
     url: '#',
-    target: '_self'
+    target: '_self',
+    id: 'phone-app'
   },
   {
     name: 'Mail',
     icon: '✉️',
     url: '#',
-    target: '_self'
+    target: '_self',
+    id: 'mail-app'
   },
   {
-    name: 'Safari',
+    name: 'Browser',
     icon: '🧭',
     url: 'https://google.com',
     target: '_blank'
@@ -87,6 +89,14 @@ document.querySelector('#app').innerHTML = `
   <div class="dock-container">
     ${dockApps.map(renderApp).join('')}
   </div>
+
+  <!-- Modal Structure -->
+  <div id="modal-container" class="modal-overlay">
+    <div class="modal-content">
+      <button id="modal-close" class="modal-close">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
 `
 
 // Real-time clock update
@@ -97,8 +107,8 @@ document.getElementById('clock').innerText = updateTime();
 
 // Music Logic - Using a reliable public radio stream
 const musicStreams = [
-  'https://stream.zeno.fm/fyn8eh3h5f8uv', // Lofi Girl
-  'https://usa9.fastcast4u.com/proxy/jamz?mp=/1', // Backup stream
+  'https://audio1.syok.my/hitz', // HITZ Radio
+  'https://stream.zeno.fm/fyn8eh3h5f8uv', // Lofi Girl (fallback)
 ];
 let currentStreamIndex = 0;
 let audio = new Audio(musicStreams[currentStreamIndex]);
@@ -148,4 +158,49 @@ musicApp.addEventListener('click', (e) => {
         isPlaying = false;
       });
   }
+});
+
+// Modal Logic
+const modal = document.getElementById('modal-container');
+const modalBody = document.getElementById('modal-body');
+const modalClose = document.getElementById('modal-close');
+
+const showModal = (content) => {
+  modalBody.innerHTML = content;
+  modal.classList.add('active');
+};
+
+const hideModal = () => {
+  modal.classList.remove('active');
+};
+
+modalClose.addEventListener('click', hideModal);
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) hideModal();
+});
+
+document.getElementById('mail-app').addEventListener('click', (e) => {
+  e.preventDefault();
+  showModal(`
+    <div class="mail-modal">
+      <div class="modal-icon">✉️</div>
+      <h3>Email Me</h3>
+      <p class="email-text">muazaoski@gmail.com</p>
+      <a href="mailto:muazaoski@gmail.com" class="action-btn">Send Message</a>
+    </div>
+  `);
+});
+
+document.getElementById('phone-app').addEventListener('click', (e) => {
+  e.preventDefault();
+  showModal(`
+    <div class="phone-modal">
+      <div class="modal-icon">📞</div>
+      <h3>Contact</h3>
+      <div class="qr-container">
+        <img src="/qrphone.png" alt="Phone QR" class="qr-image" />
+      </div>
+      <a href="https://wa.link/q0lcu2" target="_blank" class="action-btn">Chat me!</a>
+    </div>
+  `);
 });
