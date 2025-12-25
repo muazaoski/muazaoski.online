@@ -3,31 +3,31 @@ import './style.css'
 const mainApps = [
   {
     name: 'Frog Online',
-    icon: '🐸',
+    icon: '/frog.svg',
     url: 'https://frog.muazaoski.online',
     target: '_blank'
   },
   {
     name: 'Workout',
-    icon: '💪',
+    icon: '/workout.svg',
     url: 'https://workout.muazaoski.online',
     target: '_blank'
   },
   {
     name: 'Size Chart',
-    icon: '📏',
+    icon: '/sizechart.svg',
     url: 'https://chart.muazaoski.online',
     target: '_blank'
   },
   {
     name: 'Finance',
-    icon: '💰',
+    icon: '/financeme.svg',
     url: 'https://financeme.cc',
     target: '_blank'
   },
   {
     name: 'OCR',
-    icon: '🔍',
+    icon: '/ocr.svg',
     url: 'https://ocr.muazaoski.online',
     target: '_blank'
   }
@@ -64,12 +64,19 @@ const dockApps = [
   }
 ]
 
-const renderApp = (app) => `
-  <a href="${app.url}" class="app-item ${app.isMusic ? 'music-trigger' : ''}" target="${app.target}" ${app.id ? `id="${app.id}"` : ''}>
-    <div class="icon-box">${app.icon}</div>
-    <span class="app-label">${app.name}</span>
-  </a>
-`
+const renderApp = (app) => {
+  const isImageContainer = app.icon.includes('.') && (app.icon.endsWith('.svg') || app.icon.endsWith('.png'));
+  const iconContent = isImageContainer
+    ? `<img src="${app.icon}" alt="${app.name}" class="app-icon-img" />`
+    : app.icon;
+
+  return `
+    <a href="${app.url}" class="app-item ${app.isMusic ? 'music-trigger' : ''}" target="${app.target}" ${app.id ? `id="${app.id}"` : ''}>
+      <div class="icon-box ${isImageContainer ? 'has-img' : ''}">${iconContent}</div>
+      <span class="app-label">${app.name}</span>
+    </a>
+  `;
+}
 
 const updateTime = () => {
   const now = new Date();
