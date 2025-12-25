@@ -126,7 +126,8 @@ body::after {
   font-size: 3rem;
   color: var(--icon-color);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  border: 2px solid #fff;
+  border: none;
+  /* Removed white border */
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
   /* Added to clip image corners if needed */
@@ -134,28 +135,27 @@ body::after {
 
 .icon-box.has-img {
   background: none;
-  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .app-icon-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  display: block;
+  /* Ensure no extra spacing */
 }
 
 /* Hover Effects */
 .app-item:hover .icon-box {
-  transform: scale(1.15) translateY(-5px);
+  transform: scale(1.075) translateY(-3px);
+  /* Reduced scale by 50% */
   background: #fff;
   color: #000;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-  border-color: #fff;
 }
 
 .app-item:hover .icon-box.has-img {
   background: none;
-  border-color: #fff;
 }
 
 .app-item:active .icon-box {
