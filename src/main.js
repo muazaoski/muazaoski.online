@@ -4,26 +4,32 @@ const mainApps = [
   {
     name: 'Frog Online',
     icon: '🐸',
-    url: 'https://frogass.muazaoski.online',
+    url: 'https://frog.muazaoski.online',
     target: '_blank'
   },
   {
-    name: 'Dash',
-    icon: '⚡',
-    url: 'https://dashboard.muazaoski.online',
+    name: 'Workout',
+    icon: '💪',
+    url: 'https://workout.muazaoski.online',
     target: '_blank'
   },
   {
-    name: 'Files',
-    icon: '📂',
-    url: '#',
-    target: '_self'
+    name: 'Size Chart',
+    icon: '📏',
+    url: 'https://chart.muazaoski.online',
+    target: '_blank'
   },
   {
-    name: 'Terminal',
-    icon: '📟',
-    url: '#',
-    target: '_self'
+    name: 'Finance',
+    icon: '💰',
+    url: 'https://financeme.cc',
+    target: '_blank'
+  },
+  {
+    name: 'OCR',
+    icon: '🔍',
+    url: 'https://ocr.muazaoski.online',
+    target: '_blank'
   }
 ]
 
