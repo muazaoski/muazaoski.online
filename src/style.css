@@ -143,6 +143,9 @@ body::after {
   object-fit: cover;
   display: block;
   /* Ensure no extra spacing */
+  pointer-events: none;
+  /* Disable default browser image dragging */
+  user-select: none;
 }
 
 /* Hover Effects */
@@ -156,6 +159,12 @@ body::after {
 
 .app-item:hover .icon-box.has-img {
   background: none;
+}
+
+.app-item.dragging {
+  opacity: 0.5;
+  transform: scale(1.1);
+  filter: grayscale(0.5) blur(1px);
 }
 
 .app-item:active .icon-box {

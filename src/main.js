@@ -5,31 +5,36 @@ const mainApps = [
     name: 'Frog Online',
     icon: '/frog.svg',
     url: 'https://frog.muazaoski.online',
-    target: '_blank'
+    target: '_blank',
+    draggable: true
   },
   {
     name: 'Workout',
     icon: '/workout.svg',
     url: 'https://workout.muazaoski.online',
-    target: '_blank'
+    target: '_blank',
+    draggable: true
   },
   {
     name: 'Size Chart',
     icon: '/sizechart.svg',
     url: 'https://chart.muazaoski.online',
-    target: '_blank'
+    target: '_blank',
+    draggable: true
   },
   {
     name: 'Finance',
-    icon: '/financeme.svg',
+    icon: '/financeme-02.svg',
     url: 'https://financeme.cc',
-    target: '_blank'
+    target: '_blank',
+    draggable: true
   },
   {
     name: 'OCR',
     icon: '/ocr.svg',
     url: 'https://ocr.muazaoski.online',
-    target: '_blank'
+    target: '_blank',
+    draggable: true
   }
 ]
 
@@ -71,7 +76,9 @@ const renderApp = (app) => {
     : app.icon;
 
   return `
-    <a href="${app.url}" class="app-item ${app.isMusic ? 'music-trigger' : ''}" target="${app.target}" ${app.id ? `id="${app.id}"` : ''}>
+    <a href="${app.url}" class="app-item ${app.isMusic ? 'music-trigger' : ''}" 
+       target="${app.target}" ${app.id ? `id="${app.id}"` : ''} 
+       ${app.draggable ? 'draggable="true"' : ''}>
       <div class="icon-box ${isImageContainer ? 'has-img' : ''}">${iconContent}</div>
       <span class="app-label">${app.name}</span>
     </a>
@@ -111,6 +118,40 @@ setInterval(() => {
   document.getElementById('clock').innerText = updateTime();
 }, 1000);
 document.getElementById('clock').innerText = updateTime();
+
+// Drag and Drop Logic
+const homeScreen = document.querySelector('.home-screen');
+let draggedItem = null;
+
+homeScreen.addEventListener('dragstart', (e) => {
+  const appItem = e.target.closest('.app-item');
+  if (appItem) {
+    draggedItem = appItem;
+    appItem.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    // Create an empty drag image to avoid the default ghost
+    const img = new Image();
+    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    e.dataTransfer.setDragImage(img, 0, 0);
+  }
+});
+
+homeScreen.addEventListener('dragend', (e) => {
+  if (draggedItem) {
+    draggedItem.classList.remove('dragging');
+    draggedItem = null;
+  }
+});
+
+homeScreen.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  const target = e.target.closest('.app-item');
+  if (target && target !== draggedItem) {
+    const rect = target.getBoundingClientRect();
+    const next = (e.clientY - rect.top) > (rect.height / 2) || (e.clientX - rect.left) > (rect.width / 2);
+    homeScreen.insertBefore(draggedItem, next ? target.nextSibling : target);
+  }
+});
 
 // Music Logic - Using a reliable public radio stream
 const musicStreams = [
