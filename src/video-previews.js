@@ -20,7 +20,7 @@ export function enableVideoPreviews(media) {
   grid.addEventListener('pointerover', event => {
     if (!finePointer.matches || reduced.matches || event.pointerType === 'touch' || document.querySelector('#media-viewer').open) return
     const card = event.target.closest('.mix-card.video')
-    if (!card || card === activeCard) return
+    if (!card || card === activeCard || card.classList.contains('greeting-autoplay')) return
     stop()
     const item = media[Number(card.dataset.index)]
     if (!item || item.kind !== 'video') return

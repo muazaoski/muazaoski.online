@@ -50,8 +50,9 @@ export function enhanceDepth() {
       const rect = pending.card.getBoundingClientRect()
       const x = Math.max(0, Math.min(1, (pending.x - rect.left) / rect.width))
       const y = Math.max(0, Math.min(1, (pending.y - rect.top) / rect.height))
-      pending.card.style.setProperty('--tilt-x', `${(0.5 - y) * 24}deg`)
-      pending.card.style.setProperty('--tilt-y', `${(x - 0.5) * 24}deg`)
+      const tiltPower = pending.card.closest('.sticker-collection') ? 52 : 24
+      pending.card.style.setProperty('--tilt-x', `${(0.5 - y) * tiltPower}deg`)
+      pending.card.style.setProperty('--tilt-y', `${(x - 0.5) * tiltPower}deg`)
       pending.card.style.setProperty('--skew', `${(x - 0.5) * 4}deg`)
       pending.card.style.setProperty('--glow-x', `${x * 100}%`)
       pending.card.style.setProperty('--glow-y', `${y * 100}%`)

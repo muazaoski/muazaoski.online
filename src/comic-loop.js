@@ -2,7 +2,7 @@ export function createComicLoop(selector = '#comics', rows = 1) {
   const section = document.querySelector(selector)
   const viewport = section.querySelector('.collection-flow')
   viewport.classList.add('comic-viewport')
-  viewport.setAttribute('aria-label', selector === '#comics' ? 'Looping comic strip' : selector === '#photography' ? 'Looping photography, two rows' : 'Looping contest artwork')
+  viewport.setAttribute('aria-label', selector === '#comics' ? 'Looping comic strip' : selector === '#photography' ? 'Looping photography, two rows' : selector === '#nft-vertikal' ? 'Looping NFT animations, two rows' : 'Looping contest artwork')
   const cards = [...viewport.children]
   viewport.replaceChildren()
   for (let row = 0; row < rows; row++) {

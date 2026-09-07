@@ -4,25 +4,64 @@ import { enhanceDepth } from './depth.js'
 import { createComicLoop } from './comic-loop.js'
 import { enableVideoPreviews } from './video-previews.js'
 import { enableStickerDragging } from './sticker-drag.js'
+import { enableGreetingAutoplay } from './greeting-loop.js'
+import { createCardShader } from './card-shader.js'
+
+const themeToggle = document.querySelector('#theme-toggle')
+const themeLabel = themeToggle.querySelector('.theme-label')
+function syncThemeToggle() {
+  const dark = document.documentElement.dataset.theme === 'dark'
+  themeToggle.setAttribute('aria-pressed', String(dark))
+  themeToggle.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} mode`)
+  themeLabel.textContent = dark ? 'Light' : 'Dark'
+}
+themeToggle.addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
+  document.documentElement.dataset.theme = next
+  try { localStorage.setItem('portfolio-theme', next) } catch { /* Theme still works for this visit. */ }
+  syncThemeToggle()
+})
+syncThemeToggle()
+
+const aboutPortrait = document.querySelector('.about-portrait')
+const aboutPerson = aboutPortrait.querySelector('.about-person')
+const aboutPointer = matchMedia('(hover: hover) and (pointer: fine)')
+const aboutReducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
+let aboutShader = null
+aboutPortrait.addEventListener('pointermove', event => {
+  if (!document.body.classList.contains('depth-on') || !aboutPointer.matches || aboutReducedMotion.matches || event.pointerType === 'touch') return
+  const rect = aboutPerson.getBoundingClientRect()
+  const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width))
+  const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height))
+  aboutShader ||= createCardShader()
+  aboutShader.draw(aboutPerson, x, y)
+})
+aboutPortrait.addEventListener('pointerleave', () => aboutShader?.clear())
+new MutationObserver(() => { if (!document.body.classList.contains('depth-on')) aboutShader?.clear() }).observe(document.body, { attributes: true, attributeFilter: ['class'] })
 
 const collections = [
   { id: 'promo', label: 'Promo', categories: ['promo'] },
   { id: 'bulan-bintang-contest', label: 'Bulan Bintang Contest', categories: ['Bulan Bintang Contest'], logo: '/portfolio-media/bulan-bintang-logo.png' },
+  { id: 'maybank-tiger', label: 'Maybank MyTiger', categories: ['Maybank Tiger'] },
+  { id: 'vartcomp', label: 'vArtComp', categories: ['vartcomp'] },
+  { id: 'visit-johor', label: 'Visit Johor Mascot', categories: ['Visit Johor Mascott', 'Character Trace back + add outfit + pose', 'add more pose'], logo: '/portfolio-media/visit-johor-logo.webp', logoAlt: 'Visit Johor logo' },
+  { id: 'nft-vertikal', label: 'NFT · Vertikal', categories: ['NFT Project - Vertikal'] },
+  { id: 'sampul-raya', label: 'Sampul Raya', categories: ['sampul raya design'] },
+  { id: 'van-livery', label: 'Van Livery', categories: ['van livery design', '4x'] },
   { id: 'live-stickers', label: 'Live Stickers', categories: ['live deco sticker'] },
   { id: 'cny-stickers', label: 'CNY Stickers', categories: ['cnystickers'] },
   { id: 'raya-stickers', label: 'Raya Stickers', categories: ['rayastickers'] },
   { id: 'landscaping', label: '3D Landscaping', categories: ['3d landscaping sticker'] },
   { id: 'shop-deco', label: 'Shop Décor', categories: ['shop deco'] },
-  { id: 'collaborations', label: 'Collaborations', categories: ['collab'] },
-  { id: 'montages', label: 'Montages', categories: ['montage'] },
+  { id: 'wedding-hafiz', label: 'Wedding Film', categories: ['wedding hafiz'] },
+  { id: 'montages', label: 'Montages', categories: ['montage', 'collab'] },
   { id: 'shoe-films', label: 'Shoe films', categories: ['Shoes Promo'] },
-  { id: 'motion', label: 'Motion', categories: ['motion'] },
+  { id: 'motion', label: 'Motion + Wishing', categories: ['motion'] },
   { id: 'photography', label: 'Photography', categories: ['shoes photoshoot'] },
   { id: 'social-edits', label: 'Social edits', categories: ['meme'] },
   { id: 'comics', label: 'Comics', categories: ['comics'] },
   { id: 'ugc', label: 'UGC', categories: ['ugc edit'] },
-  { id: 'live-clips', label: 'Live clips', categories: ['liveclipping'] },
-  { id: 'greetings', label: 'Greetings', categories: ['Wishing'] }
+  { id: 'live-clips', label: 'Live clips', categories: ['liveclipping'] }
 ].map(collection => ({ ...collection, items: media.filter(item => collection.categories.includes(item.category)) }))
 const mix = collections.flatMap(collection => collection.items)
 document.querySelector('.tape-label > span:nth-child(2)').textContent = `${mix.length} PIECES / KEEP SCROLLING ↓`
@@ -43,20 +82,28 @@ sectionNav.innerHTML = collections.map(collection => `<a href="#${collection.id}
 document.querySelector('#montage').before(sectionNav)
 document.querySelector('#montage').innerHTML = collections.map((collection, index) => `
   <section id="${collection.id}" class="collection" aria-labelledby="${collection.id}-title">
-    <div class="collection-bar"><span>${String(index + 1).padStart(2, '0')}</span>${collection.logo ? `<span class="collection-brand"><img src="${collection.logo}" alt="Bulan Bintang logo" width="120" height="94" /></span>` : ''}<h2 id="${collection.id}-title">${collection.label}</h2><span>${collection.items.length} ${collection.items.length === 1 ? 'piece' : 'pieces'}</span></div>
+    <div class="collection-bar"><span>${String(index + 1).padStart(2, '0')}</span>${collection.logo ? `<span class="collection-brand"><img src="${collection.logo}" alt="${collection.logoAlt || 'Bulan Bintang logo'}" width="120" height="94" /></span>` : ''}<h2 id="${collection.id}-title">${collection.label}</h2><span>${collection.items.length} ${collection.items.length === 1 ? 'piece' : 'pieces'}</span></div>
     <div class="collection-flow">${collection.items.map(renderPiece).join('')}</div>
   </section>`).join('')
 let scrollFrame = 0
+let activeCollection = ''
 function highlightCollection() {
   scrollFrame = 0
   let current = collections[0].id
   for (const collection of collections) {
     if (document.getElementById(collection.id).getBoundingClientRect().top <= 150) current = collection.id
   }
+  let activeLink = null
   sectionNav.querySelectorAll('a').forEach(link => {
-    if (link.hash === `#${current}`) link.setAttribute('aria-current', 'location')
-    else link.removeAttribute('aria-current')
+    if (link.hash === `#${current}`) {
+      link.setAttribute('aria-current', 'location')
+      activeLink = link
+    } else link.removeAttribute('aria-current')
   })
+  if (current !== activeCollection) {
+    activeCollection = current
+    activeLink?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  }
 }
 addEventListener('scroll', () => {
   if (!scrollFrame) scrollFrame = requestAnimationFrame(highlightCollection)
@@ -65,6 +112,99 @@ highlightCollection()
 
 createComicLoop()
 createComicLoop('#photography', 2)
+createComicLoop('#motion')
+enableGreetingAutoplay(mix, '#motion')
+
+function buildAwardFeature(id, { result, title: featureTitle, description }) {
+  const section = document.getElementById(id)
+  const flow = section.querySelector('.collection-flow')
+  const cards = [...flow.querySelectorAll('.mix-card')]
+  const badge = cards.find(card => mix[Number(card.dataset.index)]?.source.toLowerCase().includes('award badge'))
+  const feature = cards.find(card => card !== badge)
+  if (!feature || !badge) return
+  section.classList.add('award-collection')
+  const details = document.createElement('aside')
+  details.className = 'award-details'
+  badge.querySelector('.card-action')?.remove()
+  details.append(badge)
+  details.insertAdjacentHTML('beforeend', `<div class="award-copy"><p class="award-result">${escape(result)}</p><h3>${escape(featureTitle)}</h3><p>${escape(description)}</p></div>`)
+  flow.replaceChildren(feature, details)
+}
+buildAwardFeature('maybank-tiger', {
+  result: 'MyTiger Values Art Competition 2022 · Top 8 selected',
+  title: 'Values built into a pixel world.',
+  description: 'A playful city scene that turns the MyTiger values into one connected world—ambition, progress and community, built one pixel at a time.'
+})
+buildAwardFeature('vartcomp', {
+  result: 'vArtComp 2021 · Third place',
+  title: 'Keep playing. Keep pushing.',
+  description: '“Git Gut” follows a young player who dreams of becoming a professional esports athlete. Setbacks test him, but he keeps practising and refuses to give up on the goal.'
+})
+
+const weddingSection = document.getElementById('wedding-hafiz')
+const weddingFlow = weddingSection.querySelector('.collection-flow')
+weddingSection.classList.add('story-collection')
+weddingFlow.insertAdjacentHTML('beforeend', `<aside class="story-copy"><p class="story-type">Wedding film · Cinematography + edit</p><h3>One day, held in motion.</h3><p>A warm record of the small looks, quiet pauses and joyful moments that make a wedding feel personal. I handled both the filming and the edit, shaping the celebration into one intimate story.</p></aside>`)
+
+const vanSection = document.getElementById('van-livery')
+const vanFlow = vanSection.querySelector('.collection-flow')
+const vanHero = [...vanFlow.querySelectorAll('.mix-card')].find(card => mix[Number(card.dataset.index)]?.source.includes('/4x/'))
+if (vanHero) {
+  vanHero.remove()
+  vanHero.classList.add('van-hero')
+  vanHero.removeAttribute('data-index')
+  vanHero.setAttribute('aria-label', 'Honk the van')
+  vanHero.title = 'Click to honk'
+  vanHero.querySelector('.card-action')?.remove()
+  const vanHonk = new Audio('/portfolio-media/honk-honk-chen.mp3')
+  vanHonk.preload = 'auto'
+  vanHero.addEventListener('click', () => {
+    vanHonk.currentTime = 0
+    vanHonk.play().catch(() => { /* A later click can retry if playback is interrupted. */ })
+  })
+  const vanStage = document.createElement('div')
+  vanStage.className = 'van-livery-stage'
+  vanFlow.before(vanStage)
+  vanStage.append(vanFlow, vanHero)
+}
+
+const johorSection = document.getElementById('visit-johor')
+const johorFlow = johorSection.querySelector('.collection-flow')
+const johorIntro = document.createElement('p')
+johorIntro.className = 'collection-intro'
+johorIntro.textContent = 'A character system for Visit Johor 2026—from retracing the mascots and designing their outfits to building expressive poses inspired by Johor’s food, culture and music.'
+johorFlow.before(johorIntro)
+const johorCards = [...johorFlow.querySelectorAll('.mix-card')]
+const johorHeroes = johorCards.filter(card => mix[Number(card.dataset.index)]?.source.toLowerCase().endsWith('.webp'))
+const johorLogo = johorCards.find(card => mix[Number(card.dataset.index)]?.source.includes('/LOGO-VJ-26.png'))
+johorLogo?.remove()
+johorHeroes.forEach(card => card.remove())
+createComicLoop('#visit-johor', 2)
+const johorStage = document.createElement('div')
+johorStage.className = 'visit-johor-stage'
+johorFlow.before(johorStage)
+johorStage.append(johorFlow)
+const johorShapes = document.createElement('div')
+johorShapes.className = 'visit-johor-shapes'
+johorShapes.setAttribute('aria-hidden', 'true')
+johorShapes.innerHTML = '<i></i><i></i><i></i><i></i><i></i><i></i><i></i>'
+johorStage.append(johorShapes)
+const johorOverlay = document.createElement('div')
+johorOverlay.className = 'visit-johor-heroes'
+johorHeroes.forEach(card => {
+  card.querySelector('.card-action')?.remove()
+  johorOverlay.append(card)
+})
+johorStage.append(johorOverlay)
+const nftFlow = document.querySelector('#nft-vertikal .collection-flow')
+const nftFeatured = document.createElement('div')
+nftFeatured.className = 'collection-flow nft-featured'
+for (const card of [...nftFlow.querySelectorAll('.mix-card')]) {
+  if (mix[Number(card.dataset.index)]?.source.includes('/feed (')) nftFeatured.append(card)
+}
+createComicLoop('#nft-vertikal', 2)
+enableGreetingAutoplay(mix, '#nft-vertikal')
+nftFlow.before(nftFeatured)
 
 const contestFlow = document.querySelector('#bulan-bintang-contest .collection-flow')
 const contestFeatured = document.createElement('div')
@@ -81,6 +221,11 @@ const contestModel = document.createElement('figure')
 contestModel.className = 'contest-model'
 contestModel.innerHTML = `<model-viewer src="/portfolio-media/kotak.glb" alt="Bulan Bintang contest packaging in 3D" camera-controls touch-action="pan-y" camera-orbit="30deg 75deg auto" shadow-intensity="1" exposure="1" interaction-prompt="none"><span slot="poster" class="model-status">Loading 3D artwork…</span></model-viewer><figcaption>Drag to explore · Pinch to zoom</figcaption>`
 contestFeatured.before(contestModel)
+const contestModelLayout = document.createElement('div')
+contestModelLayout.className = 'contest-model-layout'
+contestModel.before(contestModelLayout)
+contestModelLayout.append(contestModel)
+contestModelLayout.insertAdjacentHTML('beforeend', `<aside class="contest-model-copy"><p class="project-type">Packaging concept · 3D visualisation</p><h3>A festive city in every direction.</h3><p>The artwork imagines a lively Malaysian city centred on the Bulan Bintang headquarters. Hari Raya celebrations spill into the surrounding streets, with neighbours, traffic and festive details turning the package into one continuous scene.</p><p>Drag the model to explore how the celebration wraps around the full object.</p></aside>`)
 const kotak = contestModel.querySelector('model-viewer')
 kotak.setAttribute('rotation-per-second', '6deg')
 kotak.setAttribute('auto-rotate-delay', '2000')
@@ -103,7 +248,6 @@ for (const id of ['live-stickers', 'cny-stickers', 'raya-stickers']) {
   enableStickerDragging(`#${id}`)
 }
 enhanceDepth()
-if (import.meta.env.DEV) import('./sheen-dev.js').then(({ createSheenDevPanel }) => createSheenDevPanel())
 const viewer = document.querySelector('#media-viewer')
 const stopPreview = enableVideoPreviews(mix)
 const content = document.querySelector('#viewer-content')

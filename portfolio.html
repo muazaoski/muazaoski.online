@@ -6,14 +6,38 @@
   <meta name="description" content="A visual mixtape of muazaoski’s artwork, films, photography, and experiments." />
   <link rel="icon" type="image/svg+xml" href="/portfolio.svg" />
   <title>Portfolio · muazaoski</title>
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('portfolio-theme')||'dark'}catch{document.documentElement.dataset.theme='dark'}</script>
 </head>
 <body>
   <main>
-    <nav aria-label="Main navigation"><a href="/">← Home screen</a><a class="wordmark" href="#">muazaoski<span>✳</span></a><a href="mailto:muazaoski@gmail.com">Say hello ↗</a></nav>
+    <nav aria-label="Main navigation"><a href="/">← Home screen</a><a class="wordmark" href="#">muazaoski<span>✳</span></a><div class="nav-actions"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Dark</span></button><a href="mailto:muazaoski@gmail.com">Say hello ↗</a></div></nav>
     <header><div><p class="eyebrow">ARTWORK / FILM / WHATEVER COMES NEXT</p><h1>My visual<br /><em>mixtape.</em><span class="asterisk" aria-hidden="true">✳</span></h1></div><div class="header-note"><p>A few ideas.<br />A lot of late nights.<br />All in one place.</p><a href="#mixtape">Dive in ↓</a></div></header>
+    <section id="about" class="about-section" aria-labelledby="about-title">
+      <div class="about-copy">
+        <p class="about-kicker"><span>ABOUT</span><span aria-hidden="true">/</span><img class="about-flag" src="/about/malaysia-flag.svg" alt="Malaysia" width="36" height="36" /><img class="about-club-crest" src="/about/manchester-city.png" alt="Manchester City" width="200" height="200" /></p>
+        <h2 id="about-title"><span class="about-hello">Hi, I’m</span><span class="about-name">Muaz Azri.</span></h2>
+        <p class="about-lead">I make visuals that move between worlds.</p>
+        <p>I’m a multidisciplinary visual designer working across brand campaigns, motion, illustration, 3D, photography and film. I start with the idea, then find the format that gives it the most energy.</p>
+        <p>I like bold colour, playful systems and details that reward a second look—whether that becomes a city wrapped around a box, a mascot, a fast-moving edit or something built for the web.</p>
+        <div class="about-disciplines" aria-label="Creative disciplines"><span>Art direction</span><span>Motion</span><span>3D</span><span>Film</span><span>Digital</span></div>
+        <div class="social-links" aria-label="Social media"><a href="https://www.linkedin.com/in/muazazri/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.4 7.7H2.1V21h3.3V7.7ZM5.6 3.6A1.9 1.9 0 1 0 1.8 3.6a1.9 1.9 0 0 0 3.8 0ZM21.9 13.4c0-4-2.1-5.9-5-5.9-2.3 0-3.4 1.3-4 2.2v-2H9.6V21h3.3v-6.6c0-1.7.3-3.4 2.5-3.4 2.1 0 2.2 2 2.2 3.5V21h3.3l1-7.6Z"/></svg><span>LinkedIn</span><span aria-hidden="true">↗</span></a><a href="https://www.instagram.com/muazaoski/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M7.2 2h9.6A5.2 5.2 0 0 1 22 7.2v9.6a5.2 5.2 0 0 1-5.2 5.2H7.2A5.2 5.2 0 0 1 2 16.8V7.2A5.2 5.2 0 0 1 7.2 2Zm-.2 2A3 3 0 0 0 4 7v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm10.8 1.5a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg><span>Instagram</span><span aria-hidden="true">↗</span></a></div>
+      </div>
+      <figure class="about-portrait">
+        <div class="about-reel" aria-hidden="true"><div class="about-reel-track">
+          <div class="about-reel-group"><img src="/portfolio-media/069.webp" alt="" /><img src="/portfolio-media/199.webp" alt="" /><img src="/portfolio-media/095.webp" alt="" /><img src="/portfolio-media/100.webp" alt="" /><img src="/portfolio-media/254.webp" alt="" /><img src="/portfolio-media/228.webp" alt="" /></div>
+          <div class="about-reel-group"><img src="/portfolio-media/069.webp" alt="" /><img src="/portfolio-media/199.webp" alt="" /><img src="/portfolio-media/095.webp" alt="" /><img src="/portfolio-media/100.webp" alt="" /><img src="/portfolio-media/254.webp" alt="" /><img src="/portfolio-media/228.webp" alt="" /></div>
+        </div></div>
+        <div class="about-reel about-reel-secondary" aria-hidden="true"><div class="about-reel-track">
+          <div class="about-reel-group"><img src="/portfolio-media/236.webp" alt="" /><img src="/portfolio-media/239.webp" alt="" /><img src="/portfolio-media/230.webp" alt="" /><img src="/portfolio-media/237.webp" alt="" /><img src="/portfolio-media/241.webp" alt="" /><img src="/portfolio-media/231.webp" alt="" /></div>
+          <div class="about-reel-group"><img src="/portfolio-media/236.webp" alt="" /><img src="/portfolio-media/239.webp" alt="" /><img src="/portfolio-media/230.webp" alt="" /><img src="/portfolio-media/237.webp" alt="" /><img src="/portfolio-media/241.webp" alt="" /><img src="/portfolio-media/231.webp" alt="" /></div>
+        </div></div>
+        <span class="about-orbit" aria-hidden="true"></span>
+        <span class="about-person"><img src="/portfolio-media/261.webp" alt="Portrait of Muaz Azri" width="1122" height="1402" /></span>
+      </figure>
+    </section>
     <section id="mixtape" aria-label="Artwork and video mixtape"><div class="tape-label"><span>VOL. 01 — THE MIX</span><span>62 PIECES / KEEP SCROLLING ↓</span></div><div id="montage"></div></section>
     <section id="digital"><div class="section-heading"><h2>Also, I build things.</h2><span>Try one ↗</span></div><div id="projects"></div></section>
-    <section class="contact-section"><p class="eyebrow">LET’S MAKE SOMETHING</p><a href="mailto:muazaoski@gmail.com">Got an idea?<br /><em>I'm listening.</em> ↗</a></section>
+    <section class="contact-section"><p class="eyebrow">LET’S MAKE SOMETHING</p><a href="mailto:muazaoski@gmail.com">Got an idea?<br /><em>I'm listening.</em> ↗</a><div class="social-links" aria-label="Social media"><a href="https://www.linkedin.com/in/muazazri/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.4 7.7H2.1V21h3.3V7.7ZM5.6 3.6A1.9 1.9 0 1 0 1.8 3.6a1.9 1.9 0 0 0 3.8 0ZM21.9 13.4c0-4-2.1-5.9-5-5.9-2.3 0-3.4 1.3-4 2.2v-2H9.6V21h3.3v-6.6c0-1.7.3-3.4 2.5-3.4 2.1 0 2.2 2 2.2 3.5V21h3.3l1-7.6Z"/></svg><span>LinkedIn</span><span aria-hidden="true">↗</span></a><a href="https://www.instagram.com/muazaoski/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M7.2 2h9.6A5.2 5.2 0 0 1 22 7.2v9.6a5.2 5.2 0 0 1-5.2 5.2H7.2A5.2 5.2 0 0 1 2 16.8V7.2A5.2 5.2 0 0 1 7.2 2Zm-.2 2A3 3 0 0 0 4 7v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm10.8 1.5a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg><span>Instagram</span><span aria-hidden="true">↗</span></a></div></section>
     <footer><span>muazaoski / portfolio</span><a href="#">Back to top ↑</a></footer>
   </main>
   <dialog id="media-viewer" aria-label="Media preview"><button id="viewer-close" type="button" aria-label="Close media preview" title="Close (Esc)"><span aria-hidden="true">×</span></button><div id="viewer-content"></div><div class="viewer-nav"><button id="previous-media" type="button" aria-label="Previous artwork" title="Previous (←)"><span aria-hidden="true">←</span></button><span id="viewer-position" aria-live="polite"></span><button id="next-media" type="button" aria-label="Next artwork" title="Next (→)"><span aria-hidden="true">→</span></button></div></dialog>
