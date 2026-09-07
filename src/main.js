@@ -2,6 +2,13 @@ import './style.css'
 
 const mainApps = [
   {
+    name: 'Portfolio',
+    icon: '/portfolio.svg',
+    url: '/portfolio.html',
+    target: '_self',
+    draggable: true
+  },
+  {
     name: 'Frog Online',
     icon: '/frog.svg',
     url: 'https://frog.muazaoski.online',
