@@ -4,7 +4,7 @@ const mainApps = [
   {
     name: 'Portfolio',
     icon: '/portfolio.svg',
-    url: '/portfolio.html',
+    url: '/portfolio',
     target: '_self',
     draggable: true
   },
