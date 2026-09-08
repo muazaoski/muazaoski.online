@@ -81,7 +81,7 @@ h1 em { color: #d92d35; font-family: Georgia, serif; font-weight: 400; }
 .about-orbit { position: absolute; z-index: 1; width: 76%; aspect-ratio: 1; right: 7%; top: 12%; border: 2px solid #65141e80; border-radius: 50%; transform: rotate(-18deg) scaleY(.34); }
 .about-orbit::before,
 .about-orbit::after { content: ''; position: absolute; inset: -12%; border: 2px solid #65141e55; border-radius: 50%; transform: rotate(58deg) scaleY(.45); }
-.about-orbit::after { inset: 23%; border: 0; background: #ffe4ae; transform: none; box-shadow: 0 0 70px #fff0c780; }
+.about-orbit::after { display: none; }
 @keyframes about-reel-slide { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .about-reel-track { animation: none; } }
 #mixtape { scroll-margin-top: 16px; }
@@ -788,7 +788,6 @@ body,
 [data-theme="dark"] .about-section::before { background: #b9212a; }
 [data-theme="dark"] .about-orbit { border-color: #ffadb66b; }
 [data-theme="dark"] .about-orbit::before { border-color: #ffadb63d; }
-[data-theme="dark"] .about-orbit::after { background: #df8a4f; box-shadow: 0 0 80px #d92d3575; }
 
 [data-theme="dark"] #promo { --section-color: #281816; }
 [data-theme="dark"] #bulan-bintang-contest { --section-color: #29250f; }

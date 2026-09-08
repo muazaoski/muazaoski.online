@@ -1,12 +1,15 @@
 export function enableGreetingAutoplay(media, selector = '#greetings') {
   const section = document.querySelector(selector)
-  const videos = []
+  const videos = new Set()
+  const visibleVideos = new Set()
+  const cardVideos = new WeakMap()
 
-  section.querySelectorAll('.comic-group .mix-card.video').forEach(card => {
+  function createVideo(card) {
+    const existing = cardVideos.get(card)
+    if (existing) return existing
     const item = media[Number(card.dataset.index)]
-    if (!item) return
-    card.classList.add('greeting-autoplay')
     const image = card.querySelector('img')
+    if (!item || !image) return null
     const video = document.createElement('video')
     video.className = 'greeting-video'
     video.src = item.src
@@ -17,24 +20,34 @@ export function enableGreetingAutoplay(media, selector = '#greetings') {
     video.defaultMuted = true
     video.loop = true
     video.playsInline = true
-    video.autoplay = true
     video.preload = 'metadata'
     video.tabIndex = -1
     video.setAttribute('aria-hidden', 'true')
     image.replaceWith(video)
-    videos.push(video)
-  })
-
-  let visible = false
-  function sync() {
-    for (const video of videos) {
-      if (visible && !document.hidden) video.play().catch(() => {})
-      else video.pause()
-    }
+    card.classList.add('greeting-autoplay')
+    cardVideos.set(card, video)
+    videos.add(video)
+    return video
   }
-  new IntersectionObserver(entries => {
-    visible = entries[0].isIntersecting
-    sync()
-  }, { rootMargin: '150px' }).observe(section)
-  document.addEventListener('visibilitychange', sync)
+
+  function syncVideo(video, visible) {
+    if (visible && !document.hidden) video.play().catch(() => {})
+    else video.pause()
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      const video = entry.isIntersecting ? createVideo(entry.target) : cardVideos.get(entry.target)
+      if (!video) continue
+      if (entry.isIntersecting) visibleVideos.add(video)
+      else visibleVideos.delete(video)
+      syncVideo(video, entry.isIntersecting)
+    }
+  }, { rootMargin: '200px 15%' })
+
+  section.querySelectorAll('.comic-group .mix-card.video').forEach(card => observer.observe(card))
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) videos.forEach(video => video.pause())
+    else visibleVideos.forEach(video => syncVideo(video, true))
+  })
 }

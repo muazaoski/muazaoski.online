@@ -28,15 +28,23 @@ const aboutPerson = aboutPortrait.querySelector('.about-person')
 const aboutPointer = matchMedia('(hover: hover) and (pointer: fine)')
 const aboutReducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
 let aboutShader = null
+let aboutFrame = 0
+let aboutPointerPosition = null
 aboutPortrait.addEventListener('pointermove', event => {
   if (!document.body.classList.contains('depth-on') || !aboutPointer.matches || aboutReducedMotion.matches || event.pointerType === 'touch') return
-  const rect = aboutPerson.getBoundingClientRect()
-  const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width))
-  const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height))
-  aboutShader ||= createCardShader()
-  aboutShader.draw(aboutPerson, x, y)
+  aboutPointerPosition = { x: event.clientX, y: event.clientY }
+  if (aboutFrame) return
+  aboutFrame = requestAnimationFrame(() => {
+    aboutFrame = 0
+    if (!aboutPointerPosition) return
+    const rect = aboutPerson.getBoundingClientRect()
+    const x = Math.max(0, Math.min(1, (aboutPointerPosition.x - rect.left) / rect.width))
+    const y = Math.max(0, Math.min(1, (aboutPointerPosition.y - rect.top) / rect.height))
+    aboutShader ||= createCardShader()
+    aboutShader.draw(aboutPerson, x, y)
+  })
 })
-aboutPortrait.addEventListener('pointerleave', () => aboutShader?.clear())
+aboutPortrait.addEventListener('pointerleave', () => { aboutPointerPosition = null; aboutShader?.clear() })
 new MutationObserver(() => { if (!document.body.classList.contains('depth-on')) aboutShader?.clear() }).observe(document.body, { attributes: true, attributeFilter: ['class'] })
 
 const collections = [
@@ -71,7 +79,7 @@ const escape = value => value.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&l
 function renderPiece(item) {
   const index = mix.indexOf(item)
   return `<button class="mix-card ${item.kind}" type="button" data-index="${index}" aria-label="${item.kind === 'video' ? 'Play' : 'Enlarge'} ${escape(title(item))}">
-    <img src="${item.poster || item.src}" alt="${escape(title(item))}" width="${item.width}" height="${item.height}" loading="${index < 3 ? 'eager' : 'lazy'}" decoding="async" />
+    <img src="${item.poster || item.src}" alt="${escape(title(item))}" width="${item.width}" height="${item.height}" loading="${index < 3 ? 'eager' : 'lazy'}" decoding="async" fetchpriority="${index < 3 ? 'high' : 'low'}" />
     ${item.kind === 'image' ? '<span class="card-action">↗ Take a closer look</span>' : ''}
   </button>`
 }
@@ -82,7 +90,7 @@ sectionNav.innerHTML = collections.map(collection => `<a href="#${collection.id}
 document.querySelector('#montage').before(sectionNav)
 document.querySelector('#montage').innerHTML = collections.map((collection, index) => `
   <section id="${collection.id}" class="collection" aria-labelledby="${collection.id}-title">
-    <div class="collection-bar"><span>${String(index + 1).padStart(2, '0')}</span>${collection.logo ? `<span class="collection-brand"><img src="${collection.logo}" alt="${collection.logoAlt || 'Bulan Bintang logo'}" width="120" height="94" /></span>` : ''}<h2 id="${collection.id}-title">${collection.label}</h2><span>${collection.items.length} ${collection.items.length === 1 ? 'piece' : 'pieces'}</span></div>
+    <div class="collection-bar"><span>${String(index + 1).padStart(2, '0')}</span>${collection.logo ? `<span class="collection-brand"><img src="${collection.logo}" alt="${collection.logoAlt || 'Bulan Bintang logo'}" width="120" height="94" loading="lazy" decoding="async" /></span>` : ''}<h2 id="${collection.id}-title">${collection.label}</h2><span>${collection.items.length} ${collection.items.length === 1 ? 'piece' : 'pieces'}</span></div>
     <div class="collection-flow">${collection.items.map(renderPiece).join('')}</div>
   </section>`).join('')
 let scrollFrame = 0
@@ -157,7 +165,7 @@ if (vanHero) {
   vanHero.title = 'Click to honk'
   vanHero.querySelector('.card-action')?.remove()
   const vanHonk = new Audio('/portfolio-media/honk-honk-chen.mp3')
-  vanHonk.preload = 'auto'
+  vanHonk.preload = 'none'
   vanHero.addEventListener('click', () => {
     vanHonk.currentTime = 0
     vanHonk.play().catch(() => { /* A later click can retry if playback is interrupted. */ })
@@ -234,13 +242,23 @@ const syncModelMotion = () => kotak.toggleAttribute('auto-rotate', !modelReduced
 modelReducedMotion.addEventListener('change', syncModelMotion)
 new MutationObserver(syncModelMotion).observe(document.body, { attributes: true, attributeFilter: ['class'] })
 syncModelMotion()
+let modelViewerPromise = null
+const modelFailed = () => { contestModel.querySelector('.model-status').textContent = '3D preview unavailable' }
+const loadModelViewer = () => {
+  modelViewerPromise ||= import('@google/model-viewer').catch(error => { modelFailed(); throw error })
+  return modelViewerPromise
+}
+const warmModelViewer = () => { loadModelViewer().catch(() => {}) }
+const modelNavLink = sectionNav.querySelector('a[href="#bulan-bintang-contest"]')
+modelNavLink.addEventListener('pointerenter', warmModelViewer, { once: true })
+modelNavLink.addEventListener('focus', warmModelViewer, { once: true })
+modelNavLink.addEventListener('touchstart', warmModelViewer, { once: true, passive: true })
 const modelObserver = new IntersectionObserver(async entries => {
   if (!entries.some(entry => entry.isIntersecting)) return
   modelObserver.disconnect()
   const model = contestModel.querySelector('model-viewer')
-  const failed = () => { contestModel.querySelector('.model-status').textContent = '3D preview unavailable'; }
-  model.addEventListener('error', failed)
-  try { await import('@google/model-viewer') } catch { failed() }
+  model.addEventListener('error', modelFailed)
+  try { await loadModelViewer() } catch { /* The inline status explains the failure. */ }
 }, { rootMargin: '300px' })
 modelObserver.observe(contestModel)
 for (const id of ['live-stickers', 'cny-stickers', 'raya-stickers']) {
@@ -330,7 +348,7 @@ const projects = [
 
 document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, category, description], index) => `
   <a class="project" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${name} (new tab)">
-    <div class="project-top"><img src="${icon}" alt="" width="64" height="64" /><span class="number">0${index + 1}</span></div>
+    <div class="project-top"><img src="${icon}" alt="" width="64" height="64" loading="lazy" decoding="async" /><span class="number">0${index + 1}</span></div>
     <p class="category">${category}</p>
     <h3>${name}<span aria-hidden="true">↗</span></h3>
     <p class="description">${description}</p>
