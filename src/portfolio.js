@@ -23,6 +23,25 @@ themeToggle.addEventListener('click', () => {
 })
 syncThemeToggle()
 
+document.querySelector('#back-to-top').addEventListener('click', event => {
+  event.preventDefault()
+  const previousScrollBehavior = document.documentElement.style.scrollBehavior
+  document.documentElement.style.scrollBehavior = 'auto'
+  const jumpToTop = () => {
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }
+  jumpToTop()
+  requestAnimationFrame(() => {
+    jumpToTop()
+    requestAnimationFrame(() => {
+      jumpToTop()
+      document.documentElement.style.scrollBehavior = previousScrollBehavior
+    })
+  })
+  history.replaceState(null, '', `${location.pathname}${location.search}`)
+})
+
 const aboutPortrait = document.querySelector('.about-portrait')
 const aboutPerson = aboutPortrait.querySelector('.about-person')
 const aboutPointer = matchMedia('(hover: hover) and (pointer: fine)')
