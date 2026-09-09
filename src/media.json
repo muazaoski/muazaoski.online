@@ -990,17 +990,6 @@
     "sha256": "13a2adee5a753580c07f50d96865d92d501352fbf32b8fb78f9d522a2594ebe4"
   },
   {
-    "id": "107",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/d2.jpg",
-    "src": "/portfolio-media/107.webp",
-    "poster": null,
-    "width": 1050,
-    "height": 600,
-    "sha256": "f3b392ef9748d2a81bc475106ca6d9ef8f606a9fde6be6b2459a22d0808048d0"
-  },
-  {
     "id": "108",
     "kind": "image",
     "category": "promo",
@@ -1175,17 +1164,6 @@
     "width": 1600,
     "height": 1600,
     "sha256": "5afe03a5bf7867f5d2d6b9a2151030f4f6287fc78cdf9dd17450048dcf65f858"
-  },
-  {
-    "id": "117",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/story frame.png",
-    "src": "/portfolio-media/117.webp",
-    "poster": null,
-    "width": 900,
-    "height": 1600,
-    "sha256": "e0fb0d9668e4ef64acfc45de16cef65b10c9ecf47de2b82d19b1d124aef89269"
   },
   {
     "id": "118",
