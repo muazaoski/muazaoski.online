@@ -1,11 +1,13 @@
 import './portfolio.css'
 import media from './media.json'
+import mediaDescriptions from './media-descriptions.json'
 import { enhanceDepth } from './depth.js'
 import { createComicLoop } from './comic-loop.js'
 import { enableVideoPreviews } from './video-previews.js'
 import { enableStickerDragging } from './sticker-drag.js'
 import { enableGreetingAutoplay } from './greeting-loop.js'
 import { createCardShader } from './card-shader.js'
+import { createAiLabelDev, isAiLabeled } from './ai-label-dev.js'
 
 const themeToggle = document.querySelector('#theme-toggle')
 const themeLabel = themeToggle.querySelector('.theme-label')
@@ -70,36 +72,37 @@ const collections = [
   { id: 'promo', label: 'Promo', categories: ['promo'] },
   { id: 'bulan-bintang-contest', label: 'Bulan Bintang Contest', categories: ['Bulan Bintang Contest'], logo: '/portfolio-media/bulan-bintang-logo.png' },
   { id: 'maybank-tiger', label: 'Maybank MyTiger', categories: ['Maybank Tiger'] },
-  { id: 'vartcomp', label: 'vArtComp', categories: ['vartcomp'] },
+  { id: 'vartcomp', label: 'vArtComp Video Competition', categories: ['vartcomp'] },
   { id: 'visit-johor', label: 'Visit Johor Mascot', categories: ['Visit Johor Mascott', 'Character Trace back + add outfit + pose', 'add more pose'], logo: '/portfolio-media/visit-johor-logo.webp', logoAlt: 'Visit Johor logo' },
-  { id: 'nft-vertikal', label: 'NFT · Vertikal', categories: ['NFT Project - Vertikal'] },
-  { id: 'sampul-raya', label: 'Sampul Raya', categories: ['sampul raya design'] },
+  { id: 'nft-vertikal', label: 'NFT Project - Vertikal', categories: ['NFT Project - Vertikal'] },
+  { id: 'sampul-raya', label: 'Raya Envelope', categories: ['sampul raya design'] },
   { id: 'van-livery', label: 'Van Livery', categories: ['van livery design', '4x'] },
-  { id: 'live-stickers', label: 'Live Stickers', categories: ['live deco sticker'] },
+  { id: 'live-stickers', label: 'Livestream Stickers', categories: ['live deco sticker'] },
   { id: 'cny-stickers', label: 'CNY Stickers', categories: ['cnystickers'] },
   { id: 'raya-stickers', label: 'Raya Stickers', categories: ['rayastickers'] },
-  { id: 'landscaping', label: '3D Landscaping', categories: ['3d landscaping sticker'] },
+  { id: 'landscaping', label: '3D Stickers Design', categories: ['3d landscaping sticker'] },
   { id: 'shop-deco', label: 'Shop Décor', categories: ['shop deco'] },
   { id: 'wedding-hafiz', label: 'Wedding Film', categories: ['wedding hafiz'] },
   { id: 'montages', label: 'Montages', categories: ['montage', 'collab'] },
-  { id: 'shoe-films', label: 'Shoe films', categories: ['Shoes Promo'] },
-  { id: 'motion', label: 'Motion + Wishing', categories: ['motion'] },
-  { id: 'photography', label: 'Photography', categories: ['shoes photoshoot'] },
-  { id: 'social-edits', label: 'Social edits', categories: ['meme'] },
+  { id: 'shoe-films', label: 'Product Focused Video', categories: ['Shoes Promo'] },
+  { id: 'motion', label: 'Motion Graphic', categories: ['motion'] },
+  { id: 'photography', label: 'Product Photoshoot', categories: ['shoes photoshoot'] },
+  { id: 'social-edits', label: 'Engagement Videos', categories: ['meme'] },
   { id: 'comics', label: 'Comics', categories: ['comics'] },
   { id: 'ugc', label: 'UGC', categories: ['ugc edit'] },
   { id: 'live-clips', label: 'Live clips', categories: ['liveclipping'] }
 ].map(collection => ({ ...collection, items: media.filter(item => collection.categories.includes(item.category)) }))
 const mix = collections.flatMap(collection => collection.items)
+const collectionLabelByCategory = new Map(collections.flatMap(collection => collection.categories.map(category => [category, collection.label])))
 document.querySelector('.tape-label > span:nth-child(2)').textContent = `${mix.length} PIECES / KEEP SCROLLING ↓`
 const names = { '014': 'New Arrivals', '034': '5.5 Sale', '008': 'Mother’s Day Sale', '009': 'Warehouse Sale', '007': 'Syukur Raya Sale' }
 const title = item => names[item.id] || item.source.split('/').pop().replace(/\.[^.]+$/, '')
 const escape = value => value.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
 function renderPiece(item) {
   const index = mix.indexOf(item)
-  return `<button class="mix-card ${item.kind}" type="button" data-index="${index}" aria-label="${item.kind === 'video' ? 'Play' : 'Enlarge'} ${escape(title(item))}">
+  return `<button class="mix-card ${item.kind}${isAiLabeled(item.id) ? ' ai-labeled' : ''}" type="button" data-index="${index}" data-work-id="${escape(String(item.id))}" aria-label="${item.kind === 'video' ? 'Play' : 'Enlarge'} ${escape(title(item))}">
     <img src="${item.poster || item.src}" alt="${escape(title(item))}" width="${item.width}" height="${item.height}" loading="${index < 3 ? 'eager' : 'lazy'}" decoding="async" fetchpriority="${index < 3 ? 'high' : 'low'}" />
-    ${item.kind === 'image' ? '<span class="card-action">↗ Take a closer look</span>' : ''}
+    ${isAiLabeled(item.id) ? '<span class="ai-label-badge" aria-label="AI-assisted"><img src="/icon/ai-label.webp" alt="" /></span>' : ''}
   </button>`
 }
 const sectionNav = document.createElement('nav')
@@ -152,7 +155,6 @@ function buildAwardFeature(id, { result, title: featureTitle, description }) {
   section.classList.add('award-collection')
   const details = document.createElement('aside')
   details.className = 'award-details'
-  badge.querySelector('.card-action')?.remove()
   details.append(badge)
   details.insertAdjacentHTML('beforeend', `<div class="award-copy"><p class="award-result">${escape(result)}</p><h3>${escape(featureTitle)}</h3><p>${escape(description)}</p></div>`)
   flow.replaceChildren(feature, details)
@@ -182,7 +184,6 @@ if (vanHero) {
   vanHero.removeAttribute('data-index')
   vanHero.setAttribute('aria-label', 'Honk the van')
   vanHero.title = 'Click to honk'
-  vanHero.querySelector('.card-action')?.remove()
   const vanHonk = new Audio('/portfolio-media/honk-honk-chen.mp3')
   vanHonk.preload = 'none'
   vanHero.addEventListener('click', () => {
@@ -219,7 +220,6 @@ johorStage.append(johorShapes)
 const johorOverlay = document.createElement('div')
 johorOverlay.className = 'visit-johor-heroes'
 johorHeroes.forEach(card => {
-  card.querySelector('.card-action')?.remove()
   johorOverlay.append(card)
 })
 johorStage.append(johorOverlay)
@@ -289,6 +289,25 @@ const viewer = document.querySelector('#media-viewer')
 const stopPreview = enableVideoPreviews(mix)
 const content = document.querySelector('#viewer-content')
 let currentIndex = 0
+function syncViewerAiBadge(item = mix[currentIndex]) {
+  content.querySelector('.viewer-ai-badge')?.remove()
+  if (!item || !isAiLabeled(item.id)) return
+  const badge = document.createElement('span')
+  badge.className = 'ai-label-badge viewer-ai-badge'
+  badge.setAttribute('aria-label', 'AI-assisted')
+  badge.innerHTML = '<img src="/icon/ai-label.webp" alt="" />'
+  ;(content.querySelector('.viewer-media') || content).append(badge)
+}
+function syncAiBadges() {
+  document.querySelectorAll('.mix-card[data-work-id]').forEach(card => {
+    const labeled = isAiLabeled(card.dataset.workId)
+    card.classList.toggle('ai-labeled', labeled)
+    const badge = card.querySelector(':scope > .ai-label-badge')
+    if (labeled && !badge) card.insertAdjacentHTML('beforeend', '<span class="ai-label-badge" aria-label="AI-assisted"><img src="/icon/ai-label.webp" alt="" /></span>')
+    if (!labeled) badge?.remove()
+  })
+  if (viewer.open) syncViewerAiBadge()
+}
 function showMedia(index) {
   stopPreview()
   content.querySelector('video')?.pause()
@@ -297,6 +316,8 @@ function showMedia(index) {
   const item = mix[currentIndex]
   document.querySelector('#viewer-position').textContent = `${currentIndex + 1} / ${mix.length}`
   content.replaceChildren()
+  const mediaStage = document.createElement('div')
+  mediaStage.className = 'viewer-media'
   const element = document.createElement(item.kind === 'video' ? 'video' : 'img')
   if (item.kind === 'video') {
     element.controls = true
@@ -315,19 +336,19 @@ function showMedia(index) {
     element.title = 'Click to zoom in'
     element.draggable = false
     function toggleZoom(event) {
-      const zoomed = content.classList.contains('image-zoomed')
+      const zoomed = mediaStage.classList.contains('image-zoomed')
       const rect = element.getBoundingClientRect()
       const x = event.type === 'click' && event.detail ? (event.clientX - rect.left) / rect.width : 0.5
       const y = event.type === 'click' && event.detail ? (event.clientY - rect.top) / rect.height : 0.5
-      content.classList.toggle('image-zoomed', !zoomed)
+      mediaStage.classList.toggle('image-zoomed', !zoomed)
       if (zoomed) {
         element.style.removeProperty('width')
         element.style.removeProperty('height')
-        content.scrollTo(0, 0)
+        mediaStage.scrollTo(0, 0)
       } else {
         element.style.width = `${rect.width * 2.5}px`
         element.style.height = `${rect.height * 2.5}px`
-        content.scrollTo(Math.max(0, x * rect.width * 2.5 - content.clientWidth / 2), Math.max(0, y * rect.height * 2.5 - content.clientHeight / 2))
+        mediaStage.scrollTo(Math.max(0, x * rect.width * 2.5 - mediaStage.clientWidth / 2), Math.max(0, y * rect.height * 2.5 - mediaStage.clientHeight / 2))
       }
       element.setAttribute('aria-pressed', String(!zoomed))
       element.setAttribute('aria-label', zoomed ? 'Zoom in on artwork' : 'Zoom out of artwork')
@@ -338,7 +359,24 @@ function showMedia(index) {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleZoom(event) }
     })
   }
-  content.append(element)
+  mediaStage.append(element)
+  const copy = mediaDescriptions[item.id]
+  const details = document.createElement('aside')
+  details.className = 'viewer-details'
+  const kicker = document.createElement('p')
+  kicker.className = 'viewer-kicker'
+  kicker.textContent = `${collectionLabelByCategory.get(item.category) || item.category} · ${item.kind === 'video' ? 'Film' : 'Artwork'} ${currentIndex + 1}`
+  const heading = document.createElement('h2')
+  heading.textContent = copy?.title || title(item)
+  const description = document.createElement('p')
+  description.className = 'viewer-description'
+  description.textContent = copy?.description || 'A selected piece from this portfolio collection.'
+  const workId = document.createElement('span')
+  workId.className = 'viewer-work-id'
+  workId.textContent = `WORK ${item.id}`
+  details.append(kicker, heading, description, workId)
+  content.append(mediaStage, details)
+  syncViewerAiBadge(item)
   if (!viewer.open) viewer.showModal()
   if (item.kind === 'video') element.play().catch(() => { /* Native controls remain available. */ })
 }
@@ -374,4 +412,12 @@ document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, 
     <span class="visit">Open project <span aria-hidden="true">→</span></span>
   </a>
 `).join('')
+
+createAiLabelDev({
+  trigger: document.querySelector('#ai-dev-trigger'),
+  dialog: document.querySelector('#ai-label-dev'),
+  collections,
+  getTitle: title,
+  onChange: syncAiBadges
+})
 

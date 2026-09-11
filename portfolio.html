@@ -12,7 +12,7 @@
 </head>
 <body>
   <main id="top">
-    <nav aria-label="Main navigation"><a href="/">← Home screen</a><a class="wordmark" href="#">muazaoski<span>✳</span></a><div class="nav-actions"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Dark</span></button><a href="mailto:muazaoski@gmail.com">Say hello ↗</a></div></nav>
+    <nav aria-label="Main navigation"><a href="/">← Home screen</a><button class="wordmark" id="ai-dev-trigger" type="button" aria-haspopup="dialog" aria-controls="ai-label-dev">muazaoski<span>✳</span></button><div class="nav-actions"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Dark</span></button><a href="mailto:muazaoski@gmail.com">Say hello ↗</a></div></nav>
     <header><div><p class="eyebrow">ARTWORK / FILM / WHATEVER COMES NEXT</p><h1>My visual<br /><em>mixtape.</em><span class="asterisk" aria-hidden="true">✳</span></h1></div><div class="header-note"><p>A few ideas.<br />A lot of late nights.<br />All in one place.</p><a href="#mixtape">Dive in ↓</a></div></header>
     <section id="about" class="about-section" aria-labelledby="about-title">
       <div class="about-copy">
@@ -43,6 +43,7 @@
     <footer><span>muazaoski / portfolio</span><a id="back-to-top" href="#top">Back to top ↑</a></footer>
   </main>
   <dialog id="media-viewer" aria-label="Media preview"><button id="viewer-close" type="button" aria-label="Close media preview" title="Close (Esc)"><span aria-hidden="true">×</span></button><div id="viewer-content"></div><div class="viewer-nav"><button id="previous-media" type="button" aria-label="Previous artwork" title="Previous (←)"><span aria-hidden="true">←</span></button><span id="viewer-position" aria-live="polite"></span><button id="next-media" type="button" aria-label="Next artwork" title="Next (→)"><span aria-hidden="true">→</span></button></div></dialog>
+  <dialog id="ai-label-dev" class="ai-dev" aria-labelledby="ai-dev-title"></dialog>
   <script type="module" src="/src/portfolio.js"></script>
 </body>
 </html>
