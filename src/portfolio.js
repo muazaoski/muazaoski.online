@@ -112,9 +112,54 @@ sectionNav.innerHTML = collections.map(collection => `<a href="#${collection.id}
 document.querySelector('#montage').before(sectionNav)
 document.querySelector('#montage').innerHTML = collections.map((collection, index) => `
   <section id="${collection.id}" class="collection" aria-labelledby="${collection.id}-title">
-    <div class="collection-bar"><span>${String(index + 1).padStart(2, '0')}</span>${collection.logo ? `<span class="collection-brand"><img src="${collection.logo}" alt="${collection.logoAlt || 'Bulan Bintang logo'}" width="120" height="94" loading="lazy" decoding="async" /></span>` : ''}<h2 id="${collection.id}-title">${collection.label}</h2><span>${collection.items.length} ${collection.items.length === 1 ? 'piece' : 'pieces'}</span></div>
+    <div class="collection-bar"><span>${String(index + 1).padStart(2, '0')}</span>${collection.logo ? `<span class="collection-brand"><img src="${collection.logo}" alt="${collection.logoAlt || 'Bulan Bintang logo'}" width="120" height="94" loading="lazy" decoding="async" /></span>` : ''}<h2 id="${collection.id}-title">${collection.label}</h2><span class="collection-count">${collection.items.length} ${collection.items.length === 1 ? 'piece' : 'pieces'}</span><button class="section-share" type="button" data-share-section="${collection.id}" aria-label="Copy link to ${escape(collection.label)}"><span aria-hidden="true">↗</span><span>Share</span></button></div>
     <div class="collection-flow">${collection.items.map(renderPiece).join('')}</div>
   </section>`).join('')
+const copyText = async value => {
+  if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(value)
+  const field = document.createElement('textarea')
+  field.value = value
+  field.setAttribute('readonly', '')
+  field.style.position = 'fixed'
+  field.style.opacity = '0'
+  document.body.append(field)
+  field.select()
+  document.execCommand('copy')
+  field.remove()
+}
+document.querySelector('#montage').addEventListener('click', async event => {
+  const button = event.target.closest('[data-share-section]')
+  if (!button) return
+  const url = new URL(location.href)
+  url.hash = button.dataset.shareSection
+  const label = button.querySelector('span:last-child')
+  try {
+    await copyText(url.href)
+    label.textContent = 'Copied'
+    button.classList.add('copied')
+  } catch {
+    label.textContent = 'Copy failed'
+  }
+  clearTimeout(button._resetLabel)
+  button._resetLabel = setTimeout(() => {
+    label.textContent = 'Share'
+    button.classList.remove('copied')
+  }, 1800)
+})
+function scrollToSharedSection() {
+  const id = decodeURIComponent(location.hash.slice(1))
+  const target = document.getElementById(id)
+  if (!target?.classList.contains('collection')) return
+  requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }))
+}
+addEventListener('hashchange', scrollToSharedSection)
+const sharedScrollTimers = [0, 120, 450, 1000, 2000].map(delay => setTimeout(scrollToSharedSection, delay))
+const stopSharedScrollSettling = () => sharedScrollTimers.forEach(clearTimeout)
+addEventListener('pointerdown', stopSharedScrollSettling, { once: true, passive: true })
+addEventListener('touchstart', stopSharedScrollSettling, { once: true, passive: true })
+addEventListener('wheel', stopSharedScrollSettling, { once: true, passive: true })
+addEventListener('keydown', stopSharedScrollSettling, { once: true })
+addEventListener('load', scrollToSharedSection, { once: true })
 let scrollFrame = 0
 let activeCollection = ''
 function highlightCollection() {
