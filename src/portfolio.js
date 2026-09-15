@@ -89,9 +89,13 @@ const collections = [
   { id: 'photography', label: 'Product Photoshoot', categories: ['shoes photoshoot'] },
   { id: 'social-edits', label: 'Engagement Videos', categories: ['meme'] },
   { id: 'comics', label: 'Comics', categories: ['comics'] },
-  { id: 'ugc', label: 'UGC', categories: ['ugc edit'] },
+  { id: 'ugc', label: 'UGC', categories: ['ugc edit'], featuredSource: 'medias/videos/ugc edit/recvuSj18IsFfN_Submission_2026.mp4' },
   { id: 'live-clips', label: 'Live clips', categories: ['liveclipping'] }
-].map(collection => ({ ...collection, items: media.filter(item => collection.categories.includes(item.category)) }))
+].map(collection => {
+  const items = media.filter(item => collection.categories.includes(item.category))
+  if (collection.featuredSource) items.sort((a, b) => Number(b.source === collection.featuredSource) - Number(a.source === collection.featuredSource))
+  return { ...collection, items }
+})
 const mix = collections.flatMap(collection => collection.items)
 const collectionLabelByCategory = new Map(collections.flatMap(collection => collection.categories.map(category => [category, collection.label])))
 document.querySelector('.tape-label > span:nth-child(2)').textContent = `${mix.length} PIECES / KEEP SCROLLING ↓`
