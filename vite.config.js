@@ -1,30 +1,32 @@
 import { defineConfig } from 'vite'
 import { fileURLToPath } from 'node:url'
 
-const rewriteCleanPortfolioUrl = (req, _res, next) => {
-  if (/^\/portfolio\/?(?:[?#].*)?$/.test(req.url || '')) {
-    req.url = req.url.replace(/^\/portfolio\/?/, '/portfolio.html')
+const rewriteCleanPageUrls = (req, _res, next) => {
+  const cleanPage = (req.url || '').match(/^\/(portfolio|resume)\/?(?:[?#].*)?$/)
+  if (cleanPage) {
+    req.url = req.url.replace(new RegExp(`^/${cleanPage[1]}/?`), `/${cleanPage[1]}.html`)
   }
   next()
 }
 
-const cleanPortfolioRoute = {
-  name: 'clean-portfolio-route',
+const cleanPageRoutes = {
+  name: 'clean-page-routes',
   configureServer(server) {
-    server.middlewares.use(rewriteCleanPortfolioUrl)
+    server.middlewares.use(rewriteCleanPageUrls)
   },
   configurePreviewServer(server) {
-    server.middlewares.use(rewriteCleanPortfolioUrl)
+    server.middlewares.use(rewriteCleanPageUrls)
   }
 }
 
 export default defineConfig({
-  plugins: [cleanPortfolioRoute],
+  plugins: [cleanPageRoutes],
   build: {
     rollupOptions: {
       input: {
         home: fileURLToPath(new URL('./index.html', import.meta.url)),
-        portfolio: fileURLToPath(new URL('./portfolio.html', import.meta.url))
+        portfolio: fileURLToPath(new URL('./portfolio.html', import.meta.url)),
+        resume: fileURLToPath(new URL('./resume.html', import.meta.url))
       }
     }
   }

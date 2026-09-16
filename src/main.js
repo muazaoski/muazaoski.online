@@ -9,6 +9,13 @@ const mainApps = [
     draggable: true
   },
   {
+    name: 'Resume',
+    icon: '/resume.svg',
+    url: '/resume',
+    target: '_self',
+    draggable: true
+  },
+  {
     name: 'Frog Online',
     icon: '/frog.svg',
     url: 'https://frog.muazaoski.online',

@@ -7,7 +7,7 @@ import { enableVideoPreviews } from './video-previews.js'
 import { enableStickerDragging } from './sticker-drag.js'
 import { enableGreetingAutoplay } from './greeting-loop.js'
 import { createCardShader } from './card-shader.js'
-import { createAiLabelDev, isAiLabeled } from './ai-label-dev.js'
+import { isAiLabeled } from './ai-label-dev.js'
 
 const themeToggle = document.querySelector('#theme-toggle')
 const themeLabel = themeToggle.querySelector('.theme-label')
@@ -347,16 +347,6 @@ function syncViewerAiBadge(item = mix[currentIndex]) {
   badge.innerHTML = '<img src="/icon/ai-label.webp" alt="" />'
   ;(content.querySelector('.viewer-media') || content).append(badge)
 }
-function syncAiBadges() {
-  document.querySelectorAll('.mix-card[data-work-id]').forEach(card => {
-    const labeled = isAiLabeled(card.dataset.workId)
-    card.classList.toggle('ai-labeled', labeled)
-    const badge = card.querySelector(':scope > .ai-label-badge')
-    if (labeled && !badge) card.insertAdjacentHTML('beforeend', '<span class="ai-label-badge" aria-label="AI-assisted"><img src="/icon/ai-label.webp" alt="" /></span>')
-    if (!labeled) badge?.remove()
-  })
-  if (viewer.open) syncViewerAiBadge()
-}
 function showMedia(index) {
   stopPreview()
   content.querySelector('video')?.pause()
@@ -461,12 +451,4 @@ document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, 
     <span class="visit">Open project <span aria-hidden="true">→</span></span>
   </a>
 `).join('')
-
-createAiLabelDev({
-  trigger: document.querySelector('#ai-dev-trigger'),
-  dialog: document.querySelector('#ai-label-dev'),
-  collections,
-  getTitle: title,
-  onChange: syncAiBadges
-})
 

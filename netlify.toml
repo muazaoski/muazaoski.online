@@ -13,6 +13,17 @@
   to = "/portfolio.html"
   status = 200
 
+[[redirects]]
+  from = "/resume.html"
+  to = "/resume"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/resume"
+  to = "/resume.html"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]
@@ -36,5 +47,10 @@
 
 [[headers]]
   for = "/about/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/resume/*"
   [headers.values]
     Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"

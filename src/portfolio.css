@@ -7,7 +7,7 @@ button { font: inherit; cursor: pointer; }
 button:focus-visible, a:focus-visible { outline: 3px solid #d92d35; outline-offset: 5px; }
 main { max-width: 1800px; margin: auto; padding: 0 3vw; }
 nav { height: 88px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; border-bottom: 1px solid #ffffff24; }
-.wordmark { padding: 0; border: 0; background: transparent; color: inherit; font-size: 23px; font-weight: 800; letter-spacing: -1px; cursor: pointer; }
+.wordmark { padding: 0; border: 0; background: transparent; color: inherit; font-size: 23px; font-weight: 800; letter-spacing: -1px; }
 .wordmark span { font-size: 11px; vertical-align: top; padding-left: 3px; }
 header { display: flex; justify-content: space-between; align-items: end; padding: 52px 3vw 42px; gap: 24px; }
 .eyebrow, .tape-label { font-size: 10px; letter-spacing: 1.5px; }
