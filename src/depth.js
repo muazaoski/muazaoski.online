@@ -1,8 +1,6 @@
 import { createCardShader } from './card-shader.js'
-import { createScrollAccents } from './scroll-accents.js'
 
 export function enhanceDepth() {
-  const accents = createScrollAccents()
   const toggle = document.createElement('button')
   toggle.type = 'button'
   toggle.className = 'depth-toggle'
@@ -28,7 +26,6 @@ export function enhanceDepth() {
   }
   function sync() {
     document.body.classList.toggle('depth-on', enabled)
-    accents.setEnabled(enabled && !reduced.matches)
     toggle.setAttribute('aria-pressed', String(enabled))
     toggle.textContent = enabled ? '3D motion on · Pause' : '3D motion off · Enable'
     resetCard()
