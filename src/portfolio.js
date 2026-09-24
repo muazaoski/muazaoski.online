@@ -435,20 +435,21 @@ viewer.addEventListener('keydown', event => {
 })
 
 const projects = [
-  ['Frog Online', '/frog.svg', 'https://frog.muazaoski.site', 'PLAY', 'An online game from the library.'],
-  ['Workout', '/workout.svg', 'https://workout.muazaoski.site', 'FITNESS', 'A dedicated space for workouts.'],
-  ['Size Chart', '/sizechart.svg', 'https://chart.muazaoski.site', 'TOOLS', 'A size chart tool, ready in your browser.'],
-  ['Finance', '/financeme-02.svg', 'https://financeme.cc', 'FINANCE', 'A finance app in the collection.'],
-  ['OCR', '/ocr.svg', 'https://ocr.muazaoski.site', 'TOOLS', 'An optical character recognition tool.']
+  ['Unfrog', '/frog.svg', 'https://frog.muazaoski.site', 'PLAY', 'A 3D multiplayer frog arena with jumping, combat and chaotic physics.'],
+  ['Workout', '/workout.svg', 'https://workout.muazaoski.site', 'FITNESS', 'A workout tracker for logging sessions and chasing fitness goals.'],
+  ['Size Chart', '/sizechart.svg', 'https://chart.muazaoski.site', 'TOOLS', 'Turn size chart images into editable, ready-to-share charts.'],
+  ['FinanceMe', '/financeme-02.svg', 'https://financeme.cc', 'FINANCE', 'A personal finance app for expenses, bills, investments and goals.', true],
+  ['OCR', '/ocr.svg', 'https://ocr.muazaoski.site', 'TOOLS', 'Extract text and structured information from images with AI.']
 ]
 
-document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, category, description], index) => `
+document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, category, description, discontinued], index) => `
   <a class="project" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${name} (new tab)">
     <div class="project-top"><img src="${icon}" alt="" width="64" height="64" loading="lazy" decoding="async" /><span class="number">0${index + 1}</span></div>
     <p class="category">${category}</p>
+    ${discontinued ? '<span class="project-status">Discontinued</span>' : ''}
     <h3>${name}<span aria-hidden="true">↗</span></h3>
     <p class="description">${description}</p>
-    <span class="visit">Open project <span aria-hidden="true">→</span></span>
+    <span class="visit">${discontinued ? 'View project' : 'Open project'} <span aria-hidden="true">→</span></span>
   </a>
 `).join('')
 

@@ -16,7 +16,7 @@ const mainApps = [
     draggable: true
   },
   {
-    name: 'Frog Online',
+    name: 'Unfrog',
     icon: '/frog.svg',
     url: 'https://frog.muazaoski.site',
     target: '_blank',
@@ -37,10 +37,11 @@ const mainApps = [
     draggable: true
   },
   {
-    name: 'Finance',
+    name: 'FinanceMe',
     icon: '/financeme-02.svg',
     url: 'https://financeme.cc',
     target: '_blank',
+    status: 'Discontinued',
     draggable: true
   },
   {
@@ -95,6 +96,7 @@ const renderApp = (app) => {
        ${app.draggable ? 'draggable="true"' : ''}>
       <div class="icon-box ${isImageContainer ? 'has-img' : ''}">${iconContent}</div>
       <span class="app-label">${app.name}</span>
+      ${app.status ? `<span class="app-status">${app.status}</span>` : ''}
     </a>
   `;
 }

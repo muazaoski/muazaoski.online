@@ -184,6 +184,13 @@ body::after {
   transition: opacity 0.2s;
 }
 
+.app-status {
+  margin-top: -5px;
+  font-size: 0.65rem;
+  color: #ffb8bd;
+  text-shadow: 0 2px 4px #000;
+}
+
 /* Muted State for Music */
 .icon-box.muted {
   background: #333;
