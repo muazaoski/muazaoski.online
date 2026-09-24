@@ -435,21 +435,22 @@ viewer.addEventListener('keydown', event => {
 })
 
 const projects = [
-  ['Unfrog', '/frog.svg', 'https://frog.muazaoski.site', 'PLAY', 'A 3D multiplayer frog arena with jumping, combat and chaotic physics.'],
-  ['Workout', '/workout.svg', 'https://workout.muazaoski.site', 'FITNESS', 'A workout tracker for logging sessions and chasing fitness goals.'],
-  ['Size Chart', '/sizechart.svg', 'https://chart.muazaoski.site', 'TOOLS', 'Turn size chart images into editable, ready-to-share charts.'],
-  ['FinanceMe', '/financeme-02.svg', 'https://financeme.cc', 'FINANCE', 'A personal finance app for expenses, bills, investments and goals.', true],
-  ['OCR', '/ocr.svg', 'https://ocr.muazaoski.site', 'TOOLS', 'Extract text and structured information from images with AI.']
+  ['Unfrog', '/frog.svg', 'https://frog.muazaoski.site', 'PLAY', 'A 3D multiplayer frog arena with jumping, combat and chaotic physics.', 'Play Unfrog'],
+  ['Workout', '/workout.svg', 'https://workout.muazaoski.site', 'FITNESS', 'A workout tracker for logging sessions and chasing fitness goals.', 'Open tracker'],
+  ['Size Chart', '/sizechart.svg', 'https://chart.muazaoski.site', 'TOOLS', 'Turn size chart images into editable, ready-to-share charts.', 'Make a chart'],
+  ['OCR', '/ocr.svg', 'https://ocr.muazaoski.site', 'TOOLS', 'Extract text and structured information from images with AI.', 'Try OCR'],
+  ['FinanceMe', '/financeme-02.svg', 'https://financeme.cc', 'FINANCE', 'A personal finance app for expenses, bills, investments and goals.', 'View project', true]
 ]
 
-document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, category, description, discontinued], index) => `
-  <a class="project" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${name} (new tab)">
-    <div class="project-top"><img src="${icon}" alt="" width="64" height="64" loading="lazy" decoding="async" /><span class="number">0${index + 1}</span></div>
-    <p class="category">${category}</p>
-    ${discontinued ? '<span class="project-status">Discontinued</span>' : ''}
-    <h3>${name}<span aria-hidden="true">↗</span></h3>
-    <p class="description">${description}</p>
-    <span class="visit">${discontinued ? 'View project' : 'Open project'} <span aria-hidden="true">→</span></span>
-  </a>
-`).join('')
+document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, category, description, action, discontinued], index) => {
+  const layout = discontinued ? 'archive' : index === 0 ? 'featured' : index === 1 ? 'workout' : 'standard'
+  return `
+    <a class="app-card app-card--${layout}" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${discontinued ? `View ${name}, discontinued project` : `Open ${name}`} (new tab)">
+      <div class="app-card__top"><span>${String(index + 1).padStart(2, '0')} / ${category}</span>${discontinued ? '<span class="app-card__status">Discontinued</span>' : '<span aria-hidden="true">↗</span>'}</div>
+      <div class="app-card__icon"><img src="${icon}" alt="" width="96" height="96" loading="lazy" decoding="async" /></div>
+      <div class="app-card__body"><h3>${name}</h3><p>${description}</p></div>
+      <span class="app-card__action">${action}<span aria-hidden="true">↗</span></span>
+    </a>
+  `
+}).join('')
 
