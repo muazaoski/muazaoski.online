@@ -435,11 +435,11 @@ viewer.addEventListener('keydown', event => {
 })
 
 const projects = [
-  ['Frog Online', '/frog.svg', 'https://frog.muazaoski.online', 'PLAY', 'An online game from the library.'],
-  ['Workout', '/workout.svg', 'https://workout.muazaoski.online', 'FITNESS', 'A dedicated space for workouts.'],
-  ['Size Chart', '/sizechart.svg', 'https://chart.muazaoski.online', 'TOOLS', 'A size chart tool, ready in your browser.'],
+  ['Frog Online', '/frog.svg', 'https://frog.muazaoski.site', 'PLAY', 'An online game from the library.'],
+  ['Workout', '/workout.svg', 'https://workout.muazaoski.site', 'FITNESS', 'A dedicated space for workouts.'],
+  ['Size Chart', '/sizechart.svg', 'https://chart.muazaoski.site', 'TOOLS', 'A size chart tool, ready in your browser.'],
   ['Finance', '/financeme-02.svg', 'https://financeme.cc', 'FINANCE', 'A finance app in the collection.'],
-  ['OCR', '/ocr.svg', 'https://ocr.muazaoski.online', 'TOOLS', 'An optical character recognition tool.']
+  ['OCR', '/ocr.svg', 'https://ocr.muazaoski.site', 'TOOLS', 'An optical character recognition tool.']
 ]
 
 document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, category, description], index) => `

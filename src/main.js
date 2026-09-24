@@ -18,21 +18,21 @@ const mainApps = [
   {
     name: 'Frog Online',
     icon: '/frog.svg',
-    url: 'https://frog.muazaoski.online',
+    url: 'https://frog.muazaoski.site',
     target: '_blank',
     draggable: true
   },
   {
     name: 'Workout',
     icon: '/workout.svg',
-    url: 'https://workout.muazaoski.online',
+    url: 'https://workout.muazaoski.site',
     target: '_blank',
     draggable: true
   },
   {
     name: 'Size Chart',
     icon: '/sizechart.svg',
-    url: 'https://chart.muazaoski.online',
+    url: 'https://chart.muazaoski.site',
     target: '_blank',
     draggable: true
   },
@@ -46,7 +46,7 @@ const mainApps = [
   {
     name: 'OCR',
     icon: '/ocr.svg',
-    url: 'https://ocr.muazaoski.online',
+    url: 'https://ocr.muazaoski.site',
     target: '_blank',
     draggable: true
   }
