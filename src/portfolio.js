@@ -492,6 +492,7 @@ document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, 
   const layout = discontinued ? 'archive' : index === 0 ? 'featured' : index === 1 ? 'workout' : 'standard'
   return `
     <a class="app-card app-card--${layout}" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${discontinued ? `View ${name}, discontinued project` : `Open ${name}`} (new tab)">
+      ${name === 'Unfrog' ? '<div class="app-card__preview" aria-hidden="true"><video src="/app-previews/unfrog.mp4" muted loop playsinline preload="none" tabindex="-1"></video></div>' : ''}
       <div class="app-card__top"><span>${String(index + 1).padStart(2, '0')} / ${category}</span>${discontinued ? '<span class="app-card__status">Discontinued</span>' : '<span aria-hidden="true">↗</span>'}</div>
       <div class="app-card__icon"><img src="${icon}" alt="" width="96" height="96" loading="lazy" decoding="async" /></div>
       <div class="app-card__body"><h3>${name}</h3><p>${description}</p></div>
@@ -499,4 +500,30 @@ document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, 
     </a>
   `
 }).join('')
+
+const unfrogCard = document.querySelector('.app-card__preview')?.closest('.app-card')
+if (unfrogCard) {
+  const preview = unfrogCard.querySelector('video')
+  const playPreview = () => {
+    preview.muted = true
+    preview.play().catch(() => {})
+  }
+  const stopPreview = () => {
+    preview.pause()
+    preview.currentTime = 0
+    unfrogCard.classList.remove('is-previewing')
+  }
+  preview.addEventListener('playing', () => unfrogCard.classList.add('is-previewing'))
+  unfrogCard.addEventListener('mouseenter', playPreview)
+  unfrogCard.addEventListener('mouseleave', () => {
+    if (document.activeElement !== unfrogCard) stopPreview()
+  })
+  unfrogCard.addEventListener('focus', playPreview)
+  unfrogCard.addEventListener('blur', () => {
+    if (!unfrogCard.matches(':hover')) stopPreview()
+  })
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopPreview()
+  })
+}
 
