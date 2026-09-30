@@ -84,6 +84,50 @@ h1 em { color: #d92d35; font-family: Georgia, serif; font-weight: 400; }
 .about-orbit::after { display: none; }
 @keyframes about-reel-slide { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .about-reel-track { animation: none; } }
+.featured-section { margin: 80px 0 64px; scroll-margin-top: 24px; }
+.featured-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 28px; }
+.featured-kicker { margin: 0 0 16px; color: #b91f28; font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+.featured-heading h2 { margin: 0; font-size: clamp(40px, 5.8vw, 82px); font-weight: 600; line-height: 1; letter-spacing: -.055em; }
+.featured-heading h2 em { color: #b91f28; font-family: Georgia, serif; font-weight: 400; }
+.featured-heading > p { margin: 0 0 3px; color: #666; font-size: 13px; line-height: 1.6; }
+.featured-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.featured-slot { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; min-height: 220px; padding: 22px; overflow: hidden; border: 1px solid #00000020; background: #f7f5f2; }
+.featured-slot--lead { grid-row: span 2; min-height: 454px; background: #f3e6e2; }
+.featured-slot-top { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; color: #666; font-size: 9px; letter-spacing: .06em; }
+.featured-slot-top > span:last-child { color: #9b2830; }
+.featured-slot-number { position: absolute; right: 16px; top: 38px; color: #d92d3514; font-size: clamp(80px, 10vw, 150px); font-weight: 700; line-height: 1; letter-spacing: -.08em; }
+.featured-slot--lead .featured-slot-number { top: 23%; right: 24px; font-size: clamp(130px, 18vw, 270px); color: #d92d3526; }
+.featured-slot-copy { position: relative; z-index: 1; margin-top: 72px; }
+.featured-slot-copy h3 { margin: 0 0 8px; font-size: 22px; font-weight: 500; letter-spacing: -.035em; }
+.featured-slot--lead h3 { font-size: 32px; }
+.featured-slot-copy p { margin: 0; color: #666; font-size: 12px; line-height: 1.5; }
+.featured-browse { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 18px 0; margin-top: 10px; border-bottom: 1px solid #00000020; font-size: 12px; }
+.featured-browse:hover { color: #b91f28; }
+.featured-browse span { color: #b91f28; font-size: 20px; }
+[data-theme="dark"] .featured-kicker, [data-theme="dark"] .featured-heading h2 em, [data-theme="dark"] .featured-slot-top > span:last-child { color: #ff9da2; }
+[data-theme="dark"] .featured-heading > p, [data-theme="dark"] .featured-slot-top, [data-theme="dark"] .featured-slot-copy p { color: #aaa8a2; }
+[data-theme="dark"] .featured-slot { background: #191b1d; border-color: #ffffff20; }
+[data-theme="dark"] .featured-slot--lead { background: #281b1e; }
+[data-theme="dark"] .featured-slot-number { color: #ff9da214; }
+[data-theme="dark"] .featured-slot--lead .featured-slot-number { color: #ff9da22b; }
+[data-theme="dark"] .featured-browse { border-color: #ffffff20; }
+@media (max-width: 800px) {
+  .featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .featured-slot--lead { grid-column: span 2; grid-row: auto; min-height: 300px; }
+  .featured-slot--lead .featured-slot-number { top: 30px; font-size: 220px; }
+}
+@media (max-width: 500px) {
+  .featured-section { margin: 56px 0 40px; }
+  .featured-heading { align-items: start; flex-direction: column; gap: 16px; margin-bottom: 22px; }
+  .featured-grid { gap: 10px; }
+  .featured-slot { min-height: 200px; padding: 16px; }
+  .featured-slot--lead { min-height: 260px; }
+  .featured-slot-top { font-size: 8px; }
+  .featured-slot-number { top: 55px; right: 12px; font-size: 80px; }
+  .featured-slot--lead .featured-slot-number { top: 45px; font-size: 170px; }
+  .featured-slot-copy h3 { font-size: 20px; }
+  .featured-slot--lead h3 { font-size: 28px; }
+}
 #mixtape { scroll-margin-top: 16px; }
 .tape-label { display: flex; justify-content: space-between; padding: 20px 0; color: #bfc2b6; }
 #montage { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: clamp(60px, 6.5vw, 105px); grid-auto-flow: dense; gap: 12px; }
