@@ -7,7 +7,8 @@ import { enableVideoPreviews } from './video-previews.js'
 import { enableStickerDragging } from './sticker-drag.js'
 import { enableGreetingAutoplay } from './greeting-loop.js'
 import { createCardShader } from './card-shader.js'
-import { isAiLabeled } from './ai-label-dev.js'
+import { isAiLabeled, createAiLabelDev } from './ai-label-dev.js'
+import { createFeaturedProjects } from './featured-projects.js'
 
 const themeToggle = document.querySelector('#theme-toggle')
 const themeLabel = themeToggle.querySelector('.theme-label')
@@ -153,7 +154,7 @@ document.querySelector('#montage').addEventListener('click', async event => {
 function scrollToSharedSection() {
   const id = decodeURIComponent(location.hash.slice(1))
   const target = document.getElementById(id)
-  if (!target?.classList.contains('collection')) return
+  if (!target?.matches('.collection, .featured-section')) return
   requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }))
 }
 addEventListener('hashchange', scrollToSharedSection)
@@ -338,7 +339,8 @@ const viewer = document.querySelector('#media-viewer')
 const stopPreview = enableVideoPreviews(mix)
 const content = document.querySelector('#viewer-content')
 let currentIndex = 0
-function syncViewerAiBadge(item = mix[currentIndex]) {
+let viewerItems = mix
+function syncViewerAiBadge(item = viewerItems[currentIndex]) {
   content.querySelector('.viewer-ai-badge')?.remove()
   if (!item || !isAiLabeled(item.id)) return
   const badge = document.createElement('span')
@@ -351,9 +353,9 @@ function showMedia(index) {
   stopPreview()
   content.querySelector('video')?.pause()
   content.classList.remove('image-zoomed')
-  currentIndex = (index + mix.length) % mix.length
-  const item = mix[currentIndex]
-  document.querySelector('#viewer-position').textContent = `${currentIndex + 1} / ${mix.length}`
+  currentIndex = (index + viewerItems.length) % viewerItems.length
+  const item = viewerItems[currentIndex]
+  document.querySelector('#viewer-position').textContent = `${currentIndex + 1} / ${viewerItems.length}`
   content.replaceChildren()
   const mediaStage = document.createElement('div')
   mediaStage.className = 'viewer-media'
@@ -364,7 +366,7 @@ function showMedia(index) {
     element.preload = 'metadata'
     element.poster = item.poster
     element.src = `${item.src}?audio=1`
-    element.setAttribute('aria-label', `Film ${currentIndex + 1} of ${mix.length}`)
+    element.setAttribute('aria-label', `Film ${currentIndex + 1} of ${viewerItems.length}`)
   } else {
     element.src = item.src
     element.alt = `Artwork ${currentIndex + 1} of ${mix.length}`
@@ -421,7 +423,7 @@ function showMedia(index) {
 }
 document.querySelector('#montage').addEventListener('click', event => {
   const button = event.target.closest('[data-index]')
-  if (button) showMedia(Number(button.dataset.index))
+  if (button) { viewerItems = mix; showMedia(Number(button.dataset.index)) }
 })
 document.querySelector('#viewer-close').addEventListener('click', () => viewer.close())
 document.querySelector('#previous-media').addEventListener('click', () => showMedia(currentIndex - 1))
@@ -433,6 +435,50 @@ viewer.addEventListener('keydown', event => {
   if (event.key === 'ArrowRight') { event.preventDefault(); showMedia(currentIndex + 1) }
   if (event.key === 'ArrowLeft') { event.preventDefault(); showMedia(currentIndex - 1) }
 })
+
+const devMode = import.meta.env.DEV || new URLSearchParams(location.search).get('dev') === '1'
+const featured = createFeaturedProjects({
+  media: mix,
+  devMode,
+  isAiLabeled,
+  openMedia(items) { viewerItems = items; showMedia(0) }
+})
+if (devMode) {
+  const tools = document.createElement('aside')
+  tools.className = 'portfolio-dev-tools'
+  tools.setAttribute('aria-label', 'Portfolio developer tools')
+  tools.innerHTML = '<span>DEV</span><button type="button" data-picker>Raya picker</button><button type="button" data-ai-labels>AI labels</button>'
+  async function enableDevTools() {
+    const { createFeaturedPicker } = await import('./featured-picker.js')
+    document.body.append(tools)
+    const getTitle = item => mediaDescriptions[item.id]?.title || title(item)
+    createFeaturedPicker({ trigger: tools.querySelector('[data-picker]'), collections, getTitle, featured })
+    const aiDialog = document.createElement('dialog')
+    aiDialog.className = 'ai-dev'
+    aiDialog.setAttribute('aria-labelledby', 'ai-dev-title')
+    document.body.append(aiDialog)
+    const aiTrigger = tools.querySelector('[data-ai-labels]')
+    createAiLabelDev({ trigger: aiTrigger, dialog: aiDialog, collections, getTitle, onChange() {
+      document.querySelectorAll('.mix-card[data-work-id]').forEach(card => {
+        const labeled = isAiLabeled(card.dataset.workId)
+        card.classList.toggle('ai-labeled', labeled)
+        card.querySelector('.ai-label-badge')?.remove()
+        if (labeled) card.insertAdjacentHTML('beforeend', '<span class="ai-label-badge" aria-label="AI-assisted"><img src="/icon/ai-label.webp" alt="" /></span>')
+      })
+      featured.render()
+      syncViewerAiBadge()
+    } })
+    const oldWordmark = document.querySelector('.wordmark')
+    const wordmark = document.createElement('button')
+    wordmark.type = 'button'
+    wordmark.className = 'wordmark'
+    wordmark.innerHTML = oldWordmark.innerHTML
+    wordmark.setAttribute('aria-label', 'Open AI label developer tool')
+    wordmark.addEventListener('click', () => aiTrigger.click())
+    oldWordmark.replaceWith(wordmark)
+  }
+  enableDevTools().catch(error => console.error('Could not open portfolio developer tools', error))
+}
 
 const projects = [
   ['Unfrog', '/frog.svg', 'https://frog.muazaoski.site', 'PLAY', 'A 3D multiplayer frog arena with jumping, combat and chaotic physics.', 'Play Unfrog'],

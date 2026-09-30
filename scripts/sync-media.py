@@ -1,7 +1,7 @@
 """Sync supported artwork with stable IDs; leave originals untouched."""
 from pathlib import Path
 from PIL import Image, ImageOps
-import hashlib, json, subprocess
+import argparse, hashlib, json, subprocess
 
 root = Path(__file__).resolve().parents[1]
 out = root / 'public/portfolio-media'
@@ -10,9 +10,16 @@ old = json.loads(manifest.read_text())
 by_source = {item['source']: item for item in old}
 by_hash = {item['sha256']: item for item in old if item.get('sha256')}
 next_id = max(int(item['id']) for item in old) + 1
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--source', action='append', help='Sync only this repository-relative media path; repeat for multiple files.')
+args = parser.parse_args()
+paths = sorted((root / source).resolve() for source in args.source) if args.source else sorted((root / 'medias').rglob('*'))
+for path in paths:
+    if args.source and (not path.is_file() or not path.is_relative_to((root / 'medias').resolve())):
+        parser.error('--source must name an existing file inside medias/')
 items = []
 video_extensions = {'.mp4', '.mov', '.m4v'}
-for path in sorted((root / 'medias').rglob('*')):
+for path in paths:
     if path.suffix.lower() not in {'.jpg', '.jpeg', '.png', '.webp', *video_extensions} or path.name == 'logobulanbintang.png':
         continue
     source = path.relative_to(root).as_posix()
@@ -52,5 +59,8 @@ for path in sorted((root / 'medias').rglob('*')):
         print(f'Updated {source}', flush=True)
     item['sha256'] = digest
     items.append(item)
+if args.source:
+    updated = {item['source']: item for item in items}
+    items = [updated.pop(item['source'], item) for item in old] + list(updated.values())
 manifest.write_text(json.dumps(items, indent=2) + '\n')
 print(f'Synced {len(items)} artworks; stable IDs preserved.', flush=True)
