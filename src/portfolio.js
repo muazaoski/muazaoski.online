@@ -580,7 +580,7 @@ viewer.addEventListener('keydown', event => {
 })
 
 let promoSorterInstance = null
-const devMode = new URLSearchParams(location.search).get('dev') !== '0'
+const devMode = false
 const featured = createFeaturedProjects({
   media: mix,
   devMode,

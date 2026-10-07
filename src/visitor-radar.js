@@ -124,6 +124,19 @@ function getRandomPunchline(code) {
   return list[Math.floor(Math.random() * list.length)]
 }
 
+export function getCountryFlagMarkup(code, countryName = '', isHero = false) {
+  const c = String(code || 'my').toLowerCase().trim()
+  const localList = ['my', 'sg', 'us', 'id', 'gb', 'jp', 'au', 'de', 'ca', 'fr', 'nl', 'kr']
+  const src = localList.includes(c) ? `/flags/${c}.svg` : `https://flagcdn.com/w80/${c}.png`
+  const fallback = `https://flagcdn.com/w80/${c}.png`
+
+  if (isHero) {
+    return `<span class="radar-flag-hero-wrap"><img class="radar-flag-hero-img" src="${src}" onerror="this.onerror=null;this.src='${fallback}'" alt="${countryName || code} flag" width="48" height="32" /></span>`
+  }
+
+  return `<span class="radar-flag-small-wrap"><img class="radar-flag-img" src="${src}" onerror="this.onerror=null;this.src='${fallback}'" alt="${countryName || code} flag" width="24" height="16" loading="lazy" decoding="async" /></span>`
+}
+
 // VPS Radar API Endpoints
 const API_ENDPOINTS = [
   'https://frog.muazaoski.online/api/radar',
@@ -204,7 +217,7 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
           <div class="radar-ip-output">
             <div class="radar-prompt-line">&gt; ping --geolocate current_visitor</div>
             <div class="radar-detected-hero">
-              <span class="radar-flag-big" data-radar-flag>🛰️</span>
+              <span class="radar-flag-big" data-radar-flag>${getCountryFlagMarkup('MY', 'Malaysia', true)}</span>
               <div>
                 <h3 class="radar-detected-name" data-radar-country>Locating satellite coordinates...</h3>
                 <span class="radar-city-tag" data-radar-city>Tracing IP route</span>
@@ -252,7 +265,7 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
   const serverTagEl = container.querySelector('[data-radar-server-tag]')
   const boardBadgeEl = container.querySelector('[data-radar-board-badge]')
 
-  if (flagEl) flagEl.textContent = visitor.flag
+  if (flagEl) flagEl.innerHTML = getCountryFlagMarkup(visitor.code, visitor.country, true)
   if (countryEl) countryEl.textContent = `You are visiting from ${visitor.country}!`
   if (cityEl) cityEl.textContent = `Detected location: near ${visitor.city} • IP locked`
   if (punchlineEl) punchlineEl.textContent = punchline
@@ -312,7 +325,7 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
           <div class="radar-row-main">
             <div class="radar-row-left">
               <span class="radar-rank-badge ${rankClasses[idx]}">${medals[idx]}</span>
-              <span class="radar-flag-small">${row.flag}</span>
+              <span class="radar-flag-small">${getCountryFlagMarkup(row.code, row.country)}</span>
               <span class="radar-country-label">${row.country}</span>
               ${isUser ? '<span class="radar-you-tag">YOU</span>' : ''}
             </div>
@@ -332,7 +345,7 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
           <div class="radar-row-main">
             <div class="radar-row-left">
               <span class="radar-rank-badge">✨</span>
-              <span class="radar-flag-small">${visitor.flag}</span>
+              <span class="radar-flag-small">${getCountryFlagMarkup(visitor.code, visitor.country)}</span>
               <span class="radar-country-label">${visitor.country}</span>
               <span class="radar-you-tag">YOU</span>
             </div>

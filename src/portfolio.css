@@ -131,12 +131,7 @@ h1 em { color: #d92d35; font-family: Georgia, serif; font-weight: 400; }
 .featured-pending-number { color: #d92d3526; font-size: 120px; font-weight: 700; letter-spacing: -.07em; line-height: 1; }
 .featured-slot--pending .featured-project { cursor: default; }
 .featured-slot--pending button.featured-project { cursor: pointer; }
-.portfolio-dev-tools { position: fixed; right: 16px; bottom: 16px; z-index: 1000; display: flex; align-items: center; flex-wrap: wrap; max-width: calc(100vw - 32px); gap: 8px; padding: 10px; border: 1px solid #ffffff30; border-radius: 14px; color: #fff; background: #151719; box-shadow: 0 8px 30px #0004; }
-.portfolio-dev-tools > span { padding-inline: 4px; color: #04D9FF; font-size: 9px; font-weight: 800; letter-spacing: .12em; }
-.portfolio-dev-tools button { padding: 9px 12px; border: 1px solid #ffffff30; border-radius: 8px; color: #fff; background: #25272a; font-size: 11px; cursor: pointer; transition: all 0.18s ease; }
-.portfolio-dev-tools button:hover { background: #32353a; border-color: #ffffff60; }
-.portfolio-dev-tools button[data-promo-sorter] { background: rgba(4, 217, 255, 0.14); border-color: #04D9FF; color: #04D9FF; font-weight: 700; }
-.portfolio-dev-tools button[data-promo-sorter]:hover { background: #04D9FF; color: #000; box-shadow: 0 0 14px rgba(4, 217, 255, 0.5); }
+.portfolio-dev-tools { display: none !important; }
 .featured-picker .ai-dev-toolbar { grid-template-columns: minmax(0, 1fr) minmax(180px, .4fr); }
 .featured-picker .ai-dev-item { grid-template-columns: auto 130px minmax(0, 1fr); }
 .featured-picker .ai-dev-thumb { width: 130px; height: 100px; }
