@@ -199,10 +199,6 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
   container.innerHTML = `
     <div class="radar-deck">
       <div class="radar-header">
-        <span class="radar-kicker">
-          <span class="radar-beacon-dot"></span>
-          <span data-radar-server-tag>[ 📡 VISITOR RADAR // REAL-TIME TELEMETRY ]</span>
-        </span>
         <h2 class="radar-title">Where are you clicking from?</h2>
         <p class="radar-subtitle">You scrolled this far down! Let’s inspect where in the world your internet connection is pinging from.</p>
       </div>
@@ -229,7 +225,6 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
             </div>
           </div>
           <div class="radar-latency-row">
-            <span data-radar-meta>Status: Legit human • Latency: ~34ms</span>
             <button type="button" class="radar-cheer-btn" data-action="cheer" title="Send a cheer to the studio">
               <span>🧋 Send Teh Tarik</span>
               <strong data-cheer-count>(1,842)</strong>
@@ -241,14 +236,12 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
         <div class="radar-leaderboard-panel">
           <div class="radar-board-head">
             <h3 class="radar-board-title">Top 5 Visitor Hubs</h3>
-            <span class="radar-board-badge" data-radar-board-badge>LIVE PINGS</span>
           </div>
           <ul class="radar-leaderboard-list" data-radar-board>
             <!-- Generated dynamically -->
           </ul>
         </div>
       </div>
-      <p class="radar-disclaimer">* Statistics recorded since my mom first opened this link. Certified 100% fun, 0% serious.</p>
     </div>
   `
 
@@ -261,15 +254,11 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
   const countryEl = container.querySelector('[data-radar-country]')
   const cityEl = container.querySelector('[data-radar-city]')
   const punchlineEl = container.querySelector('[data-radar-punchline]')
-  const metaEl = container.querySelector('[data-radar-meta]')
-  const serverTagEl = container.querySelector('[data-radar-server-tag]')
-  const boardBadgeEl = container.querySelector('[data-radar-board-badge]')
 
   if (flagEl) flagEl.innerHTML = getCountryFlagMarkup(visitor.code, visitor.country, true)
   if (countryEl) countryEl.textContent = `You are visiting from ${visitor.country}!`
   if (cityEl) cityEl.textContent = `Detected location: near ${visitor.city} • IP locked`
   if (punchlineEl) punchlineEl.textContent = punchline
-  if (metaEl) metaEl.textContent = `Status: Certified human • ${visitor.code} Ping Verified`
 
   // Sync with real VPS backend
   const vpsData = await syncVisitWithVps(visitor)
@@ -277,15 +266,6 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
   if (vpsData && Array.isArray(vpsData.leaderboard) && vpsData.leaderboard.length > 0) {
     // 100% REAL LIVE DATA FROM VPS!
     leaderboard = vpsData.leaderboard
-    if (serverTagEl) {
-      serverTagEl.innerHTML = `[ 🟢 VPS LIVE TELEMETRY // REAL GLOBAL DATA ]`
-      serverTagEl.style.color = '#2ecc71'
-    }
-    if (boardBadgeEl) {
-      boardBadgeEl.textContent = `REAL VPS SYNC (${(vpsData.totalVisits || 0).toLocaleString()} VISITS)`
-      boardBadgeEl.style.color = '#2ecc71'
-      boardBadgeEl.style.borderColor = 'rgba(46, 204, 113, 0.4)'
-    }
     if (vpsData.cheers) {
       localStorage.setItem('muazaoski_cheer_count', vpsData.cheers)
     }
