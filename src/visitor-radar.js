@@ -164,17 +164,19 @@ async function syncVisitWithVps(visitor) {
   return null
 }
 
-async function sendCheerToVps() {
+async function sendCheerToVps(visitor) {
   for (const base of API_ENDPOINTS) {
     try {
       const res = await fetch(`${base}/cheer`, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: visitor.code }),
         signal: AbortSignal.timeout(3000)
       })
       if (res.ok) {
         const data = await res.json()
         if (data.success && typeof data.cheers === 'number') {
-          return data.cheers
+          return { ...data, endpoint: base }
         }
       }
     } catch (_) {}
@@ -219,6 +221,7 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
               <span>🧋 Send Teh Tarik</span>
               <strong data-cheer-count>(1,842)</strong>
             </button>
+            <ul class="radar-cheer-log" data-cheer-log aria-label="Recent Teh Tarik activity" hidden></ul>
           </div>
         </div>
 
@@ -336,6 +339,42 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
   if (vpsData?.cheers) cheerCount = vpsData.cheers
 
   if (cheerCountEl) cheerCountEl.textContent = `(${cheerCount.toLocaleString()})`
+  const cheerLog = container.querySelector('[data-cheer-log]')
+  let cheerEvents = Array.isArray(vpsData?.cheerEvents) ? vpsData.cheerEvents : []
+  let cheerEndpoint = vpsData?.endpoint
+  function renderCheerLog() {
+    const now = Date.now()
+    const rows = cheerEvents.slice(0, 3).map(event => {
+      const row = document.createElement('li')
+      const seconds = Math.max(0, Math.floor((now - event.updatedAt) / 1000))
+      const age = seconds < 60 ? `${seconds}s` : seconds < 3600 ? `${Math.floor(seconds / 60)}m`
+        : seconds < 86400 ? `${Math.floor(seconds / 3600)}hr` : `${Math.floor(seconds / 86400)}d`
+      row.textContent = `+${Number(event.count).toLocaleString()} from ${event.country} ${age} ago`
+      return row
+    })
+    cheerLog.replaceChildren(...rows)
+    cheerLog.hidden = rows.length === 0
+  }
+  renderCheerLog()
+  // Read-only refresh: no synthetic activity or additional visits recorded.
+  let refreshingCheers = false
+  let lastCheerPoll = Date.now()
+  setInterval(async () => {
+    if (document.hidden || !container.isConnected || refreshingCheers) return
+    renderCheerLog()
+    if (!cheerEndpoint || Date.now() - lastCheerPoll < 15000) return
+    lastCheerPoll = Date.now()
+    refreshingCheers = true
+    try {
+      const response = await fetch(`${cheerEndpoint}/cheers`, { signal: AbortSignal.timeout(3000) })
+      if (!response.ok) return
+      const data = await response.json()
+      if (Array.isArray(data.cheerEvents)) {
+        cheerEvents = data.cheerEvents
+        renderCheerLog()
+      }
+    } catch (_) {} finally { refreshingCheers = false }
+  }, 1000)
 
   if (cheerBtn) {
     cheerBtn.addEventListener('click', async () => {
@@ -346,10 +385,15 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
       } catch (_) {}
 
       // Fire and forget to VPS
-      sendCheerToVps().then(serverCheers => {
-        if (serverCheers && cheerCountEl) {
-          cheerCount = serverCheers
+      sendCheerToVps(visitor).then(data => {
+        if (data && cheerCountEl) {
+          cheerCount = data.cheers
           cheerCountEl.textContent = `(${cheerCount.toLocaleString()})`
+          cheerEndpoint = data.endpoint
+          if (Array.isArray(data.cheerEvents)) {
+            cheerEvents = data.cheerEvents
+            renderCheerLog()
+          }
         }
       })
 

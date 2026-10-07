@@ -9,11 +9,13 @@ import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import { fileURLToPath } from 'node:url'
+import { createRoomPresence } from './room-presence.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PORT = process.env.PORT || 3050
 const DATA_DIR = path.join(__dirname, 'data')
 const DB_FILE = path.join(DATA_DIR, 'radar-stats.json')
+const roomPresence = createRoomPresence()
 
 // Ensure data folder exists
 if (!fs.existsSync(DATA_DIR)) {
@@ -76,6 +78,7 @@ const COUNTRY_COMMENTS = {
 let store = {
   totalVisits: 0,
   cheers: 1842,
+  cheerEvents: [],
   countries: {},
   lastUpdated: new Date().toISOString()
 }
@@ -190,6 +193,29 @@ const server = http.createServer(async (req, res) => {
     })
   }
 
+  // Anonymous live-room presence (memory only).
+  if (req.method === 'GET' && pathname === '/api/radar/room') {
+    return sendJson(res, 200, { success: true, visitors: roomPresence.snapshot() })
+  }
+  if (req.method === 'POST' && ['/api/radar/room', '/api/radar/room/leave'].includes(pathname)) {
+    let body = ''
+    req.on('data', chunk => {
+      body += chunk
+      if (body.length > 1024) req.destroy()
+    })
+    req.on('end', () => {
+      let payload
+      try { payload = JSON.parse(body) } catch (_) { return sendJson(res, 400, { success: false }) }
+      if (pathname.endsWith('/leave')) {
+        roomPresence.leave(payload?.id)
+      } else if (!roomPresence.heartbeat(payload?.id)) {
+        return sendJson(res, 400, { success: false })
+      }
+      return sendJson(res, 200, { success: true, visitors: roomPresence.snapshot() })
+    })
+    return
+  }
+
   // GET Leaderboard: Return Top 5 and Totals
   if ((req.method === 'GET' || req.method === 'HEAD') && (pathname === '/api/radar/leaderboard' || pathname === '/api/radar')) {
     return sendJson(res, 200, {
@@ -197,18 +223,46 @@ const server = http.createServer(async (req, res) => {
       leaderboard: getLeaderboard(),
       totalVisits: store.totalVisits,
       cheers: store.cheers,
+      cheerEvents: store.cheerEvents || [],
       lastUpdated: store.lastUpdated
     })
   }
 
   // POST Cheer: Send Teh Tarik
+  if (req.method === 'GET' && pathname === '/api/radar/cheers') {
+    return sendJson(res, 200, { success: true, cheers: store.cheers, cheerEvents: store.cheerEvents || [] })
+  }
   if (req.method === 'POST' && pathname === '/api/radar/cheer') {
-    store.cheers = (store.cheers || 0) + 1
-    saveDatabase()
-    return sendJson(res, 200, {
-      success: true,
-      cheers: store.cheers
+    let bodyText = ''
+    req.on('data', chunk => {
+      bodyText += chunk
+      if (bodyText.length > 4096) req.destroy()
     })
+    req.on('end', () => {
+      let payload = {}
+      try { payload = JSON.parse(bodyText || '{}') || {} } catch (_) {}
+      const requestedCode = String(payload.code || '').toUpperCase()
+      const code = /^[A-Z]{2}$/.test(requestedCode) ? requestedCode : 'ZZ'
+      const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+      const country = /^[A-Z]{2}$/.test(code) && code !== 'ZZ'
+        ? (code === 'US' ? 'USA' : regionNames.of(code)) : 'Unknown location'
+      const now = Date.now()
+      const events = Array.isArray(store.cheerEvents) ? store.cheerEvents : []
+      const existing = events.find(event => event.code === code && now - event.updatedAt < 5 * 60 * 1000)
+      if (existing) {
+        existing.count += 1
+        existing.updatedAt = now
+        events.splice(events.indexOf(existing), 1)
+        events.unshift(existing)
+      } else {
+        events.unshift({ code, country, count: 1, updatedAt: now })
+      }
+      store.cheerEvents = events.slice(0, 30)
+      store.cheers = (store.cheers || 0) + 1
+      saveDatabase()
+      return sendJson(res, 200, { success: true, cheers: store.cheers, cheerEvents: store.cheerEvents })
+    })
+    return
   }
 
   // POST Visit: Record Real Visitor Location
@@ -267,7 +321,8 @@ const server = http.createServer(async (req, res) => {
         visitor: { code, country, flag },
         leaderboard: getLeaderboard(),
         totalVisits: store.totalVisits,
-        cheers: store.cheers
+        cheers: store.cheers,
+        cheerEvents: store.cheerEvents || []
       })
     })
     return
@@ -280,5 +335,5 @@ const server = http.createServer(async (req, res) => {
 loadDatabase()
 
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`[RADAR] Live Visitor Radar Telemetry server running on http://0.0.0.0:${PORT}`)
+  console.log(`[RADAR] Live Visitor Radar Telemetry server running on http://0.0.0.0:${server.address().port}`)
 })

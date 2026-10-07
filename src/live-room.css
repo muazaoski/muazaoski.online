@@ -1,0 +1,16 @@
+.live-room-section {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+  background: #000;
+}
+.live-room-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.live-room-heading h2 { margin: 0; font-family: "Born2bSporty FS", "Pixelify Sans", monospace; font-weight: 400; font-size: clamp(24px, 3vw, 34px); }
+.live-room-heading p, .live-room-caption { color: #888; font-size: 11px; line-height: 1.5; }
+.live-room-canvas { display: block; width: 100%; height: auto; max-height: 370px; object-fit: contain; }
+.live-room-caption { margin: 0; text-align: center; }
+@media (max-width: 500px) {
+  .live-room-heading { align-items: flex-start; flex-direction: column; gap: 0; }
+  .live-room-heading p { margin: 8px 0; }
+  .live-room-section { padding-inline: 18px; }
+}

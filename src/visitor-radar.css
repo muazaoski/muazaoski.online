@@ -125,7 +125,8 @@
 
 .radar-cheer-wrap {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .radar-cheer-btn {
@@ -153,6 +154,19 @@
 .radar-cheer-btn:active {
   transform: scale(0.97);
 }
+
+.radar-cheer-log {
+  list-style: none;
+  display: grid;
+  gap: 7px;
+  margin: 14px 0 0;
+  padding: 0;
+  color: #888;
+  font-size: 11px;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+.radar-cheer-log[hidden] { display: none; }
 
 /* Right Panel: Clean list leaderboard */
 .radar-leaderboard-panel {

@@ -58,6 +58,23 @@ docker compose exec caddy caddy reload
 
 ## 🧪 Testing the API
 
+Recent Teh Tarik activity is stored in the existing database, with no fabricated starter events.
+The latest 30 country groups are retained; clicks from the same country within five minutes
+of its last click increment that group. `POST /api/radar/cheer` accepts `{ "code": "SG" }`
+and still supports older clients sending no body. `GET /api/radar/cheers` returns the total
+and recent `cheerEvents` (country, count and last-click timestamp, never visitor IPs).
+Deploy/rebuild this backend as well as the frontend to enable the shared activity log;
+the old API does not contain historical click locations.
+
+Run the isolated integration test locally with `node --test vps-radar/server.test.mjs`.
+
+The little room uses `POST /api/radar/room` with an anonymous per-page UUID and a
+15-second heartbeat. `GET /api/radar/room` lists active sessions; `POST /api/radar/room/leave`
+removes a departing session. Sessions expire after 45 seconds and are kept in memory
+only (maximum 200), without names, IPs or country information. Foreground tabs are
+counted as sessions, not guaranteed unique people. Restarting clears the room, not the stats.
+Run both checks with `node --test vps-radar/server.test.mjs vps-radar/room-presence.test.mjs`.
+
 ```bash
 # Check health:
 curl https://frog.muazaoski.online/api/radar/health
