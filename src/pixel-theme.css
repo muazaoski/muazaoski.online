@@ -221,7 +221,7 @@ h2 em,
   overflow: hidden;
   isolation: isolate;
   background: transparent;
-  cursor: crosshair;
+  cursor: none;
   transition: --reveal-size .24s cubic-bezier(.2, .8, .2, 1);
 }
 .about-portrait::after {
@@ -244,29 +244,6 @@ h2 em,
 }
 .about-portrait:is(.is-revealing, :focus-visible) { --reveal-size: clamp(55px, 7vw, 90px); }
 .about-portrait:focus-visible { outline: none; }
-.about-ascii {
-  position: absolute;
-  z-index: 3;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  fill: var(--pixel-accent);
-  font-family: "Courier New", monospace;
-  font-size: var(--ascii-font-size, 25px);
-  font-weight: 400;
-  letter-spacing: 0;
-  white-space: pre;
-  user-select: none;
-  pointer-events: none;
-  opacity: 0;
-  filter: drop-shadow(0 0 2px #04D9FF70);
-  transition: opacity .12s ease;
-  -webkit-mask-image: radial-gradient(circle var(--reveal-size) at var(--reveal-x) var(--reveal-y), #000 0 25%, transparent 100%);
-  mask-image: radial-gradient(circle var(--reveal-size) at var(--reveal-x) var(--reveal-y), #000 0 25%, transparent 100%);
-}
-.about-ascii > text { white-space: pre; }
-.about-portrait:is(.is-revealing, :focus-visible) .about-ascii { opacity: 1; }
 .about-person {
   z-index: 1;
   inset: 0;
@@ -278,23 +255,66 @@ h2 em,
 }
 .about-person--base {
   opacity: 1;
+  -webkit-mask-image: var(--photo-mask, radial-gradient(circle var(--reveal-size) at var(--reveal-x) var(--reveal-y), transparent 0 65%, #000 100%));
+  mask-image: var(--photo-mask, radial-gradient(circle var(--reveal-size) at var(--reveal-x) var(--reveal-y), transparent 0 65%, #000 100%));
+  mask-composite: intersect;
 }
-.about-portrait.ascii-unavailable .about-person--reveal { display: none; }
 .about-person--reveal {
   z-index: 2;
   opacity: 0;
-  transition: opacity .08s ease;
-  -webkit-mask-image: radial-gradient(circle var(--reveal-size) at var(--reveal-x) var(--reveal-y), #000 0 25%, transparent 100%);
-  mask-image: radial-gradient(circle var(--reveal-size) at var(--reveal-x) var(--reveal-y), #000 0 25%, transparent 100%);
+  overflow: hidden;
+  transition: opacity .15s ease;
+  -webkit-mask-image: var(--skeleton-mask, radial-gradient(circle var(--reveal-size) at var(--reveal-x) var(--reveal-y), #000 0 65%, transparent 100%));
+  mask-image: var(--skeleton-mask, radial-gradient(circle var(--reveal-size) at var(--reveal-x) var(--reveal-y), #000 0 65%, transparent 100%));
+  mask-composite: add;
 }
-.about-portrait:is(.is-revealing, :focus-visible) .about-person--reveal { opacity: 1; }
+.about-portrait:is(.is-revealing, :focus-visible) .about-person--reveal,
+.about-portrait:is(.is-revealing, :focus-visible) .about-reveal-light { opacity: 1; }
 .about-person > img {
   object-position: center bottom;
   image-rendering: auto;
   opacity: 1;
+  filter: none;
 }
-.about-person--base > img { filter: none; }
-.about-person--reveal > img { filter: grayscale(1) brightness(.13); }
+.about-magnifier {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: var(--reveal-x) var(--reveal-y);
+  transform: scale(1.24);
+}
+.about-magnifier > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  /* Fit first, then magnify around the lens center without a second image. */
+  transform-origin: 0 0;
+  transform: translate(-1.8%, 4.1%) scale(.98, 1.35);
+}
+.about-reveal-light {
+  position: absolute;
+  z-index: 3;
+  width: calc(var(--reveal-size) * 2);
+  height: calc(var(--reveal-size) * 2);
+  left: calc(var(--reveal-x) - var(--reveal-size));
+  top: calc(var(--reveal-y) - var(--reveal-size));
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at 32% 25%, #ffffff26, transparent 48%),
+    radial-gradient(circle, transparent 52%, #0004 78%, transparent 100%);
+  transition: opacity .15s ease;
+}
+.about-portrait.skeleton-unavailable .about-person--base {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.about-portrait.skeleton-unavailable :is(.about-person--reveal, .about-reveal-light) { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .about-portrait, .about-person--reveal, .about-reveal-light { transition: none; }
+}
 
 /* =========================================================
    3D CREATIVE SOFTWARES ORBIT AROUND BODY

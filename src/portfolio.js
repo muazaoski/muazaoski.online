@@ -61,77 +61,60 @@ document.querySelector('#back-to-top').addEventListener('click', event => {
 })
 
 const aboutPortrait = document.querySelector('.about-portrait')
-const aboutAscii = aboutPortrait.querySelector('.about-ascii')
-const aboutReducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
-let aboutAsciiRows = []
-let aboutScrambleTimer = 0
-let aboutPortraitInView = true
-
-function syncAboutScramble() {
-  const active = aboutPortrait.matches('.is-revealing, :focus-visible')
-    && aboutPortraitInView && !document.hidden && !aboutReducedMotion.matches
-  if (active && !aboutScrambleTimer) {
-    aboutScrambleTimer = setInterval(() => {
-      aboutAsciiRows.forEach(({ element, original }) => {
-        element.textContent = [...original].map(character => {
-          if (character === ' ' || Math.random() > .35) return character
-          const pool = '`‹¯'.includes(character) ? '`‹¯'
-            : 'l*‡'.includes(character) ? 'l*‡' : '3ü6'
-          return pool[Math.floor(Math.random() * pool.length)]
-        }).join('')
-      })
-    }, 120)
-  } else if (!active) {
-    clearInterval(aboutScrambleTimer)
-    aboutScrambleTimer = 0
-    aboutAsciiRows.forEach(({ element, original }) => { element.textContent = original })
-  }
-}
-
-function renderAboutAscii(text) {
-  const lines = text.replace(/\r/g, '').split('\n')
-  if (lines.at(-1) === '') lines.pop()
-  const columns = Math.max(...lines.map(line => line.length))
-  // The supplied artwork crops the first 92 pixels of the photo.
-  // Keep its blank cells and map every row into the original photo coordinates.
-  const rowHeight = 1316 / lines.length
-  aboutAscii.style.setProperty('--ascii-font-size', `${1122 / columns / .6}px`)
-  aboutAscii.replaceChildren(...lines.map((line, index) => {
-    const row = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-    row.setAttribute('x', '0')
-    row.setAttribute('y', String(92 + (index + .75) * rowHeight))
-    row.setAttribute('textLength', '1122')
-    row.setAttribute('lengthAdjust', 'spacingAndGlyphs')
-    row.textContent = line.padEnd(columns, ' ')
-    return row
-  }))
-  aboutAsciiRows = [...aboutAscii.children].map(element => ({ element, original: element.textContent }))
-  syncAboutScramble()
-}
-
-fetch('/about/muaz-ascii.txt')
-  .then(response => {
-    if (!response.ok) throw new Error(`ASCII portrait request failed: ${response.status}`)
-    return response.text()
-  })
-  .then(renderAboutAscii)
-  .catch(error => {
-    aboutPortrait.classList.add('ascii-unavailable')
-    console.error(error)
-  })
-
 let aboutRevealFrame = 0
 let aboutRevealPoint = null
-function drawAboutReveal() {
+let aboutLensPoint = null
+let aboutRevealTime = 0
+let aboutRevealTrail = []
+const aboutReducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
+function drawAboutReveal(time) {
   aboutRevealFrame = 0
   if (!aboutRevealPoint) return
   const rect = aboutPortrait.getBoundingClientRect()
   const x = Math.max(0, Math.min(rect.width, aboutRevealPoint.x - rect.left))
   const y = Math.max(0, Math.min(rect.height, aboutRevealPoint.y - rect.top))
-  aboutPortrait.style.setProperty('--reveal-x', `${x}px`)
-  aboutPortrait.style.setProperty('--reveal-y', `${y}px`)
+  const delta = aboutRevealTime ? Math.min(64, time - aboutRevealTime) : 16
+  const blend = aboutReducedMotion.matches ? 1 : 1 - Math.exp(-delta / 38)
+  aboutRevealTime = time
+  if (!aboutLensPoint) aboutLensPoint = { x, y }
+  const previous = { ...aboutLensPoint }
+  aboutLensPoint.x += (x - aboutLensPoint.x) * blend
+  aboutLensPoint.y += (y - aboutLensPoint.y) * blend
+  // Store points along the smoothed path, not new copies of the artwork.
+  const distance = Math.hypot(previous.x - aboutLensPoint.x, previous.y - aboutLensPoint.y)
+  if (!aboutReducedMotion.matches && distance > .5) {
+    const steps = Math.min(12, Math.ceil(distance / 18))
+    for (let index = 0; index < steps; index++) {
+      const point = {
+        x: previous.x + (aboutLensPoint.x - previous.x) * index / steps,
+        y: previous.y + (aboutLensPoint.y - previous.y) * index / steps,
+        time
+      }
+      const last = aboutRevealTrail.at(-1)
+      if (!last || Math.hypot(last.x - point.x, last.y - point.y) > 8) {
+        aboutRevealTrail.push(point)
+      }
+    }
+  }
+  aboutRevealTrail = aboutReducedMotion.matches ? []
+    : aboutRevealTrail.filter(point => time - point.time < 420).slice(-12)
+  aboutPortrait.style.setProperty('--reveal-x', `${aboutLensPoint.x}px`)
+  aboutPortrait.style.setProperty('--reveal-y', `${aboutLensPoint.y}px`)
+  const skeletonMask = ['radial-gradient(circle var(--reveal-size) at var(--reveal-x) var(--reveal-y), #000 0 65%, transparent 100%)']
+  const photoMask = ['radial-gradient(circle var(--reveal-size) at var(--reveal-x) var(--reveal-y), transparent 0 65%, #000 100%)']
+  aboutRevealTrail.forEach(point => {
+    const fade = (1 - (time - point.time) / 420) ** 2
+    const radius = `calc(var(--reveal-size) * ${.55 + .3 * fade})`
+    const position = `${point.x}px ${point.y}px`
+    skeletonMask.push(`radial-gradient(circle ${radius} at ${position}, rgba(0,0,0,${fade}) 0 40%, transparent 100%)`)
+    photoMask.push(`radial-gradient(circle ${radius} at ${position}, rgba(0,0,0,${1 - fade}) 0 40%, #000 100%)`)
+  })
+  aboutPortrait.style.setProperty('--skeleton-mask', skeletonMask.join(','))
+  aboutPortrait.style.setProperty('--photo-mask', photoMask.join(','))
   aboutPortrait.classList.add('is-revealing')
-  syncAboutScramble()
+  if (Math.hypot(x - aboutLensPoint.x, y - aboutLensPoint.y) > .1 || aboutRevealTrail.length) {
+    aboutRevealFrame = requestAnimationFrame(drawAboutReveal)
+  }
 }
 function queueAboutReveal(event) {
   aboutRevealPoint = { x: event.clientX, y: event.clientY }
@@ -142,26 +125,27 @@ aboutPortrait.addEventListener('pointermove', queueAboutReveal)
 aboutPortrait.addEventListener('pointerdown', queueAboutReveal)
 aboutPortrait.addEventListener('pointerleave', () => {
   aboutRevealPoint = null
+  aboutLensPoint = null
+  aboutRevealTime = 0
+  aboutRevealTrail = []
+  aboutPortrait.style.removeProperty('--skeleton-mask')
+  aboutPortrait.style.removeProperty('--photo-mask')
+  cancelAnimationFrame(aboutRevealFrame)
+  aboutRevealFrame = 0
   aboutPortrait.classList.toggle('is-revealing', aboutPortrait.matches(':focus-visible'))
-  syncAboutScramble()
 })
 aboutPortrait.addEventListener('focus', () => {
+  aboutPortrait.style.removeProperty('--skeleton-mask')
+  aboutPortrait.style.removeProperty('--photo-mask')
   aboutPortrait.style.setProperty('--reveal-x', '50%')
   aboutPortrait.style.setProperty('--reveal-y', '48%')
   aboutPortrait.classList.add('is-revealing')
-  syncAboutScramble()
 })
 aboutPortrait.addEventListener('blur', () => {
   aboutPortrait.classList.remove('is-revealing')
-  syncAboutScramble()
 })
-aboutPortrait.addEventListener('keydown', syncAboutScramble)
-document.addEventListener('visibilitychange', syncAboutScramble)
-aboutReducedMotion.addEventListener('change', syncAboutScramble)
-new IntersectionObserver(entries => {
-  aboutPortraitInView = entries[0].isIntersecting
-  syncAboutScramble()
-}).observe(aboutPortrait)
+const aboutSkeleton = aboutPortrait.querySelector('.about-person--reveal img')
+aboutSkeleton.addEventListener('error', () => aboutPortrait.classList.add('skeleton-unavailable'))
 
 initOrbitCreatives()
 
