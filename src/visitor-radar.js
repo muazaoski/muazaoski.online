@@ -206,25 +206,15 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
       <div class="radar-grid">
         <!-- Left: Detected Log -->
         <div class="radar-log-panel">
-          <div class="radar-terminal-bar">
-            <span class="radar-terminal-dots"><i></i><i></i><i></i></span>
-            <span class="radar-status-live"><span class="radar-status-live-dot"></span>RECEIVING PING</span>
-          </div>
-          <div class="radar-ip-output">
-            <div class="radar-prompt-line">&gt; ping --geolocate current_visitor</div>
-            <div class="radar-detected-hero">
-              <span class="radar-flag-big" data-radar-flag>${getCountryFlagMarkup('MY', 'Malaysia', true)}</span>
-              <div>
-                <h3 class="radar-detected-name" data-radar-country>Locating satellite coordinates...</h3>
-                <span class="radar-city-tag" data-radar-city>Tracing IP route</span>
-              </div>
-            </div>
-            <div class="radar-funny-bubble">
-              <span class="radar-bubble-tag">// RADAR NOTE</span>
-              <p class="radar-punchline-text" data-radar-punchline>Calibrating optic fibers and checking if you've had teh tarik yet...</p>
+          <div class="radar-detected-hero">
+            <span class="radar-flag-big" data-radar-flag>${getCountryFlagMarkup('MY', 'Malaysia', true)}</span>
+            <div>
+              <h3 class="radar-detected-name" data-radar-country>Locating coordinates...</h3>
+              <span class="radar-city-tag" data-radar-city>Tracing IP route</span>
             </div>
           </div>
-          <div class="radar-latency-row">
+          <p class="radar-punchline-text" data-radar-punchline>Calibrating optic fibers and checking if you've had teh tarik yet...</p>
+          <div class="radar-cheer-wrap">
             <button type="button" class="radar-cheer-btn" data-action="cheer" title="Send a cheer to the studio">
               <span>🧋 Send Teh Tarik</span>
               <strong data-cheer-count>(1,842)</strong>
