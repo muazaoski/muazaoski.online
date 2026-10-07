@@ -139,8 +139,8 @@ export function getCountryFlagMarkup(code, countryName = '', isHero = false) {
 
 // VPS Radar API Endpoints
 const API_ENDPOINTS = [
+  'https://frog.muazaoski.site/api/radar',
   'https://frog.muazaoski.online/api/radar',
-  'https://api.muazaoski.online/api/radar',
   '/api/radar'
 ]
 

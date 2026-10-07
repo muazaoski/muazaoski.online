@@ -191,7 +191,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   // GET Leaderboard: Return Top 5 and Totals
-  if (req.method === 'GET' && (pathname === '/api/radar/leaderboard' || pathname === '/api/radar')) {
+  if ((req.method === 'GET' || req.method === 'HEAD') && (pathname === '/api/radar/leaderboard' || pathname === '/api/radar')) {
     return sendJson(res, 200, {
       success: true,
       leaderboard: getLeaderboard(),
