@@ -1,0 +1,269 @@
+/* 3D Isometric Sticker Room Simulator Styles */
+
+.room-simulator {
+  position: relative;
+  width: 100%;
+  margin: 16px 0 40px;
+  isolation: isolate;
+  font-family: inherit;
+}
+
+.room-sim-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.room-sim-info {
+  max-width: 640px;
+}
+
+.room-sim-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--pixel-accent, #fff332);
+  color: #121212;
+  font-family: "Pixelify Sans", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  margin-bottom: 8px;
+}
+
+.room-sim-desc {
+  margin: 0;
+  color: #b5b5b5;
+  font-size: 13px;
+  line-height: 1.55;
+  letter-spacing: .02em;
+}
+
+.room-sim-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.room-sim-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #1e1e22;
+  color: #eee;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: "Pixelify Sans", monospace;
+  font-size: 13px;
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: all .18s ease;
+}
+
+.room-sim-btn:hover {
+  background: #2a2a30;
+  border-color: var(--pixel-accent, #fff332);
+  color: var(--pixel-accent, #fff332);
+  transform: translateY(-1px);
+}
+
+.room-sim-btn:active {
+  transform: translateY(0);
+}
+
+.room-stage-container {
+  position: relative;
+  width: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: #0f1013;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.room-stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+
+.room-stage-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.room-stickers-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+.room-sticker {
+  position: absolute;
+  display: block;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  outline: none;
+  transition: transform .18s cubic-bezier(0.2, 0, 0, 1), filter .18s ease;
+  transform-origin: center bottom;
+}
+
+.room-sticker img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.room-sticker:hover {
+  filter: drop-shadow(0 4px 10px rgba(255, 243, 50, 0.35));
+}
+
+.room-sticker:focus-visible {
+  filter: drop-shadow(0 0 8px var(--pixel-accent, #fff332));
+}
+
+.room-sticker.is-dragging {
+  cursor: grabbing !important;
+  transform: scale(1.08) translateY(-10px) !important;
+  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.55)) brightness(1.05) !important;
+  transition: none !important;
+}
+
+.room-sticker.is-resetting {
+  transition: left .55s cubic-bezier(0.2, 1, 0.3, 1),
+              top .55s cubic-bezier(0.2, 1, 0.3, 1),
+              transform .3s ease !important;
+}
+
+.room-sticker.is-newly-added {
+  animation: sticker-pop .35s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes sticker-pop {
+  0% { transform: scale(0.2); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Sticker Drawer / Tray */
+.room-tray {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #141518;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 20px;
+  margin-top: 14px;
+}
+
+.room-tray-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: "Pixelify Sans", monospace;
+  font-size: 13px;
+  letter-spacing: .06em;
+  color: var(--pixel-accent, #fff332);
+}
+
+.room-tray-label small {
+  color: #888;
+  font-size: 11px;
+  letter-spacing: .02em;
+}
+
+.room-tray-items {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 6px 2px 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+
+.room-tray-items::-webkit-scrollbar {
+  height: 6px;
+}
+.room-tray-items::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.room-tray-card {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 90px;
+  height: 96px;
+  padding: 8px;
+  background: #1a1b1f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  color: #ccc;
+  transition: all .16s ease;
+}
+
+.room-tray-card img {
+  max-width: 62px;
+  max-height: 52px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.room-tray-card span {
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.room-tray-card:hover {
+  background: #25262c;
+  border-color: var(--pixel-accent, #fff332);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+.room-tray-card:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+  .room-sim-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .room-sim-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .room-tray-card {
+    width: 76px;
+    height: 84px;
+  }
+  .room-tray-card img {
+    max-width: 48px;
+    max-height: 42px;
+  }
+}

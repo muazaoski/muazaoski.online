@@ -23,3 +23,15 @@ medias/
 *.njsproj
 *.sln
 *.sw?
+
+# Temporary, archives & submodules
+SizeChartGenerator/
+__pycache__/
+*.pyc
+*.zip
+scratch/
+trash/
+vps-radar/data/
+.codex-tmp-domain-migration/
+born2bsporty_fs/
+dico/

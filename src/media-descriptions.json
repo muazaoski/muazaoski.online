@@ -1,4 +1,584 @@
 {
+  "100": {
+    "title": "Buy 3, Get 10% Off",
+    "description": "A bold blue-and-yellow retail artwork for a multi-buy shoe discount."
+  },
+  "101": {
+    "title": "Year End Clearance",
+    "description": "A product-led clearance graphic presenting marked-down footwear and end-of-year savings."
+  },
+  "104": {
+    "title": "Affiliate campaign",
+    "description": "A social recruitment artwork inviting creators to join the Kasut U affiliate programme."
+  },
+  "106": {
+    "title": "Mother’s Day greeting",
+    "description": "A warm Mother’s Day appreciation post using floral forms and a handwritten message style."
+  },
+  "108": {
+    "title": "Product promotion",
+    "description": "A campaign artwork that combines footwear imagery, an offer and a direct shop call to action."
+  },
+  "110": {
+    "title": "Labour Day sale",
+    "description": "A blue-and-yellow Labour Day footwear promotion with discount callouts and product displays."
+  },
+  "114": {
+    "title": "Raya footwear campaign",
+    "description": "A festive Hari Raya campaign pairing footwear offers with seasonal decorative motifs."
+  },
+  "115": {
+    "title": "Selamat Hari Raya",
+    "description": "A festive greeting artwork celebrating Hari Raya with Kasut U characters and a night-sky palette."
+  },
+  "116": {
+    "title": "Free sticker promotion",
+    "description": "A Back to School offer that turns a character sticker pack into the purchase reward."
+  },
+  "121": {
+    "title": "TikTok shop frame 2",
+    "description": "An alternate TikTok shopping frame with campaign graphics arranged around the video area."
+  },
+  "125": {
+    "title": "Raya sticker 1",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "126": {
+    "title": "Raya sticker 2",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "127": {
+    "title": "Raya sticker 3",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "128": {
+    "title": "Raya sticker 4",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "129": {
+    "title": "Raya sticker 5",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "130": {
+    "title": "Raya sticker 6",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "131": {
+    "title": "Raya sticker 7",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "132": {
+    "title": "Raya sticker 8",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "133": {
+    "title": "Raya sticker 9",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "134": {
+    "title": "Raya sticker 10",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "135": {
+    "title": "Raya sticker 11",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "136": {
+    "title": "Raya sticker 12",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "137": {
+    "title": "Raya sticker 13",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "138": {
+    "title": "Raya sticker 14",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "139": {
+    "title": "Raya sticker 15",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "140": {
+    "title": "Raya sticker 16",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "141": {
+    "title": "Raya sticker 17",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "142": {
+    "title": "Raya sticker 18",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "143": {
+    "title": "Raya sticker 19",
+    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
+  },
+  "144": {
+    "title": "Footwear study 06",
+    "description": "A product photograph showing a footwear pair arranged on a clean studio backdrop."
+  },
+  "145": {
+    "title": "Footwear study 07",
+    "description": "A product photograph showing a side profile that highlights the upper and sole."
+  },
+  "146": {
+    "title": "Footwear study 08",
+    "description": "A product photograph showing a three-quarter product angle showing the shoe’s form."
+  },
+  "147": {
+    "title": "Footwear study 09",
+    "description": "A product photograph showing a top-down view of the pair."
+  },
+  "148": {
+    "title": "Footwear study 10",
+    "description": "A product photograph showing a close crop of the material and stitching."
+  },
+  "149": {
+    "title": "Footwear study 11",
+    "description": "A product photograph showing a rear view showing heel construction."
+  },
+  "150": {
+    "title": "Footwear study 12",
+    "description": "A product photograph showing a single shoe in side profile."
+  },
+  "151": {
+    "title": "Footwear study 13",
+    "description": "A product photograph showing a paired composition from a low angle."
+  },
+  "152": {
+    "title": "Footwear study 14",
+    "description": "A product photograph showing a detail view of the outsole and tread."
+  },
+  "153": {
+    "title": "Footwear study 15",
+    "description": "A product photograph showing a clean catalogue view of the footwear pair."
+  },
+  "154": {
+    "title": "Footwear study 16",
+    "description": "A product photograph showing a close-up of fastening and upper details."
+  },
+  "155": {
+    "title": "Footwear study 17",
+    "description": "A product photograph showing a lifestyle-leaning studio composition."
+  },
+  "156": {
+    "title": "Footwear study 18",
+    "description": "A product photograph showing a front view that shows the toe shape."
+  },
+  "157": {
+    "title": "Footwear study 19",
+    "description": "A product photograph showing a rear three-quarter product view."
+  },
+  "158": {
+    "title": "Footwear study 20",
+    "description": "A product photograph showing a profile study of the sole and silhouette."
+  },
+  "159": {
+    "title": "Footwear study 21",
+    "description": "A product photograph showing a balanced pair arrangement."
+  },
+  "160": {
+    "title": "Footwear study 22",
+    "description": "A product photograph showing a single-shoe hero angle."
+  },
+  "161": {
+    "title": "Footwear study 23",
+    "description": "A product photograph showing a material detail captured at close range."
+  },
+  "162": {
+    "title": "Footwear study 24",
+    "description": "A product photograph showing a second colourway on a white background."
+  },
+  "163": {
+    "title": "Footwear study 25",
+    "description": "A product photograph showing the pair viewed from above to show proportion."
+  },
+  "164": {
+    "title": "Footwear study 26",
+    "description": "A product photograph showing a clean side-by-side catalogue frame."
+  },
+  "165": {
+    "title": "Footwear study 27",
+    "description": "A product photograph showing a final detail view from the studio series."
+  },
+  "166": {
+    "title": "Kasut U brand wall",
+    "description": "An in-store graphic for the kasut u brand wall, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "167": {
+    "title": "Activate display",
+    "description": "An in-store graphic for the activate display, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "168": {
+    "title": "Asadi display",
+    "description": "An in-store graphic for the asadi display, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "169": {
+    "title": "BNC display",
+    "description": "An in-store graphic for the bnc display, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "170": {
+    "title": "Evie display",
+    "description": "An in-store graphic for the evie display, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "171": {
+    "title": "Fipper display",
+    "description": "An in-store graphic for the fipper display, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "172": {
+    "title": "Ginna display",
+    "description": "An in-store graphic for the ginna display, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "173": {
+    "title": "G-Max display",
+    "description": "An in-store graphic for the g-max display, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "174": {
+    "title": "G-Wing display",
+    "description": "An in-store graphic for the g-wing display, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "175": {
+    "title": "Safety Shoes display",
+    "description": "An in-store graphic for the safety shoes display, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "176": {
+    "title": "Shoe Issue display",
+    "description": "An in-store graphic for the shoe issue display, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "177": {
+    "title": "Voucher panel",
+    "description": "An in-store graphic for the voucher panel, designed to organise the retail wall and give the product range a distinct branded presence."
+  },
+  "178": {
+    "title": "Travel montage",
+    "description": "A cinematic montage moving through a Malaysian street, a colourful umbrella installation and the coast."
+  },
+  "179": {
+    "title": "Kasut U year montage",
+    "description": "A widescreen recap combining team, campaign and event moments around a message of new beginnings."
+  },
+  "180": {
+    "title": "Chinese New Year greeting",
+    "description": "A red-and-gold animated greeting celebrating Chinese New Year 2024 with Kasut U characters."
+  },
+  "181": {
+    "title": "Tan sandal live demonstration",
+    "description": "A livestream excerpt featuring a presenter handling a tan sandal and walking viewers through the product."
+  },
+  "182": {
+    "title": "Beach slipper scene",
+    "description": "A playful beach edit where colourful slippers become animated characters by the sea."
+  },
+  "183": {
+    "title": "Sandal claw machine",
+    "description": "A stylised product animation that displays sandals inside a pink arcade claw machine."
+  },
+  "184": {
+    "title": "Green-Screen Cat Meme",
+    "description": "A playful social edit that places a green-screen cat meme into a parcel scene, turning a familiar internet format into branded entertainment."
+  },
+  "185": {
+    "title": "Smelly shoe animation",
+    "description": "A cartoon shoe comes to life in a hallway for a playful joke about footwear odour."
+  },
+  "186": {
+    "title": "Warehouse sale recap",
+    "description": "A crowded retail-event montage showing customers shopping, prize moments and activity around a Kasut U sale."
+  },
+  "187": {
+    "title": "G-Max performance shoe",
+    "description": "A close product montage highlighting a black-and-neon G-Max shoe, including its heel, knit upper and sole."
+  },
+  "188": {
+    "title": "Merdeka greeting",
+    "description": "A patriotic Merdeka animation featuring Kuala Lumpur landmarks, hibiscus flowers and Malaysian flags."
+  },
+  "189": {
+    "title": "Food combination explainer",
+    "description": "A vertical health explainer about foods that should not be combined, moving from produce to a pharmacy setting."
+  },
+  "190": {
+    "title": "Duck-Led Discount Skit",
+    "description": "A playful promotional skit using duck characters to introduce a Jovian Selcare Pharmacy discount in a light, memorable format."
+  },
+  "191": {
+    "title": "Asthma symptom guide",
+    "description": "An interactive-style health animation that identifies asthma symptoms and directs viewers toward pharmacy care."
+  },
+  "192": {
+    "title": "Camu camu energy explainer",
+    "description": "A bright animated product explainer connecting camu camu ingredients with an energy supplement."
+  },
+  "193": {
+    "title": "Stop-smoking awareness",
+    "description": "A health awareness animation showing the effect of smoking on the lungs and encouraging viewers to stop."
+  },
+  "194": {
+    "title": "Camu camu product reveal",
+    "description": "A colourful motion piece revealing Jovian Naturale Camu Camu Jelly through fruit and honey imagery."
+  },
+  "195": {
+    "title": "Energy supplement story",
+    "description": "A pixel-art-inspired animation presenting Jovian Naturale as a product for restoring energy."
+  },
+  "196": {
+    "title": "Malaysia Day sale",
+    "description": "A short retail animation advertising a Malaysia Day buy-one-free-one offer."
+  },
+  "197": {
+    "title": "Love Yourself Week",
+    "description": "A pink campaign animation presenting self-care products during Love Yourself Week."
+  },
+  "198": {
+    "title": "MyTiger Values · Top 8",
+    "description": "The official selection badge for a Maybank MyTiger Values art competition entry chosen for the Top 8."
+  },
+  "199": {
+    "title": "Maybank MyTiger city",
+    "description": "A pixel-art world where a tiger, a Maybank building and a rising sun turn the brand’s values into an optimistic city scene."
+  },
+  "200": {
+    "title": "Vertikal character 01",
+    "description": "A looping pixel-art NFT portrait featuring an icy blue character carrying a trident, lifted by a glowing jetpack trail."
+  },
+  "201": {
+    "title": "Vertikal character 02",
+    "description": "A looping pixel-art NFT portrait featuring a traveller in a mountain landscape, lifted by a glowing jetpack trail."
+  },
+  "202": {
+    "title": "Vertikal character 03",
+    "description": "A looping pixel-art NFT portrait featuring a yellow-clad character in an urban interior, lifted by a glowing jetpack trail."
+  },
+  "203": {
+    "title": "Vertikal character 04",
+    "description": "A looping pixel-art NFT portrait featuring a cat-eared character against a clear sky, lifted by a glowing jetpack trail."
+  },
+  "204": {
+    "title": "Vertikal character 05",
+    "description": "A looping pixel-art NFT portrait featuring an armoured figure drifting through space, lifted by a glowing jetpack trail."
+  },
+  "205": {
+    "title": "Vertikal character 06",
+    "description": "A looping pixel-art NFT portrait featuring a green creature in a misty landscape, lifted by a glowing jetpack trail."
+  },
+  "206": {
+    "title": "Vertikal character 07",
+    "description": "A looping pixel-art NFT portrait featuring a pirate surrounded by coral-like forms, lifted by a glowing jetpack trail."
+  },
+  "207": {
+    "title": "Vertikal character 08",
+    "description": "A looping pixel-art NFT portrait featuring a masked character in a neon city, lifted by a glowing jetpack trail."
+  },
+  "208": {
+    "title": "Vertikal character 09",
+    "description": "A looping pixel-art NFT portrait featuring a samurai in a red sunset scene, lifted by a glowing jetpack trail."
+  },
+  "209": {
+    "title": "Vertikal character 10",
+    "description": "A looping pixel-art NFT portrait featuring a red-clad wanderer in a desert landscape, lifted by a glowing jetpack trail."
+  },
+  "210": {
+    "title": "Vertikal character 11",
+    "description": "A looping pixel-art NFT portrait featuring a forest guardian beside a bonsai-like tree, lifted by a glowing jetpack trail."
+  },
+  "211": {
+    "title": "Vertikal character 12",
+    "description": "A looping pixel-art NFT portrait featuring a warrior framed by a crimson sky, lifted by a glowing jetpack trail."
+  },
+  "212": {
+    "title": "Vertikal character 13",
+    "description": "A looping pixel-art NFT portrait featuring an adventurer in a golden landscape, lifted by a glowing jetpack trail."
+  },
+  "213": {
+    "title": "Vertikal character 14",
+    "description": "A looping pixel-art NFT portrait featuring a monochrome figure in a dark world, lifted by a glowing jetpack trail."
+  },
+  "214": {
+    "title": "Vertikal character 15",
+    "description": "A looping pixel-art NFT portrait featuring a pink explorer in a soft cloudscape, lifted by a glowing jetpack trail."
+  },
+  "215": {
+    "title": "Vertikal character 16",
+    "description": "A looping pixel-art NFT portrait featuring a blue-robed stargazer under a night sky, lifted by a glowing jetpack trail."
+  },
+  "216": {
+    "title": "Vertikal character 17",
+    "description": "A looping pixel-art NFT portrait featuring a shadowed archer in a dark setting, lifted by a glowing jetpack trail."
+  },
+  "217": {
+    "title": "Vertikal character 18",
+    "description": "A looping pixel-art NFT portrait featuring a futuristic character on a bright yellow field, lifted by a glowing jetpack trail."
+  },
+  "218": {
+    "title": "Vertikal character 19",
+    "description": "A looping pixel-art NFT portrait featuring a grey-armoured character in a calm blue setting, lifted by a glowing jetpack trail."
+  },
+  "219": {
+    "title": "Vertikal character 20",
+    "description": "A looping pixel-art NFT portrait featuring a red warrior in a volcanic landscape, lifted by a glowing jetpack trail."
+  },
+  "220": {
+    "title": "Vertikal character 21",
+    "description": "A looping pixel-art NFT portrait featuring a green-suited character with a milestone sign, lifted by a glowing jetpack trail."
+  },
+  "221": {
+    "title": "Vertikal character 22",
+    "description": "A looping pixel-art NFT portrait featuring a royal character in a vivid red scene, lifted by a glowing jetpack trail."
+  },
+  "222": {
+    "title": "Vertikal character 23",
+    "description": "A looping pixel-art NFT portrait featuring a digital creator carrying a laptop, lifted by a glowing jetpack trail."
+  },
+  "223": {
+    "title": "Vertikal character 24",
+    "description": "A looping pixel-art NFT portrait featuring a chef in a clean white setting, lifted by a glowing jetpack trail."
+  },
+  "224": {
+    "title": "Vertikal character 25",
+    "description": "A looping pixel-art NFT portrait featuring a musician in a warm yellow scene, lifted by a glowing jetpack trail."
+  },
+  "225": {
+    "title": "Vertikal character 26",
+    "description": "A looping pixel-art NFT portrait featuring a masked fighter in a cool blue scene, lifted by a glowing jetpack trail."
+  },
+  "226": {
+    "title": "Vertikal character 27",
+    "description": "A looping pixel-art NFT portrait featuring a character framed by a tropical landscape, lifted by a glowing jetpack trail."
+  },
+  "227": {
+    "title": "Vertikal character 28",
+    "description": "A looping pixel-art NFT portrait featuring a dark-clad figure in a purple city, lifted by a glowing jetpack trail."
+  },
+  "228": {
+    "title": "Vertikal character collection",
+    "description": "A social artwork introducing a line-up of pixel-art characters from the Vertikal NFT world."
+  },
+  "229": {
+    "title": "Vertikal rarity guide",
+    "description": "An information post that explains traits and rarity within the Vertikal character collection."
+  },
+  "230": {
+    "title": "Vertikal world story",
+    "description": "A social post expanding the setting and narrative behind the pixel-art collection."
+  },
+  "231": {
+    "title": "Vertikal launch artwork",
+    "description": "A campaign post announcing the Vertikal collection through its jetpack character visual system."
+  },
+  "232": {
+    "title": "Vertikal community post",
+    "description": "A social graphic that brings the project’s characters and community message together."
+  },
+  "233": {
+    "title": "Campaign layout study 1",
+    "description": "A presentation sheet showing how a retail campaign adapts across its main artwork formats."
+  },
+  "234": {
+    "title": "Campaign layout study 2",
+    "description": "A campaign presentation page collecting the key visual and its supporting applications."
+  },
+  "235": {
+    "title": "Campaign layout study 3",
+    "description": "A second application sheet showing additional placements within the same campaign system."
+  },
+  "239": {
+    "title": "Van livery concept 1",
+    "description": "A presentation of a blue and yellow Kasut U van wrap, showing how the campaign artwork travels across the vehicle’s sides and rear."
+  },
+  "240": {
+    "title": "Van livery concept 2",
+    "description": "A presentation of a red and blue Kasut U van wrap, showing how the campaign artwork travels across the vehicle’s sides and rear."
+  },
+  "241": {
+    "title": "Van livery concept 3",
+    "description": "A presentation of a yellow and blue Kasut U van wrap, showing how the campaign artwork travels across the vehicle’s sides and rear."
+  },
+  "242": {
+    "title": "Van livery concept 4",
+    "description": "A presentation of a dark blue and yellow Kasut U van wrap, showing how the campaign artwork travels across the vehicle’s sides and rear."
+  },
+  "243": {
+    "title": "Van livery concept 5",
+    "description": "A presentation of a multi-colour campaign Kasut U van wrap, showing how the campaign artwork travels across the vehicle’s sides and rear."
+  },
+  "244": {
+    "title": "vArtComp · Third Place",
+    "description": "The award badge recognising “Git Gut” as the third-place winner in the 2021 vArtComp visual art competition."
+  },
+  "245": {
+    "title": "Git Gut",
+    "description": "A short visual story about refusing to give up on a dream, following a young man who wants to become a professional esports player."
+  },
+  "246": {
+    "title": "Female mascot · Kacang Pool",
+    "description": "A female Visit Johor mascot pose inspired by kacang pool, translating a local food reference into a friendly character moment."
+  },
+  "247": {
+    "title": "Female mascot · Mee Rebus",
+    "description": "A female mascot pose built around Johor’s mee rebus and the project’s cheerful visitor-facing personality."
+  },
+  "248": {
+    "title": "Female mascot · Gambus",
+    "description": "The female Visit Johor mascot performs with a gambus, linking the character to Johor’s musical culture."
+  },
+  "249": {
+    "title": "Male mascot · Gambus",
+    "description": "The male mascot plays a gambus in a set of lively poses inspired by Johor’s traditional music."
+  },
+  "250": {
+    "title": "Female mascot expressions",
+    "description": "An expression sheet exploring the female mascot’s emotions, reactions and facial range."
+  },
+  "251": {
+    "title": "Male mascot expressions",
+    "description": "An expression sheet exploring the male mascot’s emotions, reactions and facial range."
+  },
+  "252": {
+    "title": "Male mascot · Kacang Pool",
+    "description": "A male Visit Johor mascot pose inspired by kacang pool and local food culture."
+  },
+  "253": {
+    "title": "Male mascot · Mee Rebus",
+    "description": "A male mascot pose that brings Johor’s mee rebus into the character’s visual story."
+  },
+  "254": {
+    "title": "Female mascot hero pose",
+    "description": "A polished cut-out of the female Visit Johor mascot in her signature blue outfit."
+  },
+  "255": {
+    "title": "Male mascot hero pose",
+    "description": "A polished cut-out of the male Visit Johor mascot in his signature blue outfit."
+  },
+  "256": {
+    "title": "Female mascot posture study",
+    "description": "A character sheet developing the female mascot’s proportions, outfit and body language."
+  },
+  "257": {
+    "title": "Male mascot posture study",
+    "description": "A character sheet developing the male mascot’s proportions, outfit and body language."
+  },
+  "258": {
+    "title": "Visit Johor 2026 identity",
+    "description": "The Visit Johor 2026 logo, combining destination symbols into a compact tourism mark."
+  },
+  "259": {
+    "title": "Hafiz wedding film",
+    "description": "A warm wedding film capturing fabric details, the couple in traditional attire and candid moments with family and guests."
+  },
+  "260": {
+    "title": "Kasut U campaign van",
+    "description": "A cut-out view of the fully wrapped Kasut U van, combining energetic brand colour, product graphics and promotional messaging."
+  },
+  "262": {
+    "title": "Steve Tan Submission",
+    "description": "Tech news review"
+  },
+  "263": {
+    "title": "Retail event montage",
+    "description": "A short vertical recap of visitors, displays and activities at a retail event."
+  },
   "076": {
     "title": "Kasut U retail asset study",
     "description": "An isometric asset sheet exploring the counters, shelving, signage and display pieces used to build a Kasut U retail space."
@@ -159,146 +739,6 @@
     "title": "TikTok Live sale backdrop",
     "description": "A modular Kasut U livestream graphic designed to frame products, prices and campaign messages clearly during a live shopping session."
   },
-  "198": {
-    "title": "MyTiger Values · Top 8",
-    "description": "The official selection badge for a Maybank MyTiger Values art competition entry chosen for the Top 8."
-  },
-  "199": {
-    "title": "Maybank MyTiger city",
-    "description": "A pixel-art world where a tiger, a Maybank building and a rising sun turn the brand’s values into an optimistic city scene."
-  },
-  "200": {
-    "title": "Vertikal character 01",
-    "description": "A looping pixel-art NFT portrait featuring an icy blue character carrying a trident, lifted by a glowing jetpack trail."
-  },
-  "201": {
-    "title": "Vertikal character 02",
-    "description": "A looping pixel-art NFT portrait featuring a traveller in a mountain landscape, lifted by a glowing jetpack trail."
-  },
-  "202": {
-    "title": "Vertikal character 03",
-    "description": "A looping pixel-art NFT portrait featuring a yellow-clad character in an urban interior, lifted by a glowing jetpack trail."
-  },
-  "203": {
-    "title": "Vertikal character 04",
-    "description": "A looping pixel-art NFT portrait featuring a cat-eared character against a clear sky, lifted by a glowing jetpack trail."
-  },
-  "204": {
-    "title": "Vertikal character 05",
-    "description": "A looping pixel-art NFT portrait featuring an armoured figure drifting through space, lifted by a glowing jetpack trail."
-  },
-  "205": {
-    "title": "Vertikal character 06",
-    "description": "A looping pixel-art NFT portrait featuring a green creature in a misty landscape, lifted by a glowing jetpack trail."
-  },
-  "206": {
-    "title": "Vertikal character 07",
-    "description": "A looping pixel-art NFT portrait featuring a pirate surrounded by coral-like forms, lifted by a glowing jetpack trail."
-  },
-  "207": {
-    "title": "Vertikal character 08",
-    "description": "A looping pixel-art NFT portrait featuring a masked character in a neon city, lifted by a glowing jetpack trail."
-  },
-  "208": {
-    "title": "Vertikal character 09",
-    "description": "A looping pixel-art NFT portrait featuring a samurai in a red sunset scene, lifted by a glowing jetpack trail."
-  },
-  "209": {
-    "title": "Vertikal character 10",
-    "description": "A looping pixel-art NFT portrait featuring a red-clad wanderer in a desert landscape, lifted by a glowing jetpack trail."
-  },
-  "210": {
-    "title": "Vertikal character 11",
-    "description": "A looping pixel-art NFT portrait featuring a forest guardian beside a bonsai-like tree, lifted by a glowing jetpack trail."
-  },
-  "211": {
-    "title": "Vertikal character 12",
-    "description": "A looping pixel-art NFT portrait featuring a warrior framed by a crimson sky, lifted by a glowing jetpack trail."
-  },
-  "212": {
-    "title": "Vertikal character 13",
-    "description": "A looping pixel-art NFT portrait featuring an adventurer in a golden landscape, lifted by a glowing jetpack trail."
-  },
-  "213": {
-    "title": "Vertikal character 14",
-    "description": "A looping pixel-art NFT portrait featuring a monochrome figure in a dark world, lifted by a glowing jetpack trail."
-  },
-  "214": {
-    "title": "Vertikal character 15",
-    "description": "A looping pixel-art NFT portrait featuring a pink explorer in a soft cloudscape, lifted by a glowing jetpack trail."
-  },
-  "215": {
-    "title": "Vertikal character 16",
-    "description": "A looping pixel-art NFT portrait featuring a blue-robed stargazer under a night sky, lifted by a glowing jetpack trail."
-  },
-  "216": {
-    "title": "Vertikal character 17",
-    "description": "A looping pixel-art NFT portrait featuring a shadowed archer in a dark setting, lifted by a glowing jetpack trail."
-  },
-  "217": {
-    "title": "Vertikal character 18",
-    "description": "A looping pixel-art NFT portrait featuring a futuristic character on a bright yellow field, lifted by a glowing jetpack trail."
-  },
-  "218": {
-    "title": "Vertikal character 19",
-    "description": "A looping pixel-art NFT portrait featuring a grey-armoured character in a calm blue setting, lifted by a glowing jetpack trail."
-  },
-  "219": {
-    "title": "Vertikal character 20",
-    "description": "A looping pixel-art NFT portrait featuring a red warrior in a volcanic landscape, lifted by a glowing jetpack trail."
-  },
-  "220": {
-    "title": "Vertikal character 21",
-    "description": "A looping pixel-art NFT portrait featuring a green-suited character with a milestone sign, lifted by a glowing jetpack trail."
-  },
-  "221": {
-    "title": "Vertikal character 22",
-    "description": "A looping pixel-art NFT portrait featuring a royal character in a vivid red scene, lifted by a glowing jetpack trail."
-  },
-  "222": {
-    "title": "Vertikal character 23",
-    "description": "A looping pixel-art NFT portrait featuring a digital creator carrying a laptop, lifted by a glowing jetpack trail."
-  },
-  "223": {
-    "title": "Vertikal character 24",
-    "description": "A looping pixel-art NFT portrait featuring a chef in a clean white setting, lifted by a glowing jetpack trail."
-  },
-  "224": {
-    "title": "Vertikal character 25",
-    "description": "A looping pixel-art NFT portrait featuring a musician in a warm yellow scene, lifted by a glowing jetpack trail."
-  },
-  "225": {
-    "title": "Vertikal character 26",
-    "description": "A looping pixel-art NFT portrait featuring a masked fighter in a cool blue scene, lifted by a glowing jetpack trail."
-  },
-  "226": {
-    "title": "Vertikal character 27",
-    "description": "A looping pixel-art NFT portrait featuring a character framed by a tropical landscape, lifted by a glowing jetpack trail."
-  },
-  "227": {
-    "title": "Vertikal character 28",
-    "description": "A looping pixel-art NFT portrait featuring a dark-clad figure in a purple city, lifted by a glowing jetpack trail."
-  },
-  "228": {
-    "title": "Vertikal character collection",
-    "description": "A social artwork introducing a line-up of pixel-art characters from the Vertikal NFT world."
-  },
-  "229": {
-    "title": "Vertikal rarity guide",
-    "description": "An information post that explains traits and rarity within the Vertikal character collection."
-  },
-  "230": {
-    "title": "Vertikal world story",
-    "description": "A social post expanding the setting and narrative behind the pixel-art collection."
-  },
-  "231": {
-    "title": "Vertikal launch artwork",
-    "description": "A campaign post announcing the Vertikal collection through its jetpack character visual system."
-  },
-  "232": {
-    "title": "Vertikal community post",
-    "description": "A social graphic that brings the project’s characters and community message together."
-  },
   "095": {
     "title": "CNY sale banner",
     "description": "A Chinese New Year retail banner using red festive motifs to frame a Kasut U promotion."
@@ -306,10 +746,6 @@
   "096": {
     "title": "CNY voucher banner",
     "description": "A festive banner presenting Chinese New Year voucher offers in a clear promotional hierarchy."
-  },
-  "097": {
-    "title": "Back to School portrait",
-    "description": "A vertical Back to School campaign artwork built around footwear, value and a bright blue retail palette."
   },
   "098": {
     "title": "Back to School purchase reward",
@@ -319,69 +755,9 @@
     "title": "Back to School sticker reward",
     "description": "A campaign visual showing the sticker pack available with selected school-shoe purchases."
   },
-  "100": {
-    "title": "Buy 3, Get 10% Off",
-    "description": "A bold blue-and-yellow retail artwork for a multi-buy shoe discount."
-  },
-  "101": {
-    "title": "Year End Clearance",
-    "description": "A product-led clearance graphic presenting marked-down footwear and end-of-year savings."
-  },
-  "102": {
-    "title": "CNY shipment notice",
-    "description": "A red service announcement explaining the Chinese New Year shipping schedule."
-  },
-  "063": {
-    "title": "CNY red packet concept",
-    "description": "A festive packet concept combining Kasut U characters, seasonal patterns and a red-and-gold palette."
-  },
-  "103": {
-    "title": "Mother’s Day footwear sale",
-    "description": "A pink floral campaign presenting Mother’s Day footwear offers and vouchers."
-  },
-  "104": {
-    "title": "Affiliate campaign",
-    "description": "A social recruitment artwork inviting creators to join the Kasut U affiliate programme."
-  },
-  "105": {
-    "title": "Mother’s Day message",
-    "description": "A celebratory Mother’s Day social artwork framed with flowers and Kasut U characters."
-  },
   "064": {
     "title": "New Arrivals campaign",
     "description": "A family-centred campaign announcing new footwear arrivals across several product categories."
-  },
-  "106": {
-    "title": "Mother’s Day greeting",
-    "description": "A warm Mother’s Day appreciation post using floral forms and a handwritten message style."
-  },
-  "108": {
-    "title": "Product promotion",
-    "description": "A campaign artwork that combines footwear imagery, an offer and a direct shop call to action."
-  },
-  "109": {
-    "title": "Seasonal promotion",
-    "description": "A retail campaign composition using bold colour, product cut-outs and promotional typography."
-  },
-  "110": {
-    "title": "Labour Day sale",
-    "description": "A blue-and-yellow Labour Day footwear promotion with discount callouts and product displays."
-  },
-  "111": {
-    "title": "Payday sale",
-    "description": "A bright payday campaign advertising discounts across selected Kasut U footwear."
-  },
-  "112": {
-    "title": "Mobile sale banner",
-    "description": "A vertical mobile-first sale artwork with product highlights and a clear call to action."
-  },
-  "113": {
-    "title": "New Arrivals web banner",
-    "description": "A wide family lifestyle banner introducing newly arrived footwear collections."
-  },
-  "114": {
-    "title": "Raya footwear campaign",
-    "description": "A festive Hari Raya campaign pairing footwear offers with seasonal decorative motifs."
   },
   "065": {
     "title": "Raya packet · Design 1",
@@ -395,145 +771,9 @@
     "title": "Raya packet · Design 3",
     "description": "A third packet concept that explores a different arrangement of the Raya campaign system."
   },
-  "233": {
-    "title": "Campaign layout study 1",
-    "description": "A presentation sheet showing how a retail campaign adapts across its main artwork formats."
-  },
-  "234": {
-    "title": "Campaign layout study 2",
-    "description": "A campaign presentation page collecting the key visual and its supporting applications."
-  },
-  "235": {
-    "title": "Campaign layout study 3",
-    "description": "A second application sheet showing additional placements within the same campaign system."
-  },
   "014": {
     "title": "New Arrivals key visual",
     "description": "A colourful footwear campaign introducing a new product range through a playful layered composition."
-  },
-  "115": {
-    "title": "Selamat Hari Raya",
-    "description": "A festive greeting artwork celebrating Hari Raya with Kasut U characters and a night-sky palette."
-  },
-  "116": {
-    "title": "Free sticker promotion",
-    "description": "A Back to School offer that turns a character sticker pack into the purchase reward."
-  },
-  "118": {
-    "title": "Syukur Raya Sale",
-    "description": "A Raya sale artwork balancing festive illustration, offer details and footwear imagery."
-  },
-  "119": {
-    "title": "Syukur Raya campaign",
-    "description": "A second Raya sale layout designed for a different social or retail placement."
-  },
-  "120": {
-    "title": "TikTok shop frame 1",
-    "description": "A branded TikTok shopping frame that reserves clear space for live product content."
-  },
-  "121": {
-    "title": "TikTok shop frame 2",
-    "description": "An alternate TikTok shopping frame with campaign graphics arranged around the video area."
-  },
-  "122": {
-    "title": "TikTok Shop promotion",
-    "description": "A social artwork directing customers to Kasut U’s TikTok Shop."
-  },
-  "123": {
-    "title": "Warehouse Sale artwork 1",
-    "description": "A warehouse sale graphic using oversized discount messaging and product imagery."
-  },
-  "124": {
-    "title": "Warehouse Sale artwork 2",
-    "description": "A companion warehouse sale layout adapted for another campaign placement."
-  },
-  "125": {
-    "title": "Raya sticker 1",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "126": {
-    "title": "Raya sticker 2",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "127": {
-    "title": "Raya sticker 3",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "128": {
-    "title": "Raya sticker 4",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "129": {
-    "title": "Raya sticker 5",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "130": {
-    "title": "Raya sticker 6",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "131": {
-    "title": "Raya sticker 7",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "132": {
-    "title": "Raya sticker 8",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "133": {
-    "title": "Raya sticker 9",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "134": {
-    "title": "Raya sticker 10",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "135": {
-    "title": "Raya sticker 11",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "136": {
-    "title": "Raya sticker 12",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "137": {
-    "title": "Raya sticker 13",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "138": {
-    "title": "Raya sticker 14",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "139": {
-    "title": "Raya sticker 15",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "140": {
-    "title": "Raya sticker 16",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "141": {
-    "title": "Raya sticker 17",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "142": {
-    "title": "Raya sticker 18",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "143": {
-    "title": "Raya sticker 19",
-    "description": "An expressive Kasut U character sticker pairing a festive pose with conversational Malay text for Hari Raya messages."
-  },
-  "236": {
-    "title": "Sampul Raya concept 1",
-    "description": "A Hari Raya money-packet concept exploring festive illustration, pattern and the Kasut U colour system in design direction 1."
-  },
-  "237": {
-    "title": "Sampul Raya concept 2",
-    "description": "A Hari Raya money-packet concept exploring festive illustration, pattern and the Kasut U colour system in design direction 2."
-  },
-  "238": {
-    "title": "Sampul Raya concept 3",
-    "description": "A Hari Raya money-packet concept exploring festive illustration, pattern and the Kasut U colour system in design direction 3."
   },
   "015": {
     "title": "Footwear study 01",
@@ -555,94 +795,6 @@
     "title": "Footwear study 05",
     "description": "A product photograph showing a close study of the teal shoe’s laces and upper."
   },
-  "144": {
-    "title": "Footwear study 06",
-    "description": "A product photograph showing a footwear pair arranged on a clean studio backdrop."
-  },
-  "145": {
-    "title": "Footwear study 07",
-    "description": "A product photograph showing a side profile that highlights the upper and sole."
-  },
-  "146": {
-    "title": "Footwear study 08",
-    "description": "A product photograph showing a three-quarter product angle showing the shoe’s form."
-  },
-  "147": {
-    "title": "Footwear study 09",
-    "description": "A product photograph showing a top-down view of the pair."
-  },
-  "148": {
-    "title": "Footwear study 10",
-    "description": "A product photograph showing a close crop of the material and stitching."
-  },
-  "149": {
-    "title": "Footwear study 11",
-    "description": "A product photograph showing a rear view showing heel construction."
-  },
-  "150": {
-    "title": "Footwear study 12",
-    "description": "A product photograph showing a single shoe in side profile."
-  },
-  "151": {
-    "title": "Footwear study 13",
-    "description": "A product photograph showing a paired composition from a low angle."
-  },
-  "152": {
-    "title": "Footwear study 14",
-    "description": "A product photograph showing a detail view of the outsole and tread."
-  },
-  "153": {
-    "title": "Footwear study 15",
-    "description": "A product photograph showing a clean catalogue view of the footwear pair."
-  },
-  "154": {
-    "title": "Footwear study 16",
-    "description": "A product photograph showing a close-up of fastening and upper details."
-  },
-  "155": {
-    "title": "Footwear study 17",
-    "description": "A product photograph showing a lifestyle-leaning studio composition."
-  },
-  "156": {
-    "title": "Footwear study 18",
-    "description": "A product photograph showing a front view that shows the toe shape."
-  },
-  "157": {
-    "title": "Footwear study 19",
-    "description": "A product photograph showing a rear three-quarter product view."
-  },
-  "158": {
-    "title": "Footwear study 20",
-    "description": "A product photograph showing a profile study of the sole and silhouette."
-  },
-  "159": {
-    "title": "Footwear study 21",
-    "description": "A product photograph showing a balanced pair arrangement."
-  },
-  "160": {
-    "title": "Footwear study 22",
-    "description": "A product photograph showing a single-shoe hero angle."
-  },
-  "161": {
-    "title": "Footwear study 23",
-    "description": "A product photograph showing a material detail captured at close range."
-  },
-  "162": {
-    "title": "Footwear study 24",
-    "description": "A product photograph showing a second colourway on a white background."
-  },
-  "163": {
-    "title": "Footwear study 25",
-    "description": "A product photograph showing the pair viewed from above to show proportion."
-  },
-  "164": {
-    "title": "Footwear study 26",
-    "description": "A product photograph showing a clean side-by-side catalogue frame."
-  },
-  "165": {
-    "title": "Footwear study 27",
-    "description": "A product photograph showing a final detail view from the studio series."
-  },
   "020": {
     "title": "Footwear study 28",
     "description": "A product photograph showing a pink-and-blue athletic shoe in a bright studio setup."
@@ -659,149 +811,9 @@
     "title": "Footwear study 31",
     "description": "A product photograph showing a close detail of an athletic shoe’s construction."
   },
-  "166": {
-    "title": "Kasut U brand wall",
-    "description": "An in-store graphic for the kasut u brand wall, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "167": {
-    "title": "Activate display",
-    "description": "An in-store graphic for the activate display, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "168": {
-    "title": "Asadi display",
-    "description": "An in-store graphic for the asadi display, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "169": {
-    "title": "BNC display",
-    "description": "An in-store graphic for the bnc display, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "170": {
-    "title": "Evie display",
-    "description": "An in-store graphic for the evie display, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "171": {
-    "title": "Fipper display",
-    "description": "An in-store graphic for the fipper display, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "172": {
-    "title": "Ginna display",
-    "description": "An in-store graphic for the ginna display, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "173": {
-    "title": "G-Max display",
-    "description": "An in-store graphic for the g-max display, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "174": {
-    "title": "G-Wing display",
-    "description": "An in-store graphic for the g-wing display, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "175": {
-    "title": "Safety Shoes display",
-    "description": "An in-store graphic for the safety shoes display, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "176": {
-    "title": "Shoe Issue display",
-    "description": "An in-store graphic for the shoe issue display, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "177": {
-    "title": "Voucher panel",
-    "description": "An in-store graphic for the voucher panel, designed to organise the retail wall and give the product range a distinct branded presence."
-  },
-  "260": {
-    "title": "Kasut U campaign van",
-    "description": "A cut-out view of the fully wrapped Kasut U van, combining energetic brand colour, product graphics and promotional messaging."
-  },
-  "239": {
-    "title": "Van livery concept 1",
-    "description": "A presentation of a blue and yellow Kasut U van wrap, showing how the campaign artwork travels across the vehicle’s sides and rear."
-  },
-  "240": {
-    "title": "Van livery concept 2",
-    "description": "A presentation of a red and blue Kasut U van wrap, showing how the campaign artwork travels across the vehicle’s sides and rear."
-  },
-  "241": {
-    "title": "Van livery concept 3",
-    "description": "A presentation of a yellow and blue Kasut U van wrap, showing how the campaign artwork travels across the vehicle’s sides and rear."
-  },
-  "242": {
-    "title": "Van livery concept 4",
-    "description": "A presentation of a dark blue and yellow Kasut U van wrap, showing how the campaign artwork travels across the vehicle’s sides and rear."
-  },
-  "243": {
-    "title": "Van livery concept 5",
-    "description": "A presentation of a multi-colour campaign Kasut U van wrap, showing how the campaign artwork travels across the vehicle’s sides and rear."
-  },
-  "244": {
-    "title": "vArtComp · Third Place",
-    "description": "The award badge recognising “Git Gut” as the third-place winner in the 2021 vArtComp visual art competition."
-  },
-  "245": {
-    "title": "Git Gut",
-    "description": "A short visual story about refusing to give up on a dream, following a young man who wants to become a professional esports player."
-  },
-  "246": {
-    "title": "Female mascot · Kacang Pool",
-    "description": "A female Visit Johor mascot pose inspired by kacang pool, translating a local food reference into a friendly character moment."
-  },
-  "247": {
-    "title": "Female mascot · Mee Rebus",
-    "description": "A female mascot pose built around Johor’s mee rebus and the project’s cheerful visitor-facing personality."
-  },
-  "248": {
-    "title": "Female mascot · Gambus",
-    "description": "The female Visit Johor mascot performs with a gambus, linking the character to Johor’s musical culture."
-  },
-  "249": {
-    "title": "Male mascot · Gambus",
-    "description": "The male mascot plays a gambus in a set of lively poses inspired by Johor’s traditional music."
-  },
-  "250": {
-    "title": "Female mascot expressions",
-    "description": "An expression sheet exploring the female mascot’s emotions, reactions and facial range."
-  },
-  "251": {
-    "title": "Male mascot expressions",
-    "description": "An expression sheet exploring the male mascot’s emotions, reactions and facial range."
-  },
-  "252": {
-    "title": "Male mascot · Kacang Pool",
-    "description": "A male Visit Johor mascot pose inspired by kacang pool and local food culture."
-  },
-  "253": {
-    "title": "Male mascot · Mee Rebus",
-    "description": "A male mascot pose that brings Johor’s mee rebus into the character’s visual story."
-  },
-  "254": {
-    "title": "Female mascot hero pose",
-    "description": "A polished cut-out of the female Visit Johor mascot in her signature blue outfit."
-  },
-  "255": {
-    "title": "Male mascot hero pose",
-    "description": "A polished cut-out of the male Visit Johor mascot in his signature blue outfit."
-  },
-  "256": {
-    "title": "Female mascot posture study",
-    "description": "A character sheet developing the female mascot’s proportions, outfit and body language."
-  },
-  "257": {
-    "title": "Male mascot posture study",
-    "description": "A character sheet developing the male mascot’s proportions, outfit and body language."
-  },
-  "258": {
-    "title": "Visit Johor 2026 identity",
-    "description": "The Visit Johor 2026 logo, combining destination symbols into a compact tourism mark."
-  },
-  "178": {
-    "title": "Travel montage",
-    "description": "A cinematic montage moving through a Malaysian street, a colourful umbrella installation and the coast."
-  },
   "024": {
     "title": "Blue shoe live demonstration",
     "description": "A livestream excerpt in which a host presents a blue shoe and demonstrates its visible construction and material details."
-  },
-  "181": {
-    "title": "Tan sandal live demonstration",
-    "description": "A livestream excerpt featuring a presenter handling a tan sandal and walking viewers through the product."
   },
   "025": {
     "title": "Gold Prize Reveal",
@@ -815,33 +827,9 @@
     "title": "Miniature shoe scene",
     "description": "A whimsical edit that turns leaves and tiny shoes into a miniature outdoor display."
   },
-  "189": {
-    "title": "Food combination explainer",
-    "description": "A vertical health explainer about foods that should not be combined, moving from produce to a pharmacy setting."
-  },
-  "190": {
-    "title": "Duck-Led Discount Skit",
-    "description": "A playful promotional skit using duck characters to introduce a Jovian Selcare Pharmacy discount in a light, memorable format."
-  },
   "028": {
     "title": "Jamu product presentation",
     "description": "A presenter introduces several packaged jamu products in a seated vertical video."
-  },
-  "182": {
-    "title": "Beach slipper scene",
-    "description": "A playful beach edit where colourful slippers become animated characters by the sea."
-  },
-  "183": {
-    "title": "Sandal claw machine",
-    "description": "A stylised product animation that displays sandals inside a pink arcade claw machine."
-  },
-  "184": {
-    "title": "Green-Screen Cat Meme",
-    "description": "A playful social edit that places a green-screen cat meme into a parcel scene, turning a familiar internet format into branded entertainment."
-  },
-  "185": {
-    "title": "Smelly shoe animation",
-    "description": "A cartoon shoe comes to life in a hallway for a playful joke about footwear odour."
   },
   "029": {
     "title": "Football shoe montage",
@@ -863,18 +851,6 @@
     "title": "Sandals on grass",
     "description": "An outdoor product montage that places several women’s sandals in a green natural setting."
   },
-  "179": {
-    "title": "Kasut U year montage",
-    "description": "A widescreen recap combining team, campaign and event moments around a message of new beginnings."
-  },
-  "186": {
-    "title": "Warehouse sale recap",
-    "description": "A crowded retail-event montage showing customers shopping, prize moments and activity around a Kasut U sale."
-  },
-  "187": {
-    "title": "G-Max performance shoe",
-    "description": "A close product montage highlighting a black-and-neon G-Max shoe, including its heel, knit upper and sole."
-  },
   "059": {
     "title": "Hari Raya greeting motion",
     "description": "An animated Hari Raya greeting with Kasut U characters, lanterns and a mosque backdrop."
@@ -887,38 +863,6 @@
     "title": "Wesak Day greeting",
     "description": "An animated Wesak Day greeting built around a lotus, floating lanterns and Kasut U characters."
   },
-  "180": {
-    "title": "Chinese New Year greeting",
-    "description": "A red-and-gold animated greeting celebrating Chinese New Year 2024 with Kasut U characters."
-  },
-  "191": {
-    "title": "Asthma symptom guide",
-    "description": "An interactive-style health animation that identifies asthma symptoms and directs viewers toward pharmacy care."
-  },
-  "192": {
-    "title": "Camu camu energy explainer",
-    "description": "A bright animated product explainer connecting camu camu ingredients with an energy supplement."
-  },
-  "193": {
-    "title": "Stop-smoking awareness",
-    "description": "A health awareness animation showing the effect of smoking on the lungs and encouraging viewers to stop."
-  },
-  "194": {
-    "title": "Camu camu product reveal",
-    "description": "A colourful motion piece revealing Jovian Naturale Camu Camu Jelly through fruit and honey imagery."
-  },
-  "195": {
-    "title": "Energy supplement story",
-    "description": "A pixel-art-inspired animation presenting Jovian Naturale as a product for restoring energy."
-  },
-  "196": {
-    "title": "Malaysia Day sale",
-    "description": "A short retail animation advertising a Malaysia Day buy-one-free-one offer."
-  },
-  "197": {
-    "title": "Love Yourself Week",
-    "description": "A pink campaign animation presenting self-care products during Love Yourself Week."
-  },
   "062": {
     "title": "Labour Day greeting",
     "description": "An animated Labour Day thank-you message for workers, presented by Kasut U characters."
@@ -926,10 +870,6 @@
   "034": {
     "title": "5.5 Sale motion",
     "description": "A punchy blue-and-yellow 5.5 Sale animation that reveals discount and voucher offers."
-  },
-  "188": {
-    "title": "Merdeka greeting",
-    "description": "A patriotic Merdeka animation featuring Kuala Lumpur landmarks, hibiscus flowers and Malaysian flags."
   },
   "035": {
     "title": "G-Max active lifestyle",
@@ -1026,17 +966,5 @@
   "058": {
     "title": "Raya shoe shopping",
     "description": "A presenter introduces Kasut U’s Raya footwear promotions and available product choices."
-  },
-  "262": {
-    "title": "Steve Tan Submission",
-    "description": "Tech news review"
-  },
-  "263": {
-    "title": "Retail event montage",
-    "description": "A short vertical recap of visitors, displays and activities at a retail event."
-  },
-  "259": {
-    "title": "Hafiz wedding film",
-    "description": "A warm wedding film capturing fabric details, the couple in traditional attire and candid moments with family and guests."
   }
 }

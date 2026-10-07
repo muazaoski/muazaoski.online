@@ -7,7 +7,7 @@ export function enableGreetingAutoplay(media, selector = '#greetings') {
   function createVideo(card) {
     const existing = cardVideos.get(card)
     if (existing) return existing
-    const item = media[Number(card.dataset.index)]
+    const item = (card.dataset.workId ? media.find(m => String(m.id) === card.dataset.workId) : null) || media[Number(card.dataset.index)]
     const image = card.querySelector('img')
     if (!item || !image) return null
     const video = document.createElement('video')

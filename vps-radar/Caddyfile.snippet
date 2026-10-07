@@ -1,0 +1,13 @@
+# -------------------------------------------------------------
+# Caddyfile snippet to add to your VPS (/opt/apps/froggame/Caddyfile or /etc/caddy/Caddyfile)
+# -------------------------------------------------------------
+
+# Inside your existing domain block (e.g. frog.muazaoski.online OR muazaoski.online):
+handle /api/radar/* {
+    reverse_proxy 127.0.0.1:3050
+}
+
+# OR if you prefer a dedicated subdomain like api.muazaoski.online:
+# api.muazaoski.online {
+#     reverse_proxy 127.0.0.1:3050
+# }

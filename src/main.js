@@ -1,4 +1,5 @@
 import './style.css'
+import './home-pixel.css'
 
 const mainApps = [
   {

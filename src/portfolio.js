@@ -1,30 +1,45 @@
 import './portfolio.css'
+import './pixel-theme.css'
+import './room-simulator.css'
 import media from './media.json'
 import mediaDescriptions from './media-descriptions.json'
 import { enhanceDepth } from './depth.js'
 import { createComicLoop } from './comic-loop.js'
 import { enableVideoPreviews } from './video-previews.js'
-import { enableStickerDragging } from './sticker-drag.js'
+import { initFestiveStickers } from './festive-stickers.js'
 import { enableGreetingAutoplay } from './greeting-loop.js'
-import { createCardShader } from './card-shader.js'
 import { isAiLabeled, createAiLabelDev } from './ai-label-dev.js'
 import { createFeaturedProjects } from './featured-projects.js'
+import { initOrbitCreatives } from './orbit-creatives.js'
+import { readPromoCategories, createPromoSorter } from './promo-sorter.js'
+import { initRoomSimulator } from './room-simulator.js'
+import { initVideoStudio } from './video-studio.js'
+import { initVisitorRadar } from './visitor-radar.js'
 
-const themeToggle = document.querySelector('#theme-toggle')
-const themeLabel = themeToggle.querySelector('.theme-label')
-function syncThemeToggle() {
-  const dark = document.documentElement.dataset.theme === 'dark'
-  themeToggle.setAttribute('aria-pressed', String(dark))
-  themeToggle.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} mode`)
-  themeLabel.textContent = dark ? 'Light' : 'Dark'
-}
-themeToggle.addEventListener('click', () => {
-  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
-  document.documentElement.dataset.theme = next
-  try { localStorage.setItem('portfolio-theme', next) } catch { /* Theme still works for this visit. */ }
-  syncThemeToggle()
+document.querySelectorAll('.ux-project').forEach(project => {
+  const buttons = [...project.querySelectorAll('.ux-thumb')]
+  const screen = project.querySelector('.ux-screen')
+  const image = screen.querySelector('img')
+  buttons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      buttons.forEach(option => option.setAttribute('aria-pressed', String(option === button)))
+      image.src = button.dataset.uxSrc
+      image.alt = `${project.querySelector('h3').textContent} — ${button.dataset.uxCaption}`
+      screen.href = button.dataset.uxSrc
+      screen.setAttribute('aria-label', `Enlarge ${project.querySelector('h3').textContent}: ${button.dataset.uxTitle} (new tab)`)
+      project.querySelector('.ux-screen-caption strong').textContent = button.dataset.uxTitle
+      project.querySelector('.ux-screen-caption p').textContent = button.dataset.uxCaption
+      project.querySelector('.ux-screen-origin').textContent = button.dataset.uxOrigin
+      project.querySelector('.ux-screen-position').textContent = `${String(index + 1).padStart(2, '0')} / ${String(buttons.length).padStart(2, '0')}`
+    })
+  })
 })
-syncThemeToggle()
+
+const uxGamePreview = document.querySelector('.ux-game-footage video')
+new IntersectionObserver(entries => {
+  if (!entries[0].isIntersecting) uxGamePreview.pause()
+}).observe(uxGamePreview)
+document.addEventListener('visibilitychange', () => { if (document.hidden) uxGamePreview.pause() })
 
 document.querySelector('#back-to-top').addEventListener('click', event => {
   event.preventDefault()
@@ -46,62 +61,169 @@ document.querySelector('#back-to-top').addEventListener('click', event => {
 })
 
 const aboutPortrait = document.querySelector('.about-portrait')
-const aboutPerson = aboutPortrait.querySelector('.about-person')
-const aboutPointer = matchMedia('(hover: hover) and (pointer: fine)')
+const aboutAscii = aboutPortrait.querySelector('.about-ascii')
 const aboutReducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
-let aboutShader = null
-let aboutFrame = 0
-let aboutPointerPosition = null
-aboutPortrait.addEventListener('pointermove', event => {
-  if (!document.body.classList.contains('depth-on') || !aboutPointer.matches || aboutReducedMotion.matches || event.pointerType === 'touch') return
-  aboutPointerPosition = { x: event.clientX, y: event.clientY }
-  if (aboutFrame) return
-  aboutFrame = requestAnimationFrame(() => {
-    aboutFrame = 0
-    if (!aboutPointerPosition) return
-    const rect = aboutPerson.getBoundingClientRect()
-    const x = Math.max(0, Math.min(1, (aboutPointerPosition.x - rect.left) / rect.width))
-    const y = Math.max(0, Math.min(1, (aboutPointerPosition.y - rect.top) / rect.height))
-    aboutShader ||= createCardShader()
-    aboutShader.draw(aboutPerson, x, y)
+let aboutAsciiRows = []
+let aboutScrambleTimer = 0
+let aboutPortraitInView = true
+
+function syncAboutScramble() {
+  const active = aboutPortrait.matches('.is-revealing, :focus-visible')
+    && aboutPortraitInView && !document.hidden && !aboutReducedMotion.matches
+  if (active && !aboutScrambleTimer) {
+    aboutScrambleTimer = setInterval(() => {
+      aboutAsciiRows.forEach(({ element, original }) => {
+        element.textContent = [...original].map(character => {
+          if (character === ' ' || Math.random() > .35) return character
+          const pool = '`‹¯'.includes(character) ? '`‹¯'
+            : 'l*‡'.includes(character) ? 'l*‡' : '3ü6'
+          return pool[Math.floor(Math.random() * pool.length)]
+        }).join('')
+      })
+    }, 120)
+  } else if (!active) {
+    clearInterval(aboutScrambleTimer)
+    aboutScrambleTimer = 0
+    aboutAsciiRows.forEach(({ element, original }) => { element.textContent = original })
+  }
+}
+
+function renderAboutAscii(text) {
+  const lines = text.replace(/\r/g, '').split('\n')
+  if (lines.at(-1) === '') lines.pop()
+  const columns = Math.max(...lines.map(line => line.length))
+  // The supplied artwork crops the first 92 pixels of the photo.
+  // Keep its blank cells and map every row into the original photo coordinates.
+  const rowHeight = 1316 / lines.length
+  aboutAscii.style.setProperty('--ascii-font-size', `${1122 / columns / .6}px`)
+  aboutAscii.replaceChildren(...lines.map((line, index) => {
+    const row = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+    row.setAttribute('x', '0')
+    row.setAttribute('y', String(92 + (index + .75) * rowHeight))
+    row.setAttribute('textLength', '1122')
+    row.setAttribute('lengthAdjust', 'spacingAndGlyphs')
+    row.textContent = line.padEnd(columns, ' ')
+    return row
+  }))
+  aboutAsciiRows = [...aboutAscii.children].map(element => ({ element, original: element.textContent }))
+  syncAboutScramble()
+}
+
+fetch('/about/muaz-ascii.txt')
+  .then(response => {
+    if (!response.ok) throw new Error(`ASCII portrait request failed: ${response.status}`)
+    return response.text()
   })
+  .then(renderAboutAscii)
+  .catch(error => {
+    aboutPortrait.classList.add('ascii-unavailable')
+    console.error(error)
+  })
+
+let aboutRevealFrame = 0
+let aboutRevealPoint = null
+function drawAboutReveal() {
+  aboutRevealFrame = 0
+  if (!aboutRevealPoint) return
+  const rect = aboutPortrait.getBoundingClientRect()
+  const x = Math.max(0, Math.min(rect.width, aboutRevealPoint.x - rect.left))
+  const y = Math.max(0, Math.min(rect.height, aboutRevealPoint.y - rect.top))
+  aboutPortrait.style.setProperty('--reveal-x', `${x}px`)
+  aboutPortrait.style.setProperty('--reveal-y', `${y}px`)
+  aboutPortrait.classList.add('is-revealing')
+  syncAboutScramble()
+}
+function queueAboutReveal(event) {
+  aboutRevealPoint = { x: event.clientX, y: event.clientY }
+  if (!aboutRevealFrame) aboutRevealFrame = requestAnimationFrame(drawAboutReveal)
+}
+aboutPortrait.addEventListener('pointerenter', queueAboutReveal)
+aboutPortrait.addEventListener('pointermove', queueAboutReveal)
+aboutPortrait.addEventListener('pointerdown', queueAboutReveal)
+aboutPortrait.addEventListener('pointerleave', () => {
+  aboutRevealPoint = null
+  aboutPortrait.classList.toggle('is-revealing', aboutPortrait.matches(':focus-visible'))
+  syncAboutScramble()
 })
-aboutPortrait.addEventListener('pointerleave', () => { aboutPointerPosition = null; aboutShader?.clear() })
-new MutationObserver(() => { if (!document.body.classList.contains('depth-on')) aboutShader?.clear() }).observe(document.body, { attributes: true, attributeFilter: ['class'] })
+aboutPortrait.addEventListener('focus', () => {
+  aboutPortrait.style.setProperty('--reveal-x', '50%')
+  aboutPortrait.style.setProperty('--reveal-y', '48%')
+  aboutPortrait.classList.add('is-revealing')
+  syncAboutScramble()
+})
+aboutPortrait.addEventListener('blur', () => {
+  aboutPortrait.classList.remove('is-revealing')
+  syncAboutScramble()
+})
+aboutPortrait.addEventListener('keydown', syncAboutScramble)
+document.addEventListener('visibilitychange', syncAboutScramble)
+aboutReducedMotion.addEventListener('change', syncAboutScramble)
+new IntersectionObserver(entries => {
+  aboutPortraitInView = entries[0].isIntersecting
+  syncAboutScramble()
+}).observe(aboutPortrait)
+
+initOrbitCreatives()
+
+const savedPromoCategories = readPromoCategories()
+const promoKeyVisualIds = savedPromoCategories['key-visuals']
+const promoSocialWebIds = savedPromoCategories['social-web-ads']
+const promoPrintPackagingIds = savedPromoCategories['print-packaging']
+
+const videoCategoryOrder = ['Shoes Promo', 'motion', 'montage', 'collab', 'meme', 'ugc edit', 'wedding hafiz']
+const videoCategoryHeroes = {
+  'Shoes Promo': '048',
+  'motion': '060',
+  'montage': '186',
+  'meme': '182',
+  'ugc edit': '262'
+}
+
+function sortVideoFilms(a, b) {
+  const catA = a.category === 'collab' ? 'montage' : a.category
+  const catB = b.category === 'collab' ? 'montage' : b.category
+  const orderA = videoCategoryOrder.indexOf(catA)
+  const orderB = videoCategoryOrder.indexOf(catB)
+  if (orderA !== orderB) return orderA - orderB
+  const hero = videoCategoryHeroes[catA]
+  if (hero) {
+    if (String(a.id) === hero) return -1
+    if (String(b.id) === hero) return 1
+  }
+  return 0
+}
 
 const collections = [
-  { id: 'promo', label: 'Promo', categories: ['promo'] },
+  { id: 'key-visuals', label: 'Key Visuals', categories: [], filter: item => item.category === 'promo' && promoKeyVisualIds.has(item.id), order: promoKeyVisualIds },
+  { id: 'social-web-ads', label: 'Social & Web Ads', categories: [], filter: item => item.category === 'promo' && promoSocialWebIds.has(item.id), order: promoSocialWebIds },
+  { id: 'print-packaging', label: 'Print & Packaging', categories: [], filter: item => item.category === 'promo' && promoPrintPackagingIds.has(item.id), order: promoPrintPackagingIds },
   { id: 'bulan-bintang-contest', label: 'Bulan Bintang Contest', categories: ['Bulan Bintang Contest'], logo: '/portfolio-media/bulan-bintang-logo.png' },
-  { id: 'maybank-tiger', label: 'Maybank MyTiger', categories: ['Maybank Tiger'] },
-  { id: 'vartcomp', label: 'vArtComp Video Competition', categories: ['vartcomp'] },
+  { id: 'maybank-tiger', label: 'Maybank MyTiger', categories: ['Maybank Tiger'], featuredSource: 'medias/images/Maybank Tiger/Maybank.jpeg' },
   { id: 'visit-johor', label: 'Visit Johor Mascot', categories: ['Visit Johor Mascott', 'Character Trace back + add outfit + pose', 'add more pose'], logo: '/portfolio-media/visit-johor-logo.webp', logoAlt: 'Visit Johor logo' },
   { id: 'nft-vertikal', label: 'NFT Project - Vertikal', categories: ['NFT Project - Vertikal'] },
-  { id: 'sampul-raya', label: 'Raya Envelope', categories: ['sampul raya design'] },
-  { id: 'van-livery', label: 'Van Livery', categories: ['van livery design', '4x'] },
-  { id: 'live-stickers', label: 'Livestream Stickers', categories: ['live deco sticker'] },
-  { id: 'cny-stickers', label: 'CNY Stickers', categories: ['cnystickers'] },
-  { id: 'raya-stickers', label: 'Raya Stickers', categories: ['rayastickers'] },
+  { id: 'festive-stickers', label: 'Raya & CNY Stickers Designs', categories: ['rayastickers', 'cnystickers'] },
   { id: 'landscaping', label: '3D Stickers Design', categories: ['3d landscaping sticker'] },
-  { id: 'shop-deco', label: 'Shop Décor', categories: ['shop deco'] },
-  { id: 'wedding-hafiz', label: 'Wedding Film', categories: ['wedding hafiz'] },
-  { id: 'montages', label: 'Montages', categories: ['montage', 'collab'] },
-  { id: 'shoe-films', label: 'Product Focused Video', categories: ['Shoes Promo'] },
-  { id: 'motion', label: 'Motion Graphic', categories: ['motion'] },
-  { id: 'photography', label: 'Product Photoshoot', categories: ['shoes photoshoot'] },
-  { id: 'social-edits', label: 'Engagement Videos', categories: ['meme'] },
-  { id: 'comics', label: 'Comics', categories: ['comics'] },
-  { id: 'ugc', label: 'UGC', categories: ['ugc edit'], featuredSource: 'medias/videos/ugc edit/recvuSj18IsFfN_Submission_2026.mp4' },
-  { id: 'live-clips', label: 'Live clips', categories: ['liveclipping'] }
+  { id: 'shop-deco', label: 'Uwalk Ecommerce Shop Decoration', categories: ['shop deco'] },
+  { id: 'video-films', label: 'Video & Motion Projects', categories: ['Shoes Promo', 'motion', 'montage', 'collab', 'meme', 'ugc edit', 'wedding hafiz'], sort: sortVideoFilms },
+  { id: 'photography', label: 'Product Photoshoot', categories: ['shoes photoshoot'] }
 ].map(collection => {
-  const items = media.filter(item => collection.categories.includes(item.category))
+  const items = collection.filter
+    ? media.filter(collection.filter)
+    : media.filter(item => collection.categories.includes(item.category))
+  if (collection.order) {
+    const orderList = Array.from(collection.order)
+    items.sort((a, b) => orderList.indexOf(String(a.id)) - orderList.indexOf(String(b.id)))
+  }
+  if (collection.sort) items.sort(collection.sort)
   if (collection.featuredSource) items.sort((a, b) => Number(b.source === collection.featuredSource) - Number(a.source === collection.featuredSource))
   return { ...collection, items }
 })
 const mix = collections.flatMap(collection => collection.items)
-const collectionLabelByCategory = new Map(collections.flatMap(collection => collection.categories.map(category => [category, collection.label])))
+const collectionLabelByCategory = new Map(collections.flatMap(collection => (collection.categories || []).map(category => [category, collection.label])))
 document.querySelector('.tape-label > span:nth-child(2)').textContent = `${mix.length} PIECES / KEEP SCROLLING ↓`
 const names = { '014': 'New Arrivals', '034': '5.5 Sale', '008': 'Mother’s Day Sale', '009': 'Warehouse Sale', '007': 'Syukur Raya Sale' }
-const title = item => names[item.id] || item.source.split('/').pop().replace(/\.[^.]+$/, '')
+const collectionLabelByItem = new Map(collections.flatMap(collection => collection.items.map(item => [item.id, collection.label])))
+const title = item => mediaDescriptions[item.id]?.title || names[item.id] || item.source.split('/').pop().replace(/\.[^.]+$/, '')
 const escape = value => value.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c])
 function renderPiece(item) {
   const index = mix.indexOf(item)
@@ -113,11 +235,11 @@ function renderPiece(item) {
 const sectionNav = document.createElement('nav')
 sectionNav.className = 'collection-nav'
 sectionNav.setAttribute('aria-label', 'Artwork collections')
-sectionNav.innerHTML = collections.map(collection => `<a href="#${collection.id}">${collection.label}</a>`).join('')
+sectionNav.innerHTML = collections.map(collection => `<a href="#${collection.id}">${collection.label}</a>`).join('') + '<a href="#ui-ux">UI & UX</a>'
 document.querySelector('#montage').before(sectionNav)
 document.querySelector('#montage').innerHTML = collections.map((collection, index) => `
   <section id="${collection.id}" class="collection" aria-labelledby="${collection.id}-title">
-    <div class="collection-bar"><span>${String(index + 1).padStart(2, '0')}</span>${collection.logo ? `<span class="collection-brand"><img src="${collection.logo}" alt="${collection.logoAlt || 'Bulan Bintang logo'}" width="120" height="94" loading="lazy" decoding="async" /></span>` : ''}<h2 id="${collection.id}-title">${collection.label}</h2><span class="collection-count">${collection.items.length} ${collection.items.length === 1 ? 'piece' : 'pieces'}</span><button class="section-share" type="button" data-share-section="${collection.id}" aria-label="Copy link to ${escape(collection.label)}"><span aria-hidden="true">↗</span><span>Share</span></button></div>
+    <div class="collection-bar${collection.logo ? ' collection-bar--has-brand' : ''}"><span>${String(index + 1).padStart(2, '0')}</span>${collection.logo ? `<span class="collection-brand"><img src="${collection.logo}" alt="${collection.logoAlt || 'Bulan Bintang logo'}" width="120" height="94" loading="lazy" decoding="async" /></span>` : ''}<h2 id="${collection.id}-title">${collection.label}</h2><span class="collection-count">${collection.items.length} ${collection.items.length === 1 ? 'piece' : 'pieces'}</span><button class="section-share" type="button" data-share-section="${collection.id}" aria-label="Copy link to ${escape(collection.label)}"><span aria-hidden="true">↗</span><span>Share</span></button></div>
     <div class="collection-flow">${collection.items.map(renderPiece).join('')}</div>
   </section>`).join('')
 const copyText = async value => {
@@ -152,9 +274,12 @@ document.querySelector('#montage').addEventListener('click', async event => {
   }, 1800)
 })
 function scrollToSharedSection() {
-  const id = decodeURIComponent(location.hash.slice(1))
+  let id = decodeURIComponent(location.hash.slice(1))
+  if (id === 'promo') id = 'key-visuals'
+  if (id === 'sampul-raya') id = 'print-packaging'
+  if (['montages', 'wedding-hafiz', 'shoe-films', 'motion', 'social-edits', 'ugc'].includes(id)) id = 'video-films'
   const target = document.getElementById(id)
-  if (!target?.matches('.collection, .featured-section')) return
+  if (!target?.matches('.collection, .featured-section, .ux-section')) return
   requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }))
 }
 addEventListener('hashchange', scrollToSharedSection)
@@ -170,7 +295,7 @@ let activeCollection = ''
 function highlightCollection() {
   scrollFrame = 0
   let current = collections[0].id
-  for (const collection of collections) {
+  for (const collection of [...collections, { id: 'ui-ux' }]) {
     if (document.getElementById(collection.id).getBoundingClientRect().top <= 150) current = collection.id
   }
   let activeLink = null
@@ -182,7 +307,7 @@ function highlightCollection() {
   })
   if (current !== activeCollection) {
     activeCollection = current
-    activeLink?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    if (activeLink) sectionNav.scrollTo({ left: activeLink.offsetLeft - sectionNav.clientWidth / 2 + activeLink.clientWidth / 2, behavior: 'smooth' })
   }
 }
 addEventListener('scroll', () => {
@@ -190,16 +315,17 @@ addEventListener('scroll', () => {
 }, { passive: true })
 highlightCollection()
 
-createComicLoop()
 createComicLoop('#photography', 2)
-createComicLoop('#motion')
-enableGreetingAutoplay(mix, '#motion')
+
+const getItemByCard = card => (card?.dataset?.workId ? media.find(m => String(m.id) === card.dataset.workId) : null) || mix[Number(card?.dataset?.index)]
 
 function buildAwardFeature(id, { result, title: featureTitle, description }) {
   const section = document.getElementById(id)
+  if (!section) return
   const flow = section.querySelector('.collection-flow')
+  if (!flow) return
   const cards = [...flow.querySelectorAll('.mix-card')]
-  const badge = cards.find(card => mix[Number(card.dataset.index)]?.source.toLowerCase().includes('award badge'))
+  const badge = cards.find(card => getItemByCard(card)?.source.toLowerCase().includes('award badge'))
   const feature = cards.find(card => card !== badge)
   if (!feature || !badge) return
   section.classList.add('award-collection')
@@ -214,37 +340,6 @@ buildAwardFeature('maybank-tiger', {
   title: 'Values built into a pixel world.',
   description: 'A playful city scene that turns the MyTiger values into one connected world—ambition, progress and community, built one pixel at a time.'
 })
-buildAwardFeature('vartcomp', {
-  result: 'vArtComp 2021 · Third place',
-  title: 'Keep playing. Keep pushing.',
-  description: '“Git Gut” follows a young player who dreams of becoming a professional esports athlete. Setbacks test him, but he keeps practising and refuses to give up on the goal.'
-})
-
-const weddingSection = document.getElementById('wedding-hafiz')
-const weddingFlow = weddingSection.querySelector('.collection-flow')
-weddingSection.classList.add('story-collection')
-weddingFlow.insertAdjacentHTML('beforeend', `<aside class="story-copy"><p class="story-type">Wedding film · Cinematography + edit</p><h3>One day, held in motion.</h3><p>A warm record of the small looks, quiet pauses and joyful moments that make a wedding feel personal. I handled both the filming and the edit, shaping the celebration into one intimate story.</p></aside>`)
-
-const vanSection = document.getElementById('van-livery')
-const vanFlow = vanSection.querySelector('.collection-flow')
-const vanHero = [...vanFlow.querySelectorAll('.mix-card')].find(card => mix[Number(card.dataset.index)]?.source.includes('/4x/'))
-if (vanHero) {
-  vanHero.remove()
-  vanHero.classList.add('van-hero')
-  vanHero.removeAttribute('data-index')
-  vanHero.setAttribute('aria-label', 'Honk the van')
-  vanHero.title = 'Click to honk'
-  const vanHonk = new Audio('/portfolio-media/honk-honk-chen.mp3')
-  vanHonk.preload = 'none'
-  vanHero.addEventListener('click', () => {
-    vanHonk.currentTime = 0
-    vanHonk.play().catch(() => { /* A later click can retry if playback is interrupted. */ })
-  })
-  const vanStage = document.createElement('div')
-  vanStage.className = 'van-livery-stage'
-  vanFlow.before(vanStage)
-  vanStage.append(vanFlow, vanHero)
-}
 
 const johorSection = document.getElementById('visit-johor')
 const johorFlow = johorSection.querySelector('.collection-flow')
@@ -253,8 +348,8 @@ johorIntro.className = 'collection-intro'
 johorIntro.textContent = 'A character system for Visit Johor 2026—from retracing the mascots and designing their outfits to building expressive poses inspired by Johor’s food, culture and music.'
 johorFlow.before(johorIntro)
 const johorCards = [...johorFlow.querySelectorAll('.mix-card')]
-const johorHeroes = johorCards.filter(card => mix[Number(card.dataset.index)]?.source.toLowerCase().endsWith('.webp'))
-const johorLogo = johorCards.find(card => mix[Number(card.dataset.index)]?.source.includes('/LOGO-VJ-26.png'))
+const johorHeroes = johorCards.filter(card => getItemByCard(card)?.source.toLowerCase().endsWith('.webp'))
+const johorLogo = johorCards.find(card => getItemByCard(card)?.source.includes('/LOGO-VJ-26.png'))
 johorLogo?.remove()
 johorHeroes.forEach(card => card.remove())
 createComicLoop('#visit-johor', 2)
@@ -277,10 +372,14 @@ const nftFlow = document.querySelector('#nft-vertikal .collection-flow')
 const nftFeatured = document.createElement('div')
 nftFeatured.className = 'collection-flow nft-featured'
 for (const card of [...nftFlow.querySelectorAll('.mix-card')]) {
-  if (mix[Number(card.dataset.index)]?.source.includes('/feed (')) nftFeatured.append(card)
+  if (getItemByCard(card)?.source.includes('/feed (')) nftFeatured.append(card)
 }
 createComicLoop('#nft-vertikal', 2)
 enableGreetingAutoplay(mix, '#nft-vertikal')
+const nftIntro = document.createElement('p')
+nftIntro.className = 'collection-intro'
+nftIntro.textContent = 'At the height of the 2022 NFT wave, I created Vertikal—a collection of bald characters strapped into jetpacks, rocketing toward the moon. Minted on Pentas.io, the entire collection successfully sold out.'
+nftFlow.before(nftIntro)
 nftFlow.before(nftFeatured)
 
 const contestFlow = document.querySelector('#bulan-bintang-contest .collection-flow')
@@ -330,10 +429,26 @@ const modelObserver = new IntersectionObserver(async entries => {
   try { await loadModelViewer() } catch { /* The inline status explains the failure. */ }
 }, { rootMargin: '300px' })
 modelObserver.observe(contestModel)
-for (const id of ['live-stickers', 'cny-stickers', 'raya-stickers']) {
-  document.getElementById(id).classList.add('sticker-collection')
-  enableStickerDragging(`#${id}`)
+initFestiveStickers('#festive-stickers')
+initRoomSimulator('#landscaping')
+const shopSection = document.getElementById('shop-deco')
+if (shopSection) {
+  const shopFlow = shopSection.querySelector('.collection-flow')
+  const shopIntro = document.createElement('p')
+  shopIntro.className = 'collection-intro'
+  shopIntro.textContent = 'Digital storefront decorations designed for Uwalk across Shopee and Lazada—framing brand banners, campaign vouchers, and product categories into a vibrant online shopping experience.'
+  shopFlow?.before(shopIntro)
 }
+const photoSection = document.getElementById('photography')
+if (photoSection) {
+  const photoFlow = photoSection.querySelector('.collection-flow')
+  const photoIntro = document.createElement('p')
+  photoIntro.className = 'collection-intro'
+  photoIntro.textContent = 'Studio product photography created for e-commerce listings—capturing footwear silhouettes, material textures, and key angles under clean commercial lighting.'
+  photoFlow?.before(photoIntro)
+}
+initVideoStudio('#video-films', { mediaDescriptions, showMedia, mix })
+initVisitorRadar('#visitor-radar')
 enhanceDepth()
 const viewer = document.querySelector('#media-viewer')
 const stopPreview = enableVideoPreviews(mix)
@@ -366,6 +481,9 @@ function showMedia(index) {
     element.preload = 'metadata'
     element.poster = item.poster
     element.src = `${item.src}?audio=1`
+    if (item.width && item.height) {
+      element.style.aspectRatio = `${item.width} / ${item.height}`
+    }
     element.setAttribute('aria-label', `Film ${currentIndex + 1} of ${viewerItems.length}`)
   } else {
     element.src = item.src
@@ -406,7 +524,7 @@ function showMedia(index) {
   details.className = 'viewer-details'
   const kicker = document.createElement('p')
   kicker.className = 'viewer-kicker'
-  kicker.textContent = `${collectionLabelByCategory.get(item.category) || item.category} · ${item.kind === 'video' ? 'Film' : 'Artwork'} ${currentIndex + 1}`
+  kicker.textContent = `${collectionLabelByItem.get(item.id) || collectionLabelByCategory.get(item.category) || item.category} · ${item.kind === 'video' ? 'Film' : 'Artwork'} ${currentIndex + 1}`
   const heading = document.createElement('h2')
   heading.textContent = copy?.title || title(item)
   const description = document.createElement('p')
@@ -416,14 +534,39 @@ function showMedia(index) {
   workId.className = 'viewer-work-id'
   workId.textContent = `WORK ${item.id}`
   details.append(kicker, heading, description, workId)
+
+  if (devMode && promoSorterInstance && item.category === 'promo') {
+    const isDeleted = promoSorterInstance.categories['deleted']?.has(String(item.id))
+    const devActions = document.createElement('div')
+    devActions.className = 'viewer-dev-actions'
+    devActions.innerHTML = `
+      <button type="button" class="viewer-delete-toggle ${isDeleted ? 'is-deleted' : ''}">
+        ${isDeleted ? '↺ Restore Artwork' : '✕ Mark to Delete'}
+      </button>
+    `
+    const toggleBtn = devActions.querySelector('.viewer-delete-toggle')
+    toggleBtn.addEventListener('click', () => {
+      const result = promoSorterInstance.toggleDeleted(item.id)
+      toggleBtn.classList.toggle('is-deleted', result.isDeleted)
+      toggleBtn.textContent = result.isDeleted ? '↺ Restore Artwork' : '✕ Mark to Delete'
+    })
+    details.append(devActions)
+  }
+
   content.append(mediaStage, details)
   syncViewerAiBadge(item)
   if (!viewer.open) viewer.showModal()
   if (item.kind === 'video') element.play().catch(() => { /* Native controls remain available. */ })
 }
 document.querySelector('#montage').addEventListener('click', event => {
-  const button = event.target.closest('[data-index]')
-  if (button) { viewerItems = mix; showMedia(Number(button.dataset.index)) }
+  const button = event.target.closest('[data-work-id], [data-index]')
+  if (button) {
+    viewerItems = mix
+    const idx = button.dataset.workId
+      ? mix.findIndex(item => String(item.id) === button.dataset.workId)
+      : Number(button.dataset.index)
+    if (idx !== -1) showMedia(idx)
+  }
 })
 document.querySelector('#viewer-close').addEventListener('click', () => viewer.close())
 document.querySelector('#previous-media').addEventListener('click', () => showMedia(currentIndex - 1))
@@ -436,7 +579,8 @@ viewer.addEventListener('keydown', event => {
   if (event.key === 'ArrowLeft') { event.preventDefault(); showMedia(currentIndex - 1) }
 })
 
-const devMode = import.meta.env.DEV || new URLSearchParams(location.search).get('dev') === '1'
+let promoSorterInstance = null
+const devMode = new URLSearchParams(location.search).get('dev') !== '0'
 const featured = createFeaturedProjects({
   media: mix,
   devMode,
@@ -447,12 +591,66 @@ if (devMode) {
   const tools = document.createElement('aside')
   tools.className = 'portfolio-dev-tools'
   tools.setAttribute('aria-label', 'Portfolio developer tools')
-  tools.innerHTML = '<span>DEV</span><button type="button" data-picker>Raya picker</button><button type="button" data-ai-labels>AI labels</button>'
+  tools.innerHTML = '<span>DEV</span><button type="button" data-promo-sorter>Sort Promos</button><button type="button" data-picker>Raya picker</button><button type="button" data-ai-labels>AI labels</button>'
   async function enableDevTools() {
     const { createFeaturedPicker } = await import('./featured-picker.js')
     document.body.append(tools)
     const getTitle = item => mediaDescriptions[item.id]?.title || title(item)
     createFeaturedPicker({ trigger: tools.querySelector('[data-picker]'), collections, getTitle, featured })
+
+    const promoMedia = media.filter(item => item.category === 'promo')
+    promoSorterInstance = createPromoSorter({
+      trigger: tools.querySelector('[data-promo-sorter]'),
+      promoMedia,
+      getTitle,
+      onUpdate(updatedCategories) {
+        promoKeyVisualIds.clear()
+        updatedCategories['key-visuals'].forEach(id => promoKeyVisualIds.add(id))
+
+        promoSocialWebIds.clear()
+        updatedCategories['social-web-ads'].forEach(id => promoSocialWebIds.add(id))
+
+        promoPrintPackagingIds.clear()
+        updatedCategories['print-packaging'].forEach(id => promoPrintPackagingIds.add(id))
+
+        collections[0].items = [...promoKeyVisualIds].map(id => media.find(m => String(m.id) === id)).filter(Boolean)
+        collections[1].items = [...promoSocialWebIds].map(id => media.find(m => String(m.id) === id)).filter(Boolean)
+        collections[2].items = [...promoPrintPackagingIds].map(id => media.find(m => String(m.id) === id)).filter(Boolean)
+
+        mix.length = 0
+        mix.push(...collections.flatMap(c => c.items))
+
+        for (let i = 0; i < 3; i++) {
+          const col = collections[i]
+          const section = document.getElementById(col.id)
+          if (section) {
+            const flow = section.querySelector('.collection-flow')
+            const count = section.querySelector('.collection-count')
+            if (flow) {
+              flow.innerHTML = col.items.map(renderPiece).join('')
+            }
+            if (count) {
+              count.textContent = `${col.items.length} ${col.items.length === 1 ? 'piece' : 'pieces'}`
+            }
+          }
+        }
+
+        const tapeLabel = document.querySelector('.tape-label > span:nth-child(2)')
+        if (tapeLabel) tapeLabel.textContent = `${mix.length} PIECES / KEEP SCROLLING ↓`
+
+        collectionLabelByItem.clear()
+        collections.forEach(col => {
+          col.items.forEach(item => collectionLabelByItem.set(item.id, col.label))
+        })
+
+        // Re-sync data-index attributes on all mix cards across all collections
+        document.querySelectorAll('.mix-card[data-work-id]').forEach(card => {
+          const idx = mix.findIndex(item => String(item.id) === card.dataset.workId)
+          if (idx !== -1) card.dataset.index = idx
+        })
+      }
+    })
+
     const aiDialog = document.createElement('dialog')
     aiDialog.className = 'ai-dev'
     aiDialog.setAttribute('aria-labelledby', 'ai-dev-title')
@@ -481,47 +679,144 @@ if (devMode) {
 }
 
 const projects = [
-  ['Unfrog', '/frog.svg', 'https://frog.muazaoski.site', 'PLAY', 'A 3D multiplayer frog arena with jumping, combat and chaotic physics.', 'Play Unfrog'],
-  ['Workout', '/workout.svg', 'https://workout.muazaoski.site', 'FITNESS', 'A workout tracker for logging sessions and chasing fitness goals.', 'Open tracker'],
-  ['Size Chart', '/sizechart.svg', 'https://chart.muazaoski.site', 'TOOLS', 'Turn size chart images into editable, ready-to-share charts.', 'Make a chart'],
-  ['OCR', '/ocr.svg', 'https://ocr.muazaoski.site', 'TOOLS', 'Extract text and structured information from images with AI.', 'Try OCR'],
-  ['FinanceMe', '/financeme-02.svg', 'https://financeme.cc', 'FINANCE', 'A personal finance app for expenses, bills, investments and goals.', 'View project', true]
+  {
+    name: 'Unfrog',
+    icon: '/frog.svg',
+    url: 'https://frog.muazaoski.site',
+    category: '3D WEBGL GAME',
+    description: 'A 3D multiplayer frog arena featuring hop mechanics, tongue combat, and chaotic real-time physics. Hop into Frogstead, customize frog colors, and battle with players directly in your browser.',
+    action: 'Launch Game',
+    video: '/app-previews/unfrog.mp4',
+    poster: '/app-previews/unfrog-poster.webp',
+    tag: 'FEATURED APP',
+    tech: 'THREE.JS / WEBSOCKETS / CANNON-ES'
+  },
+  {
+    name: 'Workout',
+    icon: '/workout.svg',
+    url: 'https://workout.muazaoski.site',
+    category: 'FITNESS TRACKER',
+    description: 'A minimal, focused workout tracker for logging training sessions, tracking sets and reps, and hitting fitness milestones.',
+    action: 'Open Tracker'
+  },
+  {
+    name: 'Size Chart',
+    icon: '/sizechart.svg',
+    url: 'https://chart.muazaoski.site',
+    category: 'ECOMMERCE TOOL',
+    description: 'Instantly convert messy size chart photos into clean, editable, high-res charts ready for e-commerce store listings.',
+    action: 'Create Chart'
+  },
+  {
+    name: 'OCR',
+    icon: '/ocr.svg',
+    url: 'https://ocr.muazaoski.site',
+    category: 'AI UTILITY',
+    description: 'Optical character recognition engine that extracts clear text and structured tabular data from images with AI.',
+    action: 'Try OCR'
+  },
+  {
+    name: 'FinanceMe',
+    icon: '/financeme-02.svg',
+    url: 'https://financeme.cc',
+    category: 'PERSONAL FINANCE',
+    description: 'A comprehensive personal financial management platform for monthly budgeting, freelance invoices, and goals.',
+    action: 'View Project',
+    discontinued: true
+  }
 ]
 
-document.querySelector('#projects').innerHTML = projects.map(([name, icon, url, category, description, action, discontinued], index) => {
-  const layout = discontinued ? 'archive' : index === 0 ? 'featured' : index === 1 ? 'workout' : 'standard'
-  return `
-    <a class="app-card app-card--${layout}" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${discontinued ? `View ${name}, discontinued project` : `Open ${name}`} (new tab)">
-      ${name === 'Unfrog' ? '<div class="app-card__preview" aria-hidden="true"><video src="/app-previews/unfrog.mp4" muted loop playsinline preload="none" tabindex="-1"></video></div>' : ''}
-      <div class="app-card__top"><span>${String(index + 1).padStart(2, '0')} / ${category}</span>${discontinued ? '<span class="app-card__status">Discontinued</span>' : '<span aria-hidden="true">↗</span>'}</div>
-      <div class="app-card__icon"><img src="${icon}" alt="" width="96" height="96" loading="lazy" decoding="async" /></div>
-      <div class="app-card__body"><h3>${name}</h3><p>${description}</p></div>
-      <span class="app-card__action">${action}<span aria-hidden="true">↗</span></span>
-    </a>
-  `
-}).join('')
+const [featuredApp, ...otherApps] = projects
 
-const unfrogCard = document.querySelector('.app-card__preview')?.closest('.app-card')
-if (unfrogCard) {
-  const preview = unfrogCard.querySelector('video')
+document.querySelector('#projects').innerHTML = `
+  <div class="apps-featured-hero">
+    <a class="app-hero-card" href="${featuredApp.url}" target="_blank" rel="noopener noreferrer" aria-label="Play ${featuredApp.name}, 3D multiplayer arena (new tab)">
+      <div class="app-hero-monitor">
+        <video src="${featuredApp.video}" poster="${featuredApp.poster}" muted loop playsinline preload="metadata"></video>
+        <div class="app-hero-hud">
+          <span class="app-hud-tag"><span class="app-hud-pulse"></span>LIVE ARENA</span>
+          <span class="app-hud-sub">MULTIPLAYER 3D</span>
+        </div>
+        <div class="app-hero-scanlines" aria-hidden="true"></div>
+      </div>
+      <div class="app-hero-content">
+        <div class="app-hero-header">
+          <div class="app-hero-badges">
+            <span class="app-hero-index">[ 01 // ${featuredApp.tag} ]</span>
+            <span class="app-hero-status"><span class="app-status-dot"></span>ONLINE ↗</span>
+          </div>
+          <div class="app-hero-title-row">
+            <div class="app-hero-icon">
+              <img src="${featuredApp.icon}" alt="" width="56" height="56" loading="lazy" decoding="async" />
+            </div>
+            <div>
+              <h3 class="app-hero-title">${featuredApp.name}</h3>
+              <p class="app-hero-url">${featuredApp.url.replace('https://', '')}</p>
+            </div>
+          </div>
+        </div>
+        <p class="app-hero-desc">${featuredApp.description}</p>
+        <div class="app-hero-footer">
+          <div class="app-hero-btn">
+            <span>${featuredApp.action.toUpperCase()}</span>
+            <span aria-hidden="true">↗</span>
+          </div>
+          <span class="app-hero-tech">${featuredApp.tech}</span>
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="apps-subgrid">
+    ${otherApps.map((app, idx) => {
+      const index = idx + 2
+      const isArchived = Boolean(app.discontinued)
+      return `
+        <a class="app-subcard${isArchived ? ' app-subcard--archived' : ''}" href="${app.url}" target="_blank" rel="noopener noreferrer" aria-label="${isArchived ? `View ${app.name}, archived project` : `Open ${app.name}`} (new tab)">
+          <div class="app-subcard-top">
+            <span class="app-subcard-tag">[ ${String(index).padStart(2, '0')} // ${app.category} ]</span>
+            <span class="app-subcard-badge">${isArchived ? 'ARCHIVED' : 'ACTIVE'}</span>
+          </div>
+          <div class="app-subcard-icon">
+            <img src="${app.icon}" alt="" width="44" height="44" loading="lazy" decoding="async" />
+          </div>
+          <div class="app-subcard-body">
+            <h3>${app.name}</h3>
+            <p>${app.description}</p>
+          </div>
+          <div class="app-subcard-action">
+            <span>${app.action}</span>
+            <span aria-hidden="true">↗</span>
+          </div>
+        </a>
+      `
+    }).join('')}
+  </div>
+`
+
+const heroCard = document.querySelector('.app-hero-card')
+if (heroCard) {
+  const video = heroCard.querySelector('video')
   const playPreview = () => {
-    preview.muted = true
-    preview.play().catch(() => {})
+    video.muted = true
+    video.play().catch(() => {})
+    heroCard.classList.add('is-previewing')
   }
   const stopPreview = () => {
-    preview.pause()
-    preview.currentTime = 0
-    unfrogCard.classList.remove('is-previewing')
+    video.pause()
+    video.currentTime = 0
+    heroCard.classList.remove('is-previewing')
   }
-  preview.addEventListener('playing', () => unfrogCard.classList.add('is-previewing'))
-  unfrogCard.addEventListener('mouseenter', playPreview)
-  unfrogCard.addEventListener('mouseleave', () => {
-    if (document.activeElement !== unfrogCard) stopPreview()
+  heroCard.addEventListener('mouseenter', playPreview)
+  heroCard.addEventListener('mouseleave', () => {
+    if (document.activeElement !== heroCard) stopPreview()
   })
-  unfrogCard.addEventListener('focus', playPreview)
-  unfrogCard.addEventListener('blur', () => {
-    if (!unfrogCard.matches(':hover')) stopPreview()
+  heroCard.addEventListener('focus', playPreview)
+  heroCard.addEventListener('blur', () => {
+    if (!heroCard.matches(':hover')) stopPreview()
   })
+  new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) stopPreview()
+  }).observe(heroCard)
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stopPreview()
   })

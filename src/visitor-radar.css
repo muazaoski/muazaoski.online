@@ -1,0 +1,406 @@
+/**
+ * VISITOR RADAR & LEADERBOARD
+ * Funny, real-time IP country detection & lighthearted top 5 visitor hub leaderboard
+ */
+
+.visitor-radar-section {
+  width: 100%;
+  margin: clamp(50px, 7vw, 100px) 0 clamp(40px, 6vw, 80px);
+  padding: 0;
+}
+
+.radar-deck {
+  position: relative;
+  background: #07090e;
+  border: 1px solid #1a2334;
+  border-radius: 8px;
+  padding: clamp(22px, 3.5vw, 40px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+  overflow: hidden;
+}
+
+.radar-deck::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--pixel-accent) 0%, rgba(4, 217, 255, 0.3) 60%, transparent 100%);
+}
+
+.radar-header {
+  margin-bottom: clamp(20px, 2.5vw, 30px);
+  padding-bottom: 18px;
+  border-bottom: 1px solid #141c28;
+}
+
+.radar-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--pixel-accent);
+}
+
+.radar-beacon-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pixel-accent);
+  box-shadow: 0 0 8px var(--pixel-accent);
+  animation: stage-pulse 1.8s infinite ease-in-out;
+}
+
+.radar-title {
+  margin: 0;
+  font-family: "Dico", "Pixelify Sans", monospace;
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 700;
+  color: var(--pixel-white);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.radar-subtitle {
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: #94a3b8;
+  line-height: 1.5;
+  max-width: 65ch;
+}
+
+/* 2-Column Deck: Log & Leaderboard */
+.radar-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(20px, 2.5vw, 36px);
+  align-items: stretch;
+}
+
+/* Left Panel: Log & Punchline */
+.radar-log-panel {
+  display: flex;
+  flex-direction: column;
+  background: #04060a;
+  border: 1px solid #161e2c;
+  border-radius: 6px;
+  padding: clamp(18px, 2.5vw, 26px);
+}
+
+.radar-terminal-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #111722;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+.radar-terminal-dots {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.radar-terminal-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1f293d;
+  display: block;
+}
+
+.radar-terminal-dots i:first-child { background: #ff5f56; }
+.radar-terminal-dots i:nth-child(2) { background: #ffbd2e; }
+.radar-terminal-dots i:nth-child(3) { background: #27c93f; }
+
+.radar-status-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #2ecc71;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.radar-status-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2ecc71;
+  box-shadow: 0 0 6px #2ecc71;
+  animation: stage-pulse 1.6s infinite ease-in-out;
+}
+
+.radar-ip-output {
+  margin: 18px 0 0;
+}
+
+.radar-prompt-line {
+  font-family: monospace;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.radar-detected-hero {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.radar-flag-big {
+  font-size: clamp(32px, 4vw, 42px);
+  line-height: 1;
+}
+
+.radar-detected-name {
+  margin: 0;
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.radar-city-tag {
+  display: block;
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--pixel-accent);
+  margin-top: 3px;
+}
+
+/* Funny Speech Bubble */
+.radar-funny-bubble {
+  position: relative;
+  background: rgba(4, 217, 255, 0.04);
+  border: 1px solid rgba(4, 217, 255, 0.2);
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 6px;
+}
+
+.radar-bubble-tag {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 10px;
+  color: var(--pixel-accent);
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.radar-punchline-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #f1f5f9;
+}
+
+.radar-latency-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #111722;
+  font-family: monospace;
+  font-size: 11px;
+  color: #64748b;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.radar-cheer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  color: #f8fafc;
+  font-family: monospace;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radar-cheer-btn:hover {
+  background: rgba(4, 217, 255, 0.12);
+  border-color: var(--pixel-accent);
+  color: var(--pixel-accent);
+  transform: translateY(-1px);
+}
+
+.radar-cheer-btn:active {
+  transform: scale(0.96);
+}
+
+/* Right Panel: Top 5 Leaderboard */
+.radar-leaderboard-panel {
+  display: flex;
+  flex-direction: column;
+  background: #04060a;
+  border: 1px solid #161e2c;
+  border-radius: 6px;
+  padding: clamp(18px, 2.5vw, 26px);
+}
+
+.radar-board-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #111722;
+}
+
+.radar-board-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radar-board-badge {
+  font-family: monospace;
+  font-size: 10px;
+  color: #8b949e;
+  background: #0b0f17;
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid #1a2233;
+}
+
+.radar-leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+  list-style: none;
+  padding: 0;
+}
+
+.radar-row {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  background: #080c14;
+  border: 1px solid #131a26;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+}
+
+.radar-row.is-user-country {
+  border-color: rgba(4, 217, 255, 0.45);
+  background: rgba(4, 217, 255, 0.04);
+  box-shadow: 0 0 16px rgba(4, 217, 255, 0.1);
+}
+
+.radar-row-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.radar-row-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.radar-rank-badge {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 700;
+  width: 24px;
+  color: #64748b;
+}
+
+.radar-rank-badge.rank-1 { color: #f1c40f; }
+.radar-rank-badge.rank-2 { color: #bdc3c7; }
+.radar-rank-badge.rank-3 { color: #e67e22; }
+
+.radar-flag-small {
+  font-size: 18px;
+}
+
+.radar-country-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.radar-you-tag {
+  display: inline-block;
+  padding: 1px 6px;
+  background: var(--pixel-accent);
+  color: #000;
+  border-radius: 2px;
+  font-family: monospace;
+  font-size: 9px;
+  font-weight: 700;
+  margin-left: 6px;
+}
+
+.radar-row-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radar-count-num {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pixel-white);
+}
+
+.radar-row.is-user-country .radar-count-num {
+  color: var(--pixel-accent);
+}
+
+.radar-row-comment {
+  margin: 4px 0 0 34px;
+  font-size: 11px;
+  color: #717d92;
+  font-style: italic;
+  line-height: 1.35;
+}
+
+.radar-disclaimer {
+  margin: 18px 0 0;
+  text-align: center;
+  font-family: monospace;
+  font-size: 10px;
+  color: #64748b;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 900px) {
+  .radar-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .radar-deck {
+    padding: 18px;
+  }
+  .radar-row-main {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .radar-row-comment {
+    margin-left: 0;
+  }
+}

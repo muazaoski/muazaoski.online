@@ -858,17 +858,6 @@
     "sha256": "2ddf81bb394c1fbe96a9c304085b3f41a8608563f7765f46ae358eb47b643d35"
   },
   {
-    "id": "097",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/BTS Portrait d1.png",
-    "src": "/portfolio-media/097.webp",
-    "poster": null,
-    "width": 1324,
-    "height": 1600,
-    "sha256": "166bbb9cf4e6786946de4fe03294cdd70491eedcca135dcd3481c595e3725a19"
-  },
-  {
     "id": "098",
     "kind": "image",
     "category": "promo",
@@ -913,39 +902,6 @@
     "sha256": "d43d8d232be9514332154568bd8d3117d831fa104d6b121295e0f521c909436f"
   },
   {
-    "id": "102",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/CNYClosureNoticed2-01.png",
-    "src": "/portfolio-media/102.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 667,
-    "sha256": "6bca03d2b374a022279eaa5d0c82abe611abe83fe5d01730ee21fc60e1137623"
-  },
-  {
-    "id": "063",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/concept-01.jpg",
-    "src": "/portfolio-media/063.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 616,
-    "sha256": "97bfa3f591edd5f564398f973b350219e06e61be0020ed36affd895af9d2b7ce"
-  },
-  {
-    "id": "103",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/d1 (2).jpg",
-    "src": "/portfolio-media/103.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 914,
-    "sha256": "8a404c4372e6883f8f40409b6bc3e7efa2fdbdabd8741514f2e5ed6b874aa7a3"
-  },
-  {
     "id": "104",
     "kind": "image",
     "category": "promo",
@@ -955,17 +911,6 @@
     "width": 1600,
     "height": 710,
     "sha256": "3c0fd0f4dab70831ba1937a6829e12c3e43ebb5bb40e3ca0fe30073358660684"
-  },
-  {
-    "id": "105",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/d1-02.jpg",
-    "src": "/portfolio-media/105.webp",
-    "poster": null,
-    "width": 1155,
-    "height": 1600,
-    "sha256": "9addc1d56f1d54323e8fdd0713e078d44bf44a9e824144dd84b5e1a7950df05f"
   },
   {
     "id": "064",
@@ -1001,17 +946,6 @@
     "sha256": "7cda9d932a9c34092baa95ada94dd4d5f3028621096ce0b0e40c142b6f1f771f"
   },
   {
-    "id": "109",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/d3.jpg",
-    "src": "/portfolio-media/109.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 921,
-    "sha256": "8d81d9a0c3cc64b24949dcc8318be9edb71bb4fd832a262830858b57e6c20ef3"
-  },
-  {
     "id": "110",
     "kind": "image",
     "category": "promo",
@@ -1021,39 +955,6 @@
     "width": 900,
     "height": 1600,
     "sha256": "053360ec8140b47624667d16e907b79eaf5644c6e186314bdc791f66bb9f0c31"
-  },
-  {
-    "id": "111",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/March PDd4.jpg",
-    "src": "/portfolio-media/111.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 1315,
-    "sha256": "f6d3765d7b7ed962a0e44a28d788b39a81d470a74716b2ac39ddc71c4e9b31dd"
-  },
-  {
-    "id": "112",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/mobile d6.jpg",
-    "src": "/portfolio-media/112.webp",
-    "poster": null,
-    "width": 1076,
-    "height": 1600,
-    "sha256": "06e5cd9759bfc262e03e2cfdba80916efaebf0b24a629a2887f65432ce491cdf"
-  },
-  {
-    "id": "113",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/new d4 1920x800.png",
-    "src": "/portfolio-media/113.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 667,
-    "sha256": "ea023484cf2bf85790e3f992f3abc82a1c3c5591f3b27ac70d1883c2078b6673"
   },
   {
     "id": "114",
@@ -1166,39 +1067,6 @@
     "sha256": "5afe03a5bf7867f5d2d6b9a2151030f4f6287fc78cdf9dd17450048dcf65f858"
   },
   {
-    "id": "118",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/Syukur Raya Sale-03.jpg",
-    "src": "/portfolio-media/118.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 616,
-    "sha256": "4285eccab669353d8577effb214f5da5e2e157de8e0ef62b89a862bded77a9d8"
-  },
-  {
-    "id": "119",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/Syukur Raya Saleeeee-08-08.jpg",
-    "src": "/portfolio-media/119.webp",
-    "poster": null,
-    "width": 1100,
-    "height": 1600,
-    "sha256": "375b7b1c9e418719aca9dd8a712bb3307c84bb8cd82f9a58b966d9a3eaacd774"
-  },
-  {
-    "id": "120",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/Tiktok Deco .-01.jpg",
-    "src": "/portfolio-media/120.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 900,
-    "sha256": "c8752cb0f349cc0b5abba5a0359d447e5bc3a65c234af893b2352efe3855180a"
-  },
-  {
     "id": "121",
     "kind": "image",
     "category": "promo",
@@ -1208,39 +1076,6 @@
     "width": 1600,
     "height": 800,
     "sha256": "348ef59ea55e5ab8f98db17b2b743346c246d4910d91e09852c42ff1247e56a0"
-  },
-  {
-    "id": "122",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/tiktok shop.jpg",
-    "src": "/portfolio-media/122.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 1099,
-    "sha256": "1e43860e4cade52eec2c7bfbdea3996946bb70196142c058ea635a6943dcc0a2"
-  },
-  {
-    "id": "123",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/ws d1-01.jpg",
-    "src": "/portfolio-media/123.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 1600,
-    "sha256": "c2c39ad3efd7f8f08b9cd2a88071d9ad1373e46d77f593f79aec9662366baf8b"
-  },
-  {
-    "id": "124",
-    "kind": "image",
-    "category": "promo",
-    "source": "medias/images/promo/ws d1-02.jpg",
-    "src": "/portfolio-media/124.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 1600,
-    "sha256": "1a8ad38de11926845445d20757c2843b8519b909bf9497028efa07182b2ee15e"
   },
   {
     "id": "125",
@@ -1450,39 +1285,6 @@
     "width": 568,
     "height": 567,
     "sha256": "fa6e99dfe57a803c4605579a59a94365a9be349abb9690b1f6a951e728d4794e"
-  },
-  {
-    "id": "236",
-    "kind": "image",
-    "category": "sampul raya design",
-    "source": "medias/images/sampul raya design/page_1_20260907_211248.png",
-    "src": "/portfolio-media/236.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 1600,
-    "sha256": "02b0362c306e49d1db2732b8272792d388a02ee176140e7ed7644bd4c508bab6"
-  },
-  {
-    "id": "237",
-    "kind": "image",
-    "category": "sampul raya design",
-    "source": "medias/images/sampul raya design/page_2_20260907_211248.png",
-    "src": "/portfolio-media/237.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 1600,
-    "sha256": "6f2656f7328f9220f715c4b9be5fe10dde67f58d919e77755ae2becc8310e9c1"
-  },
-  {
-    "id": "238",
-    "kind": "image",
-    "category": "sampul raya design",
-    "source": "medias/images/sampul raya design/page_3_20260907_211248.png",
-    "src": "/portfolio-media/238.webp",
-    "poster": null,
-    "width": 1600,
-    "height": 1600,
-    "sha256": "77d519ee02bfa1e79fc5ef068757ce8bbf631e990864be32d8c0e0b1f9aa5542"
   },
   {
     "id": "015",

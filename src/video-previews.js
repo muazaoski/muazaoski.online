@@ -22,7 +22,7 @@ export function enableVideoPreviews(media) {
     const card = event.target.closest('.mix-card.video')
     if (!card || card === activeCard || card.classList.contains('greeting-autoplay')) return
     stop()
-    const item = media[Number(card.dataset.index)]
+    const item = (card.dataset.workId ? media.find(m => String(m.id) === card.dataset.workId) : null) || media[Number(card.dataset.index)]
     if (!item || item.kind !== 'video') return
     video ||= document.createElement('video')
     video.className = 'hover-preview'

@@ -1,0 +1,537 @@
+/* ============================================================
+   FESTIVE STICKER STUDIO — RAYA & CHINESE NEW YEAR
+   Interactive Cutting Mat, Die-Cut Vinyl Stickers & Sound FX
+   ============================================================ */
+
+.festive-studio {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin-top: 14px;
+  font-family: inherit;
+  color: #f0f3f1;
+}
+
+/* ------------------------------------------------------------
+   TOOLBAR: CATEGORY TABS & ACTIONS
+   ------------------------------------------------------------ */
+.festive-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #141b18;
+  border: 1px solid #ffffff14;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.festive-filters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.festive-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #ffffff16;
+  background: #1c2521;
+  color: #adb5b0;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.festive-tab:hover {
+  background: #25332d;
+  color: #fff;
+  border-color: #ffffff2e;
+}
+
+.festive-tab.is-active {
+  background: #00d68f;
+  border-color: #00d68f;
+  color: #0a1b14;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(0, 214, 143, 0.35);
+}
+
+.festive-tab[data-filter="cny"].is-active {
+  background: #ff4d4f;
+  border-color: #ff4d4f;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(255, 77, 79, 0.38);
+}
+
+.festive-tab .tab-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.festive-tab .tab-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.22);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.festive-tab.is-active .tab-badge {
+  background: rgba(0, 0, 0, 0.28);
+  color: inherit;
+}
+
+.festive-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.festive-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 8px;
+  border: 1px solid #ffffff14;
+  background: #1b2420;
+  color: #c8d1cb;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.festive-btn:hover {
+  background: #24322b;
+  border-color: #ffffff2e;
+  color: #fff;
+}
+
+.festive-btn:active {
+  transform: scale(0.96);
+}
+
+.festive-btn--sound.is-sound-on {
+  border-color: rgba(0, 214, 143, 0.3);
+  color: #6ef0b9;
+}
+
+.festive-btn--sound:not(.is-sound-on) {
+  opacity: 0.65;
+  color: #88928d;
+}
+
+/* ------------------------------------------------------------
+   THE CUTTING MAT / WORKBENCH STAGE
+   ------------------------------------------------------------ */
+.festive-stage-wrap {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  padding: 10px;
+  background: #09120e;
+  border: 1px solid #ffffff14;
+  box-shadow:
+    inset 0 2px 14px rgba(0, 0, 0, 0.8),
+    0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
+.festive-mat {
+  position: relative;
+  width: 100%;
+  height: clamp(480px, 58vw, 640px);
+  border-radius: 12px;
+  background-color: #0f271e;
+  /* Multi-layered self-healing cutting board grid */
+  background-image:
+    linear-gradient(#d6af5a16 1px, transparent 1px),
+    linear-gradient(90deg, #d6af5a16 1px, transparent 1px),
+    linear-gradient(#ffffff0a 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff0a 1px, transparent 1px);
+  background-size:
+    100px 100px,
+    100px 100px,
+    20px 20px,
+    20px 20px;
+  background-position: center center;
+  box-shadow:
+    inset 0 0 0 1px #d6af5a30,
+    inset 0 0 40px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  cursor: crosshair;
+}
+
+/* Vintage Gold Foil Mat Markings & Watermarks */
+.mat-emboss-left,
+.mat-emboss-right {
+  position: absolute;
+  font-family: inherit;
+  font-size: clamp(9px, 1.1vw, 12px);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: #d6af5a36;
+  pointer-events: none;
+  user-select: none;
+}
+
+.mat-emboss-left {
+  left: 20px;
+  top: 16px;
+}
+
+.mat-emboss-right {
+  right: 20px;
+  bottom: 16px;
+  text-align: right;
+}
+
+/* Rulers along the edges */
+.festive-mat::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-top: 2px dashed #d6af5a24;
+  border-bottom: 2px dashed #d6af5a24;
+  border-left: 2px dashed #d6af5a24;
+  border-right: 2px dashed #d6af5a24;
+  pointer-events: none;
+}
+
+/* Board Corner Accent Brackets */
+.mat-corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #d6af5a45;
+  pointer-events: none;
+}
+.mat-corner-tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.mat-corner-tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+.mat-corner-bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+.mat-corner-br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+/* ------------------------------------------------------------
+   DIE-CUT STICKERS ON THE MAT
+   ------------------------------------------------------------ */
+.festive-board-stickers {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.festive-sticker-item {
+  position: absolute;
+  width: clamp(86px, 11vw, 132px);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transform-origin: center center;
+  transition:
+    transform 0.32s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+    opacity 0.28s ease,
+    left 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    top 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform, left, top;
+}
+
+/* Clean crisp sticker stroke & shadows */
+.festive-sticker-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 1px #ffffff80) drop-shadow(0 10px 6px #0008) drop-shadow(10px 24px 18px #0007);
+  transition: filter 0.28s ease, transform 0.28s ease;
+}
+
+/* Hover state: slight lift & highlight */
+.festive-sticker-item:hover {
+  z-index: 1000 !important;
+}
+
+.festive-sticker-item:hover img {
+  filter: drop-shadow(0 2px 1px #ffffff90) drop-shadow(0 14px 8px #0009) drop-shadow(12px 28px 22px #0008);
+  transform: scale(1.06);
+}
+
+/* Peel / Active Dragging state: dramatic lift and 3D peel */
+.festive-sticker-item.is-peeling,
+.festive-sticker-item.is-dragging {
+  cursor: grabbing !important;
+  z-index: 9999 !important;
+  transition: none !important; /* Instant response during drag */
+}
+
+.festive-sticker-item.is-peeling img,
+.festive-sticker-item.is-dragging img {
+  transform: scale(1.15) perspective(600px) rotateX(8deg) rotateY(-5deg);
+  filter: drop-shadow(0 3px 2px #ffffffa0) drop-shadow(0 22px 14px #000a) drop-shadow(16px 36px 28px #0008);
+}
+
+/* Snap / Slap Spring Animation on Release */
+.festive-sticker-item.is-slapped {
+  animation: sticker-slap-spring 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.4);
+}
+
+@keyframes sticker-slap-spring {
+  0% {
+    transform: var(--current-transform) scale(1.18);
+  }
+  50% {
+    transform: var(--current-transform) scale(0.92);
+  }
+  75% {
+    transform: var(--current-transform) scale(1.04);
+  }
+  100% {
+    transform: var(--current-transform) scale(1);
+  }
+}
+
+/* Filter-hidden state */
+.festive-sticker-item.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.4) !important;
+}
+
+/* Quick Action Controls on Active / Selected Sticker */
+.sticker-control-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #111a15;
+  border: 1.5px solid #00d68f;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all 0.18s ease;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.festive-sticker-item:hover .sticker-control-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.sticker-control-btn:hover {
+  background: #00d68f;
+  color: #081a12;
+  transform: scale(1.15);
+}
+
+
+/* ------------------------------------------------------------
+   STICKER DRAWER & PALETTE TRAY
+   ------------------------------------------------------------ */
+.festive-tray-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: #121915;
+  border: 1px solid #ffffff14;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+}
+
+.festive-tray-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.festive-tray-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #e5ece7;
+}
+
+.tray-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00d68f;
+  box-shadow: 0 0 8px #00d68f;
+}
+
+.festive-tray-counter {
+  color: #8c9790;
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.festive-tray-sub {
+  font-size: 11px;
+  color: #8c9790;
+}
+
+.festive-tray-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 6px 2px 10px;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #27382f #101613;
+}
+
+.festive-tray-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.festive-tray-scroll::-webkit-scrollbar-track {
+  background: #101613;
+  border-radius: 4px;
+}
+
+.festive-tray-scroll::-webkit-scrollbar-thumb {
+  background: #27382f;
+  border-radius: 4px;
+}
+
+.festive-tray-scroll::-webkit-scrollbar-thumb:hover {
+  background: #00d68f;
+}
+
+/* Individual Card in the Tray */
+.festive-tray-card {
+  flex: 0 0 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 6px;
+  border-radius: 10px;
+  border: 1px solid #ffffff12;
+  background: #18221d;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.2, 0, 0, 1);
+  position: relative;
+}
+
+.festive-tray-card:hover {
+  background: #233129;
+  border-color: #00d68f80;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.festive-tray-card:active {
+  transform: scale(0.95);
+}
+
+.festive-tray-card.is-on-mat {
+  border-color: #00d68f50;
+}
+
+.festive-tray-card.is-on-mat::after {
+  content: '✓';
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  font-size: 9px;
+  font-weight: 800;
+  color: #00d68f;
+}
+
+.festive-tray-card .tray-card-thumb {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.festive-tray-card .tray-card-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
+  transition: transform 0.18s ease;
+}
+
+.festive-tray-card:hover .tray-card-thumb img {
+  transform: scale(1.12);
+}
+
+.festive-tray-card .tray-card-tag {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.festive-tray-card[data-cat="raya"] .tray-card-tag {
+  background: rgba(0, 214, 143, 0.15);
+  color: #55f3bc;
+}
+
+.festive-tray-card[data-cat="cny"] .tray-card-tag {
+  background: rgba(255, 77, 79, 0.18);
+  color: #ff7875;
+}
+
+/* Tray filtering */
+.festive-tray-card.is-filtered-out {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------
+   DARK & LIGHT THEME TUNING
+   ------------------------------------------------------------ */
+[data-theme="dark"] #festive-stickers {
+  --section-color: #0f1d18;
+}
+
+#festive-stickers {
+  --section-color: #f1f8f3;
+}
+
+@media (max-width: 640px) {
+  .festive-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .festive-filters {
+    justify-content: flex-start;
+  }
+  .festive-actions {
+    justify-content: space-between;
+  }
+}

@@ -1,4 +1,4 @@
-export function enableStickerDragging(selector = '#live-stickers') {
+export function enableStickerDragging(selector = '#cny-stickers') {
   const stage = document.querySelector(`${selector} .collection-flow`)
   const positions = new Map()
   let drag = null

@@ -1,0 +1,16 @@
+services:
+  radar:
+    build: .
+    container_name: muazaoski-radar
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PORT=3050
+    networks:
+      - froggame_web
+
+networks:
+  froggame_web:
+    external: true
+
