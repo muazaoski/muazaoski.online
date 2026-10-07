@@ -254,6 +254,38 @@ export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showM
   // State management
   let activeIndex = 0
   let activeChannel = 'all'
+  let allReelsExpanded = false
+  const reelsPreview = document.createElement('div')
+  reelsPreview.className = 'video-reels-preview'
+  flow.before(reelsPreview)
+  reelsPreview.append(flow)
+  flow.id = 'video-reels-grid'
+  const showAll = document.createElement('button')
+  showAll.type = 'button'
+  showAll.className = 'video-show-all'
+  showAll.textContent = 'SHOW ALL ↓'
+  showAll.setAttribute('aria-controls', flow.id)
+  reelsPreview.after(showAll)
+
+  function syncReelsPreview() {
+    const collapsed = activeChannel === 'all' && !allReelsExpanded && videoItems.length > 9
+    reelsPreview.dataset.channel = activeChannel
+    reelsPreview.classList.toggle('is-collapsed', collapsed)
+    showAll.hidden = !collapsed
+    showAll.setAttribute('aria-expanded', String(allReelsExpanded))
+    videoItems.forEach((v, index) => {
+      const clipped = collapsed && index >= 9
+      v.card.classList.toggle('is-preview-hidden', clipped)
+      v.card.inert = clipped
+    })
+  }
+  showAll.addEventListener('click', () => {
+    allReelsExpanded = true
+    syncReelsPreview()
+    // The control disappears after expansion; retain keyboard focus in the grid.
+    videoItems[9]?.card.focus({ preventScroll: true })
+  })
+  syncReelsPreview()
 
   const theaterVideo = theater.querySelector('video')
   const theaterCatPill = theater.querySelector('[data-theater-cat]')
@@ -334,6 +366,7 @@ export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showM
         const matches = activeChannel === 'all' || v.cat.key === activeChannel
         v.card.classList.toggle('is-filtered-out', !matches)
       })
+      syncReelsPreview()
 
       // Load designated hero video of this category
       const list = getVisibleVideoItems()
