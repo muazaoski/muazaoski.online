@@ -1,0 +1,43 @@
+.community-studio { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; max-width: 1380px; margin: auto; padding: 32px 38px 64px; }
+.community-studio .live-room-section { width: 100%; padding: 0; min-width: 0; }
+.visitor-museum { min-width: 0; }
+.museum-heading { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 18px; }
+.museum-heading h2 { font: 400 clamp(24px, 3vw, 34px) 'Born2bSporty FS', 'Pixelify Sans', monospace; margin: 0; }
+.visitor-museum button { color: #ddd; background: transparent; border: 0; padding: 8px 0; cursor: pointer; font: inherit; }
+.museum-heading button { color: #6cabdd !important; font-size: 12px !important; }
+.visitor-museum .museum-submit { background: var(--pixel-accent); color: #07111a; padding: 12px 22px; font-size: 14px; font-weight: 700; }
+.visitor-museum .museum-submit:hover { filter: brightness(1.12); }
+.visitor-museum .museum-submit:disabled { opacity: .5; cursor: wait; }
+.museum-wall { min-height: 240px; padding: 26px 18px; background: radial-gradient(ellipse at 50% 0, #24313d 0, #11181e 45%, #040607 100%); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-content: start; gap: 22px 15px; }
+.museum-wall .museum-portrait { position: relative; padding: 0; transition: transform .2s; min-width: 0; }
+.museum-portrait::before { content: ''; position: absolute; left: 50%; top: -12px; width: 1px; height: 12px; background: #5d6972; }
+.museum-portrait::after { content: ''; position: absolute; left: calc(50% - 1px); top: -14px; width: 3px; height: 3px; border-radius: 50%; background: #8d979e; }
+.museum-portrait:nth-child(3n + 1) { transform: rotate(-3deg); }
+.museum-portrait:nth-child(3n + 2) { transform: rotate(2deg); }
+.museum-wall .museum-portrait:hover, .museum-wall .museum-portrait:focus-visible { transform: translateY(-4px) rotate(0); }
+.museum-portrait canvas, .museum-avatar-preview { display: block; width: 100%; height: auto; image-rendering: pixelated; filter: drop-shadow(0 5px 5px #0008); }
+.museum-empty { grid-column: 1 / -1; color: #8b949d; text-align: center; font-size: 13px; margin: 56px 0; }
+.museum-caption { color: #858585; font-size: 11px; margin: 12px 0; }
+.museum-composer { padding: 18px 0; }
+.museum-composer[hidden] { display: none; }
+.museum-editor { display: grid; grid-template-columns: 110px 1fr; gap: 20px; align-items: start; }
+.museum-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.museum-composer label { display: grid; gap: 6px; color: #929aa2; font-size: 12px; }
+.museum-composer input, .museum-composer textarea, .museum-composer select { width: 100%; min-width: 0; border: 0; border-radius: 0; padding: 9px; color: #eee; background: #141b22; font: inherit; }
+.museum-composer > label { margin-top: 14px; }
+.museum-composer textarea { resize: vertical; min-height: 80px; }
+.museum-actions { display: flex; gap: 20px; align-items: center; }
+.museum-status { color: #a1aab3; font-size: 12px; }
+.museum-status:empty { display: none; }
+.museum-trap { display: none !important; }
+.museum-detail { border: 0; padding: 28px; max-width: min(440px, calc(100vw - 36px)); background: #111820; color: #eee; }
+.museum-detail::backdrop { background: #000c; }
+.museum-detail canvas { width: 96px; height: 96px; image-rendering: pixelated; }
+.museum-detail h3 { overflow-wrap: anywhere; margin: 18px 0 10px; }
+.museum-detail [data-comment] { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.6; }
+.museum-detail [data-meta] { color: #8b949d; font-size: 12px; }
+.museum-detail [data-meta] img { display: inline-block; vertical-align: middle; object-fit: contain; }
+.museum-detail button { margin-top: 12px; color: #6cabdd; }
+@media (max-width: 900px) { .community-studio { grid-template-columns: 1fr; max-width: 720px; padding-inline: 24px; gap: 40px; } }
+@media (max-width: 480px) { .community-studio { padding-inline: 18px; } .museum-wall { grid-template-columns: repeat(4, minmax(0, 1fr)); padding-inline: 12px; gap: 20px 12px; } .museum-editor { grid-template-columns: 80px 1fr; gap: 12px; } }
+@media (prefers-reduced-motion: reduce) { .museum-portrait { transition: none !important; } }

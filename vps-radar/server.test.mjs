@@ -10,6 +10,7 @@ test('real cheers group by country, persist, and preserve legacy totals', async 
   const dir = await mkdtemp(path.join(tmpdir(), 'radar-cheer-test-'))
   await copyFile(new URL('./server.mjs', import.meta.url), path.join(dir, 'server.mjs'))
   await copyFile(new URL('./room-presence.mjs', import.meta.url), path.join(dir, 'room-presence.mjs'))
+  for (const file of ['guestbook.mjs', 'avatar-options.mjs']) await copyFile(new URL(`./${file}`, import.meta.url), path.join(dir, file))
   await mkdir(path.join(dir, 'data'))
   const database = path.join(dir, 'data', 'radar-stats.json')
   await writeFile(database, JSON.stringify({ cheers: 1861, countries: {}, totalVisits: 0 }))
@@ -34,6 +35,13 @@ test('real cheers group by country, persist, and preserve legacy totals', async 
   }
   try {
     let base = await start()
+    const avatar = (await import('./avatar-options.mjs')).DEFAULT_AVATAR
+    const portrait = await fetch(`${base}/guestbook`, { method: 'POST', body: JSON.stringify({ name: 'Museum visitor', message: 'Hello from the wall!', avatar, code: 'SG' }) })
+    assert.equal(portrait.status, 201)
+    const savedPortrait = (await portrait.json()).entry
+    assert.equal(savedPortrait.country, 'Singapore')
+    assert.equal((await fetch(`${base}/guestbook`, { method: 'POST', body: JSON.stringify({ name: 'Museum visitor', message: 'Too soon', avatar }) })).status, 429)
+    assert.deepEqual((await (await fetch(`${base}/guestbook`)).json()).entries, [savedPortrait])
     const roomIds = ['aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb']
     for (const id of roomIds) {
       assert.equal((await (await fetch(`${base}/room`, {
@@ -63,6 +71,7 @@ test('real cheers group by country, persist, and preserve legacy totals', async 
     saved.cheerEvents.push(...Array.from({ length: 35 }, (_, index) => ({ code: 'CA', country: 'Canada', count: 1, updatedAt: index })))
     await writeFile(database, JSON.stringify(saved))
     base = await start()
+    assert.deepEqual((await (await fetch(`${base}/guestbook`)).json()).entries, [savedPortrait])
     const next = await post('SG')
     assert.equal(next.cheerEvents[0].count, 1)
     assert.equal(next.cheerEvents.length, 30)

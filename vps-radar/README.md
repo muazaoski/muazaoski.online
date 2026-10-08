@@ -75,6 +75,19 @@ only (maximum 200), without names, IPs or country information. Foreground tabs a
 counted as sessions, not guaranteed unique people. Restarting clears the room, not the stats.
 Run both checks with `node --test vps-radar/server.test.mjs vps-radar/room-presence.test.mjs`.
 
+The visitor museum uses `GET/POST /api/radar/guestbook`. Entries are saved atomically
+to `data/guestbook.json` (separate from analytics), with server-generated IDs/dates,
+32-character names, 400-character messages and allowlisted avatar options. Names/messages
+are rendered as plain text, never HTML. One post per IP hash per minute (memory-only
+cooldown), an invisible honeypot, 8 KB request limit and a 500-portrait capacity provide
+basic spam protection, not automated moderation. Nothing is prefilled or auto-deleted.
+Country is the site's approximate client-detected country, not verified nationality.
+Public entries contain no IP/hash. Back up `guestbook.json` alongside the stats database;
+owner moderation is currently by removing the relevant entry from that JSON during a
+service stop/restart. A corrupt guestbook stops startup instead of wiping comments.
+Run all checks with `node --test vps-radar/*.test.mjs`. Deploy the updated Dockerfile,
+server, `guestbook.mjs` and `avatar-options.mjs` as well as the frontend to enable posting.
+
 ```bash
 # Check health:
 curl https://frog.muazaoski.online/api/radar/health

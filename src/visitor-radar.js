@@ -240,6 +240,8 @@ export async function initVisitorRadar(containerSelector = '#visitor-radar') {
 
   // Detect Country
   const visitor = await detectVisitorCountry()
+  container.dataset.countryCode = visitor.code
+  window.dispatchEvent(new CustomEvent('visitor-country', { detail: { code: visitor.code } }))
   const punchline = getRandomPunchline(visitor.code)
 
   // Update Left Panel DOM

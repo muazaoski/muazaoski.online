@@ -10,6 +10,7 @@ import path from 'node:path'
 import crypto from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import { createRoomPresence } from './room-presence.mjs'
+import { createGuestbook } from './guestbook.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PORT = process.env.PORT || 3050
@@ -86,6 +87,7 @@ let store = {
 // IP Deduplication Cache (IP hash -> timestamp) to prevent F5 spam
 // Keeps visits clean: 1 visit recorded per visitor IP every 2 hours
 const recentVisitors = new Map()
+const guestbook = createGuestbook(path.join(DATA_DIR, 'guestbook.json'))
 const VISITOR_COOLDOWN_MS = 2 * 60 * 60 * 1000 // 2 hours
 
 function loadDatabase() {
@@ -183,6 +185,23 @@ const server = http.createServer(async (req, res) => {
 
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`)
   const pathname = url.pathname.replace(/\/+$/, '') || '/'
+
+  if (req.method === 'GET' && pathname === '/api/radar/guestbook') {
+    return sendJson(res, 200, { success: true, entries: guestbook.list() })
+  }
+  if (req.method === 'POST' && pathname === '/api/radar/guestbook') {
+    let body = ''
+    req.on('data', chunk => { body += chunk; if (Buffer.byteLength(body) > 8192) req.destroy() })
+    req.on('end', () => {
+      let payload
+      try { payload = JSON.parse(body) } catch (_) { return sendJson(res, 400, { success: false, error: 'Invalid submission.' }) }
+      // Reuse the site's country detection; it is approximate, not identity verification.
+      const code = typeof payload?.code === 'string' ? payload.code.toUpperCase() : 'ZZ'
+      const result = guestbook.post(payload, hashIp(getClientIp(req)), code)
+      sendJson(res, result.status, { success: result.status === 201, entry: result.entry, error: result.error })
+    })
+    return
+  }
 
   // Health check
   if (pathname === '/health' || pathname === '/api/radar/health') {

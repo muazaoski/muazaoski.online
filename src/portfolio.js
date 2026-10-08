@@ -16,6 +16,7 @@ import { initRoomSimulator } from './room-simulator.js'
 import { initVideoStudio } from './video-studio.js'
 import { initVisitorRadar } from './visitor-radar.js'
 import { initLiveRoom } from './live-room.js'
+import { initVisitorMuseum } from './visitor-museum.js'
 
 document.querySelectorAll('.ux-project').forEach(project => {
   const buttons = [...project.querySelectorAll('.ux-thumb')]
@@ -435,6 +436,7 @@ if (photoSection) {
 initVideoStudio('#video-films', { mediaDescriptions, showMedia, mix })
 initVisitorRadar('#visitor-radar')
 initLiveRoom('#live-room')
+initVisitorMuseum('#visitor-museum')
 enhanceDepth()
 const viewer = document.querySelector('#media-viewer')
 const stopPreview = enableVideoPreviews(mix)
