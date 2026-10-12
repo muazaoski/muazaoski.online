@@ -5,13 +5,17 @@ const BLEND_STORAGE_KEY = 'muazaoski-ai-badge-blend-v2'
 const BLEND_MODES = ['normal', 'multiply', 'screen', 'overlay', 'soft-light', 'hard-light', 'difference', 'luminosity']
 
 function readLabels() {
+  const published = new Set(publishedLabels.aiWorkIds.map(String))
   try {
     const savedValue = localStorage.getItem(STORAGE_KEY)
-    const value = savedValue === null ? publishedLabels.aiWorkIds : JSON.parse(savedValue)
-    return new Set(Array.isArray(value) ? value.map(String) : [])
-  } catch {
-    return new Set(publishedLabels.aiWorkIds.map(String))
-  }
+    if (savedValue !== null) {
+      const parsed = JSON.parse(savedValue)
+      if (Array.isArray(parsed)) {
+        parsed.forEach(id => published.add(String(id)))
+      }
+    }
+  } catch {}
+  return published
 }
 
 const labels = readLabels()

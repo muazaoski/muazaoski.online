@@ -436,7 +436,7 @@ if (photoSection) {
   photoIntro.textContent = 'Studio product photography created for e-commerce listings—capturing footwear silhouettes, material textures, and key angles under clean commercial lighting.'
   photoFlow?.before(photoIntro)
 }
-initVideoStudio('#video-films', { mediaDescriptions, showMedia, mix })
+initVideoStudio('#video-films', { mediaDescriptions, showMedia, mix, isAiLabeled })
 initVisitorRadar('#visitor-radar')
 initLiveRoom('#live-room')
 initVisitorMuseum('#visitor-museum')

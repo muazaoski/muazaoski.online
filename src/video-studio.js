@@ -117,7 +117,7 @@ const CHANNELS = [
   { key: 'wedding', num: 'CH 07', label: 'WEDDING FILM' }
 ]
 
-export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showMedia = () => {}, mix = [] } = {}) {
+export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showMedia = () => {}, mix = [], isAiLabeled = () => false } = {}) {
   const section = document.querySelector(sectionSelector)
   if (!section) return
 
@@ -139,6 +139,7 @@ export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showM
     const title = info.title || (item?.source?.split('/')?.pop()?.replace(/\.[^.]+$/, '') ?? `Video ${item?.id}`)
     const desc = info.description || 'Commercial video & motion graphics project.'
     const cat = getVideoCategory(item?.category)
+    const isAi = isAiLabeled(item?.id)
     return {
       card,
       item,
@@ -146,7 +147,8 @@ export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showM
       index,
       title,
       desc,
-      cat
+      cat,
+      isAi
     }
   }).filter(entry => entry.item)
 
@@ -209,6 +211,7 @@ export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showM
       </div>
       <div class="theater-viewport">
         <video src="${initialVideo.item.src}?audio=1" poster="${initialVideo.item.poster || ''}" playsinline preload="metadata" controls></video>
+        <span class="ai-label-badge theater-ai-badge" data-theater-ai aria-label="AI-assisted"${initialVideo.isAi ? '' : ' hidden'}><img src="/icon/ai-label.webp" alt="" /></span>
       </div>
     </div>
     <div class="theater-info-panel">
@@ -236,6 +239,10 @@ export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showM
   // Enhance each card in the grid with category badge & title overlay
   videoItems.forEach(v => {
     v.card.dataset.channel = v.cat.key
+
+    if (v.isAi && !v.card.querySelector('.ai-label-badge')) {
+      v.card.insertAdjacentHTML('beforeend', '<span class="ai-label-badge" aria-label="AI-assisted"><img src="/icon/ai-label.webp" alt="" /></span>')
+    }
 
     const badge = document.createElement('span')
     badge.className = 'video-card-badge'
@@ -325,6 +332,11 @@ export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showM
 
     theaterVideo.poster = videoData.item.poster || ''
     theaterVideo.src = `${videoData.item.src}?audio=1`
+
+    const theaterAi = theater.querySelector('[data-theater-ai]')
+    if (theaterAi) {
+      theaterAi.hidden = !videoData.isAi
+    }
 
     // Update active highlight on card in grid
     videoItems.forEach(v => v.card.classList.remove('is-active-screening'))
