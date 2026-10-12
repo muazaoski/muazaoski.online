@@ -745,6 +745,101 @@ h2 em,
   font-weight: 700;
 }
 
+/* =========================================================
+   LICENSES & CERTIFICATIONS
+   ========================================================= */
+
+.certifications-subhead {
+  margin: 0 0 clamp(16px, 2vw, 22px);
+}
+
+.cert-item + .cert-item {
+  margin-top: clamp(20px, 2.5vw, 28px);
+  padding-top: clamp(18px, 2.2vw, 24px);
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.cert-credential-id {
+  margin: 5px 0 0;
+  font-family: monospace;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.cert-credential-id span {
+  color: #64748b;
+  margin-right: 5px;
+}
+
+.cert-credential-id strong {
+  color: #cbd5e1;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.cert-action-row {
+  margin-top: 10px;
+}
+
+.cert-credential-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  color: #f1f5f9;
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cert-credential-btn:hover {
+  background: var(--pixel-accent);
+  color: #000;
+  border-color: var(--pixel-accent);
+  box-shadow: 0 0 14px rgba(4, 217, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.cert-media-attachment {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 4px 14px 4px 4px;
+  background: #0d121c;
+  border: 1px solid #1c2638;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cert-media-attachment:hover {
+  border-color: rgba(4, 217, 255, 0.4);
+  background: #111724;
+  transform: translateY(-1px);
+}
+
+.cert-media-thumb {
+  display: block;
+  width: 58px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cert-media-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  letter-spacing: 0.01em;
+}
+
 @media (max-width: 960px) {
   .career-grid {
     grid-template-columns: 1fr;
