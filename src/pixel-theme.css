@@ -749,8 +749,18 @@ h2 em,
    LICENSES & CERTIFICATIONS
    ========================================================= */
 
-.certifications-subhead {
-  margin: 0 0 clamp(16px, 2vw, 22px);
+.certifications-header {
+  margin: 0 0 clamp(20px, 2.5vw, 30px);
+}
+
+.certifications-heading {
+  margin: 0;
+  font-family: "Dico", "Pixelify Sans", monospace;
+  font-size: clamp(24px, 3.2vw, 36px);
+  font-weight: 700;
+  color: var(--pixel-white);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
 .cert-item + .cert-item {
