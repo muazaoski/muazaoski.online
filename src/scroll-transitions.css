@@ -1,0 +1,182 @@
+/* ==========================================================================
+   Continuous Scroll-Synced Transitions (In & Out)
+   Synchronized directly with mouse scroll / viewport timeline
+   ========================================================================== */
+
+/* Base state for all animated elements (Ensures graceful fallback & full visibility by default) */
+.scroll-reveal,
+.about-section,
+.career-grid > .experience-card,
+.featured-heading,
+.featured-spotlight-container,
+.featured-browse,
+.tape-label,
+#montage > .collection,
+.digital-heading,
+#projects > .app-card,
+.ux-heading,
+.ux-project,
+.visitor-radar-section,
+.live-room-section,
+.visitor-museum,
+.contact-section,
+footer,
+/* Resume page elements */
+.resume-summary,
+.document-heading,
+.resume-pages > figure,
+.contact {
+  opacity: 1;
+  transform: none;
+}
+
+/* 1. Native Compositor-Driven Scroll-Timeline (Chrome, Edge, Opera, Safari 26+) */
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @keyframes scroll-element-in {
+      from {
+        opacity: 0;
+        transform: translateY(38px) scale(0.975);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes scroll-element-out {
+      from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-38px) scale(0.975);
+      }
+    }
+
+    .scroll-reveal,
+    .about-section,
+    .career-grid > .experience-card,
+    .featured-heading,
+    .featured-spotlight-container,
+    .featured-browse,
+    .tape-label,
+    #montage > .collection,
+    .digital-heading,
+    #projects > .app-card,
+    .ux-heading,
+    .ux-project,
+    .visitor-radar-section,
+    .live-room-section,
+    .visitor-museum,
+    .contact-section,
+    footer,
+    .resume-summary,
+    .document-heading,
+    .resume-pages > figure,
+    .contact {
+      animation:
+        scroll-element-in linear backwards,
+        scroll-element-out linear forwards;
+      animation-timeline: view();
+      animation-range: entry, exit;
+      will-change: transform, opacity;
+    }
+  }
+}
+
+/* 2. High-Performance Fallback for Browsers without Native view() (e.g. Firefox) */
+@media (prefers-reduced-motion: no-preference) {
+  html.no-scroll-timeline .scroll-reveal,
+  html.no-scroll-timeline .about-section,
+  html.no-scroll-timeline .career-grid > .experience-card,
+  html.no-scroll-timeline .featured-heading,
+  html.no-scroll-timeline .featured-spotlight-container,
+  html.no-scroll-timeline .featured-browse,
+  html.no-scroll-timeline .tape-label,
+  html.no-scroll-timeline #montage > .collection,
+  html.no-scroll-timeline .digital-heading,
+  html.no-scroll-timeline #projects > .app-card,
+  html.no-scroll-timeline .ux-heading,
+  html.no-scroll-timeline .ux-project,
+  html.no-scroll-timeline .visitor-radar-section,
+  html.no-scroll-timeline .live-room-section,
+  html.no-scroll-timeline .visitor-museum,
+  html.no-scroll-timeline .contact-section,
+  html.no-scroll-timeline footer,
+  html.no-scroll-timeline .resume-summary,
+  html.no-scroll-timeline .document-heading,
+  html.no-scroll-timeline .resume-pages > figure,
+  html.no-scroll-timeline .contact {
+    opacity: 0;
+    transform: translateY(38px) scale(0.975);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  html.no-scroll-timeline .scroll-reveal.is-in-view,
+  html.no-scroll-timeline .about-section.is-in-view,
+  html.no-scroll-timeline .career-grid > .experience-card.is-in-view,
+  html.no-scroll-timeline .featured-heading.is-in-view,
+  html.no-scroll-timeline .featured-spotlight-container.is-in-view,
+  html.no-scroll-timeline .featured-browse.is-in-view,
+  html.no-scroll-timeline .tape-label.is-in-view,
+  html.no-scroll-timeline #montage > .collection.is-in-view,
+  html.no-scroll-timeline .digital-heading.is-in-view,
+  html.no-scroll-timeline #projects > .app-card.is-in-view,
+  html.no-scroll-timeline .ux-heading.is-in-view,
+  html.no-scroll-timeline .ux-project.is-in-view,
+  html.no-scroll-timeline .visitor-radar-section.is-in-view,
+  html.no-scroll-timeline .live-room-section.is-in-view,
+  html.no-scroll-timeline .visitor-museum.is-in-view,
+  html.no-scroll-timeline .contact-section.is-in-view,
+  html.no-scroll-timeline footer.is-in-view,
+  html.no-scroll-timeline .resume-summary.is-in-view,
+  html.no-scroll-timeline .document-heading.is-in-view,
+  html.no-scroll-timeline .resume-pages > figure.is-in-view,
+  html.no-scroll-timeline .contact.is-in-view {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+  }
+
+  html.no-scroll-timeline .is-exited-top {
+    opacity: 0 !important;
+    transform: translateY(-38px) scale(0.975) !important;
+  }
+
+  html.no-scroll-timeline .is-exited-bottom {
+    opacity: 0 !important;
+    transform: translateY(38px) scale(0.975) !important;
+  }
+}
+
+/* 3. Accessibility: Respect User Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .about-section,
+  .career-grid > .experience-card,
+  .featured-heading,
+  .featured-spotlight-container,
+  .featured-browse,
+  .tape-label,
+  #montage > .collection,
+  .digital-heading,
+  #projects > .app-card,
+  .ux-heading,
+  .ux-project,
+  .visitor-radar-section,
+  .live-room-section,
+  .visitor-museum,
+  .contact-section,
+  footer,
+  .resume-summary,
+  .document-heading,
+  .resume-pages > figure,
+  .contact {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

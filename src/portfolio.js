@@ -1,6 +1,7 @@
 import './portfolio.css'
 import './pixel-theme.css'
 import './room-simulator.css'
+import './scroll-transitions.css'
 import media from './media.json'
 import mediaDescriptions from './media-descriptions.json'
 import { enhanceDepth } from './depth.js'
@@ -17,6 +18,7 @@ import { initVideoStudio } from './video-studio.js'
 import { initVisitorRadar } from './visitor-radar.js'
 import { initLiveRoom } from './live-room.js'
 import { initVisitorMuseum } from './visitor-museum.js'
+import { initScrollTransitions } from './scroll-transitions.js'
 
 document.querySelectorAll('.ux-project').forEach(project => {
   const buttons = [...project.querySelectorAll('.ux-thumb')]
@@ -927,3 +929,4 @@ function initCertCarousel() {
 }
 
 initCertCarousel()
+initScrollTransitions()
