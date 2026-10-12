@@ -1,6 +1,7 @@
 /* ==========================================================================
-   Continuous Scroll-Synced Transitions (In & Out)
-   Synchronized directly with mouse scroll / viewport timeline
+   Kinetic Zoom & Depth Pop Scroll Transitions
+   Aggressive depth punch (0.82 -> 1.0) with dramatic parallax travel
+   Synchronized directly with mouse wheel & viewport scroll timeline
    ========================================================================== */
 
 /* Base state for all animated elements (Ensures graceful fallback & full visibility by default) */
@@ -28,30 +29,35 @@ footer,
 .contact {
   opacity: 1;
   transform: none;
+  filter: none;
 }
 
 /* 1. Native Compositor-Driven Scroll-Timeline (Chrome, Edge, Opera, Safari 26+) */
 @media (prefers-reduced-motion: no-preference) {
   @supports ((animation-timeline: view()) and (animation-range: entry)) {
-    @keyframes scroll-element-in {
+    @keyframes kinetic-zoom-in {
       from {
         opacity: 0;
-        transform: translateY(38px) scale(0.975);
+        transform: perspective(1000px) translateY(85px) scale(0.82);
+        filter: brightness(0.75);
       }
       to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: perspective(1000px) translateY(0) scale(1);
+        filter: brightness(1);
       }
     }
 
-    @keyframes scroll-element-out {
+    @keyframes kinetic-zoom-out {
       from {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: perspective(1000px) translateY(0) scale(1);
+        filter: brightness(1);
       }
       to {
         opacity: 0;
-        transform: translateY(-38px) scale(0.975);
+        transform: perspective(1000px) translateY(-85px) scale(0.84);
+        filter: brightness(0.75);
       }
     }
 
@@ -77,11 +83,12 @@ footer,
     .resume-pages > figure,
     .contact {
       animation:
-        scroll-element-in linear backwards,
-        scroll-element-out linear forwards;
+        kinetic-zoom-in cubic-bezier(0.16, 1, 0.3, 1) backwards,
+        kinetic-zoom-out cubic-bezier(0.16, 1, 0.3, 1) forwards;
       animation-timeline: view();
       animation-range: entry, exit;
-      will-change: transform, opacity;
+      will-change: transform, opacity, filter;
+      transform-origin: center center;
     }
   }
 }
@@ -110,9 +117,14 @@ footer,
   html.no-scroll-timeline .resume-pages > figure,
   html.no-scroll-timeline .contact {
     opacity: 0;
-    transform: translateY(38px) scale(0.975);
-    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, opacity;
+    transform: perspective(1000px) translateY(85px) scale(0.82);
+    filter: brightness(0.75);
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.5s ease;
+    will-change: transform, opacity, filter;
+    transform-origin: center center;
   }
 
   html.no-scroll-timeline .scroll-reveal.is-in-view,
@@ -137,17 +149,20 @@ footer,
   html.no-scroll-timeline .resume-pages > figure.is-in-view,
   html.no-scroll-timeline .contact.is-in-view {
     opacity: 1 !important;
-    transform: translateY(0) scale(1) !important;
+    transform: perspective(1000px) translateY(0) scale(1) !important;
+    filter: brightness(1) !important;
   }
 
   html.no-scroll-timeline .is-exited-top {
     opacity: 0 !important;
-    transform: translateY(-38px) scale(0.975) !important;
+    transform: perspective(1000px) translateY(-85px) scale(0.84) !important;
+    filter: brightness(0.75) !important;
   }
 
   html.no-scroll-timeline .is-exited-bottom {
     opacity: 0 !important;
-    transform: translateY(38px) scale(0.975) !important;
+    transform: perspective(1000px) translateY(85px) scale(0.82) !important;
+    filter: brightness(0.75) !important;
   }
 }
 
@@ -178,5 +193,6 @@ footer,
     transition: none !important;
     opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
   }
 }
