@@ -1,5 +1,6 @@
 import './style.css'
 import './home-pixel.css'
+import './scroll-transitions.css'
 
 const mainApps = [
   {

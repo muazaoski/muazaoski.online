@@ -196,3 +196,66 @@ footer,
     filter: none !important;
   }
 }
+
+/* ==========================================================================
+   Modern Cyber Neon Blue Scrollbar
+   Features electric blue gradient, floating pill rail, and reactive glow
+   ========================================================================== */
+
+:root {
+  --neon-blue-core: #04D9FF;
+  --neon-blue-light: #5fe8ff;
+  --neon-blue-deep: #0066ff;
+  --neon-scrollbar-track: #050811;
+  --neon-scrollbar-border: rgba(4, 217, 255, 0.14);
+}
+
+/* Standard properties for Firefox */
+@supports not selector(::-webkit-scrollbar) {
+  html, body, * {
+    scrollbar-color: var(--neon-blue-core) var(--neon-scrollbar-track);
+    scrollbar-width: thin;
+  }
+}
+
+/* Chromium, Edge, Opera, Safari WebKit Neon Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--neon-scrollbar-track);
+  border-left: 1px solid var(--neon-scrollbar-border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--neon-blue-light) 0%, var(--neon-blue-core) 50%, var(--neon-blue-deep) 100%);
+  border-radius: 999px;
+  border: 2px solid var(--neon-scrollbar-track); /* Floating neon rail */
+  box-shadow:
+    0 0 10px rgba(4, 217, 255, 0.75),
+    inset 0 1px 1px rgba(255, 255, 255, 0.85);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #b8f7ff 0%, #04D9FF 40%, #0088ff 100%);
+  box-shadow:
+    0 0 16px rgba(4, 217, 255, 0.95),
+    0 0 30px rgba(4, 217, 255, 0.6),
+    inset 0 1px 2px #ffffff;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #04D9FF;
+  box-shadow:
+    0 0 22px #04D9FF,
+    0 0 45px #0055ff,
+    inset 0 0 4px #ffffff;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--neon-scrollbar-track);
+}
+
