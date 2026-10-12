@@ -810,3 +810,68 @@ if (heroCard) {
   })
 }
 
+
+
+function initCertCarousel() {
+  const carousel = document.querySelector('[data-cert-carousel]')
+  if (!carousel) return
+
+  const track = carousel.querySelector('[data-cert-track]')
+  const slides = carousel.querySelectorAll('.cert-slide')
+  const counter = document.querySelector('[data-cert-counter]')
+  const prevBtn = document.querySelector('[data-cert-prev]')
+  const nextBtn = document.querySelector('[data-cert-next]')
+  const dots = carousel.querySelectorAll('[data-cert-dot]')
+
+  if (!track || slides.length === 0) return
+
+  let activeIndex = 0
+  const totalSlides = slides.length
+
+  const updateSlide = (index) => {
+    activeIndex = (index + totalSlides) % totalSlides
+    track.style.transform = `translateX(-${activeIndex * 100}%)`
+
+    if (counter) {
+      counter.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`
+    }
+
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('is-active', idx === activeIndex)
+      dot.setAttribute('aria-selected', String(idx === activeIndex))
+    })
+
+    slides.forEach((slide, idx) => {
+      slide.setAttribute('aria-hidden', String(idx !== activeIndex))
+    })
+  }
+
+  prevBtn?.addEventListener('click', () => updateSlide(activeIndex - 1))
+  nextBtn?.addEventListener('click', () => updateSlide(activeIndex + 1))
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = Number(dot.dataset.certDot)
+      if (!Number.isNaN(idx)) updateSlide(idx)
+    })
+  })
+
+  // Touch / swipe gesture support
+  let touchStartX = 0
+
+  carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX
+  }, { passive: true })
+
+  carousel.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].screenX
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) updateSlide(activeIndex + 1)
+      else updateSlide(activeIndex - 1)
+    }
+  }, { passive: true })
+
+  updateSlide(0)
+}
+
+initCertCarousel()

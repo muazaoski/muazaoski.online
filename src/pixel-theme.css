@@ -750,7 +750,11 @@ h2 em,
    ========================================================= */
 
 .certifications-header {
-  margin: 0 0 clamp(20px, 2.5vw, 30px);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 0 0 clamp(20px, 2.5vw, 28px);
 }
 
 .certifications-heading {
@@ -761,6 +765,117 @@ h2 em,
   color: var(--pixel-white);
   letter-spacing: -0.03em;
   line-height: 1.15;
+}
+
+.cert-carousel-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2px;
+  flex-shrink: 0;
+}
+
+.cert-carousel-counter {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--pixel-accent);
+}
+
+.cert-carousel-nav-btns {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cert-carousel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+  color: #e2e8f0;
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+  padding: 0;
+}
+
+.cert-carousel-btn:hover {
+  background: var(--pixel-accent);
+  color: #000;
+  border-color: var(--pixel-accent);
+  box-shadow: 0 0 10px rgba(4, 217, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.cert-carousel-btn:active {
+  transform: scale(0.92);
+}
+
+/* Carousel container & track */
+.cert-carousel {
+  width: 100%;
+  position: relative;
+}
+
+.cert-carousel-viewport {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.cert-carousel-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.cert-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dots pagination */
+.cert-carousel-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: clamp(16px, 2vw, 22px);
+  padding-top: 10px;
+}
+
+.cert-dot {
+  width: 20px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.cert-dot.is-active {
+  width: 36px;
+  background: var(--pixel-accent);
+  box-shadow: 0 0 8px rgba(4, 217, 255, 0.4);
+}
+
+.cert-dot:hover:not(.is-active) {
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .cert-item + .cert-item {
