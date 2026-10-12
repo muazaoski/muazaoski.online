@@ -395,7 +395,9 @@ h2 em,
 .orbit-icon-img--photoshop,
 .orbit-icon-img--illustrator,
 .orbit-icon-img--after-effects,
-.orbit-icon-img--premiere-pro {
+.orbit-icon-img--premiere-pro,
+.orbit-icon-img--higgsfield,
+.orbit-icon-img--capcut {
   width: 100%;
   height: 100%;
   border-radius: 9px;

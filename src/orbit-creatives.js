@@ -41,6 +41,18 @@ export function initOrbitCreatives() {
       name: 'Figma',
       src: '/creative-icons/figma.svg',
       glow: '#a259ff'
+    },
+    {
+      id: 'higgsfield',
+      name: 'Higgsfield AI',
+      src: '/creative-icons/higgsfield.svg',
+      glow: '#d1fe17'
+    },
+    {
+      id: 'capcut',
+      name: 'CapCut',
+      src: '/creative-icons/capcut.svg',
+      glow: '#00f0ff'
     }
   ]
 
