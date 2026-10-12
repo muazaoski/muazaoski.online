@@ -808,36 +808,71 @@ h2 em,
 .cert-media-attachment {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 12px;
-  padding: 4px 14px 4px 4px;
-  background: #0d121c;
-  border: 1px solid #1c2638;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 6px 16px 6px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 100%;
 }
 
 .cert-media-attachment:hover {
-  border-color: rgba(4, 217, 255, 0.4);
-  background: #111724;
-  transform: translateY(-1px);
+  background: rgba(4, 217, 255, 0.08);
+  border-color: rgba(4, 217, 255, 0.45);
+  box-shadow: 0 4px 20px rgba(4, 217, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .cert-media-thumb {
   display: block;
-  width: 58px;
-  height: 30px;
-  object-fit: cover;
-  border-radius: 5px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 50%;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+  transition: transform 0.25s ease;
+}
+
+.cert-media-attachment:hover .cert-media-thumb {
+  transform: scale(1.08) rotate(4deg);
+}
+
+.cert-media-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cert-media-org {
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--pixel-accent);
+  text-transform: uppercase;
+  margin-bottom: 2px;
 }
 
 .cert-media-title {
   font-size: 13px;
   font-weight: 600;
-  color: #e2e8f0;
-  letter-spacing: 0.01em;
+  color: #f1f5f9;
+  line-height: 1.25;
+}
+
+.cert-media-arrow {
+  color: #64748b;
+  font-size: 12px;
+  margin-left: 6px;
+  transition: all 0.2s ease;
+}
+
+.cert-media-attachment:hover .cert-media-arrow {
+  color: var(--pixel-accent);
+  transform: translate(2px, -2px);
 }
 
 @media (max-width: 960px) {
