@@ -2671,5 +2671,60 @@
     "width": 480,
     "height": 851,
     "sha256": "07b5733cd8a980dc0830505e6c9727e4f4fa12646f2960c52d1840de5549be15"
+  },
+  {
+    "id": "264",
+    "kind": "video",
+    "category": "AI Series",
+    "source": "medias/videos/AI SERIES - Outlet Reopening Campaign/1006 (4).mp4",
+    "src": "/portfolio-media/264.mp4",
+    "poster": "/portfolio-media/264-poster.webp",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "d6bd8a574966bb3ab9f97bd061c1c88189bcc609daf8ee70394455618c78884d"
+  },
+  {
+    "id": "265",
+    "kind": "video",
+    "category": "AI Series",
+    "source": "medias/videos/AI SERIES - Outlet Reopening Campaign/1012 (1).mp4",
+    "src": "/portfolio-media/265.mp4",
+    "poster": "/portfolio-media/265-poster.webp",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "6bf7eee324ae5b7f0033729e604f0936365b0a14cd178efe30c0ffebc221fc2b"
+  },
+  {
+    "id": "266",
+    "kind": "video",
+    "category": "AI Series",
+    "source": "medias/videos/AI SERIES - Outlet Reopening Campaign/11Oct_Final_d1.mp4",
+    "src": "/portfolio-media/266.mp4",
+    "poster": "/portfolio-media/266-poster.webp",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "84b5108914c0ad235c3b38cb7444d7d94cc56b599380e830fdab32c8177671c4"
+  },
+  {
+    "id": "267",
+    "kind": "video",
+    "category": "AI Series",
+    "source": "medias/videos/AI SERIES - Outlet Reopening Campaign/12Oct_Final_d1.mp4",
+    "src": "/portfolio-media/267.mp4",
+    "poster": "/portfolio-media/267-poster.webp",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "b3f948245a49e439b794fd787242c9ac203c21a3b707a755b8df6b17f0999d03"
+  },
+  {
+    "id": "268",
+    "kind": "video",
+    "category": "AI Series",
+    "source": "medias/videos/AI SERIES - Outlet Reopening Campaign/13OCt_Final_d1.mp4",
+    "src": "/portfolio-media/268.mp4",
+    "poster": "/portfolio-media/268-poster.webp",
+    "width": 1080,
+    "height": 1920,
+    "sha256": "a7747cb1f6ce0b9d9f9f9af1aa41a70e38413e0921fdcc1b6d8944febaf59dfc"
   }
 ]

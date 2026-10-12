@@ -158,8 +158,9 @@ const promoKeyVisualIds = savedPromoCategories['key-visuals']
 const promoSocialWebIds = savedPromoCategories['social-web-ads']
 const promoPrintPackagingIds = savedPromoCategories['print-packaging']
 
-const videoCategoryOrder = ['Shoes Promo', 'motion', 'montage', 'collab', 'meme', 'ugc edit', 'wedding hafiz']
+const videoCategoryOrder = ['AI Series', 'Shoes Promo', 'motion', 'montage', 'collab', 'meme', 'ugc edit', 'wedding hafiz']
 const videoCategoryHeroes = {
+  'AI Series': '268',
   'Shoes Promo': '048',
   'motion': '060',
   'montage': '186',
@@ -192,7 +193,7 @@ const collections = [
   { id: 'festive-stickers', label: 'Raya & CNY Stickers Designs', categories: ['rayastickers', 'cnystickers'] },
   { id: 'landscaping', label: '3D Stickers Design', categories: ['3d landscaping sticker'] },
   { id: 'shop-deco', label: 'Uwalk Ecommerce Shop Decoration', categories: ['shop deco'] },
-  { id: 'video-films', label: 'Video & Motion Projects', categories: ['Shoes Promo', 'motion', 'montage', 'collab', 'meme', 'ugc edit', 'wedding hafiz'], sort: sortVideoFilms },
+  { id: 'video-films', label: 'Video & Motion Projects', categories: ['AI Series', 'Shoes Promo', 'motion', 'montage', 'collab', 'meme', 'ugc edit', 'wedding hafiz'], sort: sortVideoFilms },
   { id: 'photography', label: 'Product Photoshoot', categories: ['shoes photoshoot'] }
 ].map(collection => {
   const items = collection.filter
@@ -265,7 +266,7 @@ function scrollToSharedSection() {
   let id = decodeURIComponent(location.hash.slice(1))
   if (id === 'promo') id = 'key-visuals'
   if (id === 'sampul-raya') id = 'print-packaging'
-  if (['montages', 'wedding-hafiz', 'shoe-films', 'motion', 'social-edits', 'ugc'].includes(id)) id = 'video-films'
+  if (['montages', 'wedding-hafiz', 'shoe-films', 'motion', 'social-edits', 'ugc', 'ai-series'].includes(id)) id = 'video-films'
   const target = document.getElementById(id)
   if (!target?.matches('.collection, .featured-section, .ux-section')) return
   requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }))

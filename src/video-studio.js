@@ -96,6 +96,7 @@ class VideoAudio {
 }
 
 export function getVideoCategory(category) {
+  if (category === 'AI Series' || category === 'ai series') return { key: 'ai-series', label: 'AI Series', badge: 'AI SERIES', color: '#00f2fe' }
   if (category === 'Shoes Promo') return { key: 'promo', label: 'Product Promo', badge: 'PROMO', color: '#04D9FF' }
   if (category === 'motion') return { key: 'motion', label: 'Motion Graphic', badge: 'MOTION', color: '#a29bfe' }
   if (category === 'montage' || category === 'collab') return { key: 'montage', label: 'Montage', badge: 'MONTAGE', color: '#fdcb6e' }
@@ -107,12 +108,13 @@ export function getVideoCategory(category) {
 
 const CHANNELS = [
   { key: 'all', num: 'CH 00', label: 'ALL REELS' },
-  { key: 'promo', num: 'CH 01', label: 'PRODUCT PROMO' },
-  { key: 'motion', num: 'CH 02', label: 'MOTION GRAPHIC' },
-  { key: 'montage', num: 'CH 03', label: 'MONTAGES' },
-  { key: 'engagement', num: 'CH 04', label: 'ENGAGEMENT' },
-  { key: 'ugc', num: 'CH 05', label: 'UGC EDITS' },
-  { key: 'wedding', num: 'CH 06', label: 'WEDDING FILM' }
+  { key: 'ai-series', num: 'CH 01', label: 'AI SERIES' },
+  { key: 'promo', num: 'CH 02', label: 'PRODUCT PROMO' },
+  { key: 'motion', num: 'CH 03', label: 'MOTION GRAPHIC' },
+  { key: 'montage', num: 'CH 04', label: 'MONTAGES' },
+  { key: 'engagement', num: 'CH 05', label: 'ENGAGEMENT' },
+  { key: 'ugc', num: 'CH 06', label: 'UGC EDITS' },
+  { key: 'wedding', num: 'CH 07', label: 'WEDDING FILM' }
 ]
 
 export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showMedia = () => {}, mix = [] } = {}) {
@@ -336,6 +338,7 @@ export function initVideoStudio(sectionSelector, { mediaDescriptions = {}, showM
 
   const CHANNEL_HEROES = {
     all: '048',
+    'ai-series': '268',
     promo: '048',
     motion: '060',
     montage: '186',
