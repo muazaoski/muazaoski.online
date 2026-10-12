@@ -827,6 +827,8 @@ function initCertCarousel() {
 
   let activeIndex = 0
   const totalSlides = slides.length
+  let autoTimer = null
+  const AUTO_INTERVAL = 4500 // 4.5s auto loop
 
   const updateSlide = (index) => {
     activeIndex = (index + totalSlides) % totalSlides
@@ -846,20 +848,68 @@ function initCertCarousel() {
     })
   }
 
-  prevBtn?.addEventListener('click', () => updateSlide(activeIndex - 1))
-  nextBtn?.addEventListener('click', () => updateSlide(activeIndex + 1))
+  const nextSlide = () => {
+    updateSlide(activeIndex + 1)
+  }
+
+  const startAutoLoop = () => {
+    stopAutoLoop()
+    if (document.hidden) return
+    autoTimer = setInterval(nextSlide, AUTO_INTERVAL)
+  }
+
+  const stopAutoLoop = () => {
+    if (autoTimer) {
+      clearInterval(autoTimer)
+      autoTimer = null
+    }
+  }
+
+  const resetAutoLoop = () => {
+    stopAutoLoop()
+    startAutoLoop()
+  }
+
+  prevBtn?.addEventListener('click', () => {
+    updateSlide(activeIndex - 1)
+    resetAutoLoop()
+  })
+
+  nextBtn?.addEventListener('click', () => {
+    updateSlide(activeIndex + 1)
+    resetAutoLoop()
+  })
 
   dots.forEach(dot => {
     dot.addEventListener('click', () => {
       const idx = Number(dot.dataset.certDot)
-      if (!Number.isNaN(idx)) updateSlide(idx)
+      if (!Number.isNaN(idx)) {
+        updateSlide(idx)
+        resetAutoLoop()
+      }
     })
+  })
+
+  // Pause on hover or focus so visitor can read or click credentials
+  carousel.addEventListener('mouseenter', stopAutoLoop)
+  carousel.addEventListener('mouseleave', startAutoLoop)
+  carousel.addEventListener('focusin', stopAutoLoop)
+  carousel.addEventListener('focusout', startAutoLoop)
+
+  // Pause when browser tab is inactive / backgrounded
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAutoLoop()
+    } else {
+      startAutoLoop()
+    }
   })
 
   // Touch / swipe gesture support
   let touchStartX = 0
 
   carousel.addEventListener('touchstart', (e) => {
+    stopAutoLoop()
     touchStartX = e.changedTouches[0].screenX
   }, { passive: true })
 
@@ -869,9 +919,11 @@ function initCertCarousel() {
       if (diff > 0) updateSlide(activeIndex + 1)
       else updateSlide(activeIndex - 1)
     }
+    startAutoLoop()
   }, { passive: true })
 
   updateSlide(0)
+  startAutoLoop()
 }
 
 initCertCarousel()
