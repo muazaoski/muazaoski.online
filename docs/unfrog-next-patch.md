@@ -5,6 +5,49 @@
 Make cooking, customer service and storage reliable before expanding the café economy.
 Preserve café ownership, furniture IDs, existing saves, XP, recipe prices and batch sizes.
 
+## Blender café model rework (14 October 2026)
+
+- [x] Author cozy low-poly café v2 in a new Blender collection. Preserve original
+  scene objects; current game code inspected read-only for 14×16 floor/3.2 entrance.
+- [x] Jade roof, cream walls, oak trim, green/cream awning, window frames, planters,
+  opaque materials and soft bevelled edges. Separate roof, side/front walls and UV
+  sign surface for future cutaway/customization integration.
+- [x] Separate preview furniture: one-burner stove, cashier, serving table, dining
+  set, pendants/poster/food. Not baked into game shell or ownership/inventory.
+- [x] Exterior/interior renders inspected; coplanar trim fixed. Editable blend and
+  optimized shell GLB saved: 5,000 triangles, 40 material batches, 311,432 bytes.
+  Validator confirms one scene/root, origin zero, correct Y-up floor dimensions,
+  no stage/user objects/furniture, normals, opaque materials and sign UVs.
+- [x] Final GLB round-trip imported and rendered in isolated Blender QA scene;
+  40 meshes, origin zero and clean shell materials confirmed visually.
+- [x] Render-only shell integrated and deployed: async cached GLTF adapter,
+  private node materials, existing cutaway/colliders/inventory/save data retained.
+  Saved wallpaper/floor/sign tested in isolated game-renderer fixture. Actual GLB
+  and client hashes verified live; public cafe state valid. Live guest interior
+  navigation was not completed; do not confuse fixture coverage with that playtest.
+
+## Blender-inspired café lighting (14 October 2026)
+
+- [x] Identify orange arena GLB directional sun (intensity 20.49) leaking into
+  Frogstead. Hide imported arena lights only in neighborhood; restore original
+  visibility on returning to arena, including async model arrival.
+- [x] Neutral cream/sage café key/fill, authored albedo and one renderer highlight
+  curve. Preserve day/night/weather, real lamp lighting and all 80 shader defaults,
+  including existing stroke. No backend, economy, dependencies or save changes.
+- [x] 11 available regression suites pass, production build passes; actual WebGPU
+  local interior visually compared with Blender's EEVEE/AgX preview. Match the
+  look, not pixel-identical offline lighting. Existing build warnings unchanged.
+- [x] Deployed client `index-Cnu09t1p.js`; running image `649601c08282`.
+  Source/bundle hashes match local build. Rollback source and image preserved in
+  `/opt/apps/froggame-cafe-lighting-backup-20261014`, tag
+  `froggame:pre-cafe-lighting-20261014`. No Git push.
+- [x] Public homepage/bundle/model HTTP checks and read-only café snapshot pass;
+  isolated live guest loads WebGPU and switches to Frogstead without console errors.
+- [ ] Owner's live café visual approval after refresh; no account/saved-layout
+  mutation performed for QA.
+
+Artifacts and integration notes: [café v2](assets/unfrog-models/cafe-v2/README.md).
+
 ## Custom beige tooltips (5 October 2026)
 
 - [x] Replace existing browser-native title tooltips with one delegated bubble:
