@@ -124,6 +124,16 @@ function getRandomPunchline(code) {
   return list[Math.floor(Math.random() * list.length)]
 }
 
+// Inline onerror handlers are blocked by the site CSP, so swap failed flags
+// to their CDN fallback with one capture-phase listener (error doesn't bubble).
+document.addEventListener('error', event => {
+  const img = event.target
+  if (!(img instanceof HTMLImageElement) || !img.dataset.flagFallback) return
+  const fallback = img.dataset.flagFallback
+  delete img.dataset.flagFallback
+  if (img.src !== fallback) img.src = fallback
+}, true)
+
 export function getCountryFlagMarkup(code, countryName = '', isHero = false) {
   const c = String(code || 'my').toLowerCase().trim()
   const localList = ['my', 'sg', 'us', 'id', 'gb', 'jp', 'au', 'de', 'ca', 'fr', 'nl', 'kr']
@@ -131,10 +141,10 @@ export function getCountryFlagMarkup(code, countryName = '', isHero = false) {
   const fallback = `https://flagcdn.com/w80/${c}.png`
 
   if (isHero) {
-    return `<span class="radar-flag-hero-wrap"><img class="radar-flag-hero-img" src="${src}" onerror="this.onerror=null;this.src='${fallback}'" alt="${countryName || code} flag" width="48" height="32" /></span>`
+    return `<span class="radar-flag-hero-wrap"><img class="radar-flag-hero-img" src="${src}" data-flag-fallback="${fallback}" alt="${countryName || code} flag" width="48" height="32" /></span>`
   }
 
-  return `<span class="radar-flag-small-wrap"><img class="radar-flag-img" src="${src}" onerror="this.onerror=null;this.src='${fallback}'" alt="${countryName || code} flag" width="24" height="16" loading="lazy" decoding="async" /></span>`
+  return `<span class="radar-flag-small-wrap"><img class="radar-flag-img" src="${src}" data-flag-fallback="${fallback}" alt="${countryName || code} flag" width="24" height="16" loading="lazy" decoding="async" /></span>`
 }
 
 // VPS Radar API Endpoints
